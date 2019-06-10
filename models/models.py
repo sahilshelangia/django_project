@@ -25,3 +25,9 @@ class UserInfo(models.Model):
 
     class Meta:
         db_table = "user_info"
+
+class catch_email_temp(models.Model):
+    email = models.CharField(max_length = 50)
+
+    class meta:
+        db_table = "catch_email_temp"
