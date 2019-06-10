@@ -5,8 +5,8 @@ from django.db import models
 # Model for storing authentication data
 # Account kit id is receivedd in response
 class AppAuthData(models.Model):
-    account_kit_id = models.IntegerField()
-    phone_number = models.CharField(max_length = 25)
+    account_kit_id = models.CharField(max_length = 25, unique = True)
+    phone_number = models.CharField(max_length = 25, unique = True)
 
     class Meta:
         db_table = "app_auth_data"
@@ -20,7 +20,7 @@ class UserInfo(models.Model):
     )
     first_name = models.CharField(max_length = 25)
     last_name = models.CharField(max_length = 25)
-    email = models.CharField(max_length = 45)
+    email = models.CharField(max_length = 65, unique = True)
     date_of_birth = models.DateField()
 
     class Meta:
