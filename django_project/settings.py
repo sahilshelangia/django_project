@@ -25,7 +25,7 @@ SECRET_KEY = 'ba%uvojd_ig#zno6da1&gl_sj)n7w@j_eq!z=b_lp4g@s4v*9x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['goalstar.tv', 'localhost']
+ALLOWED_HOSTS = ['goalstar.tv', 'www.goalstar.tv', 'localhost']
 
 
 # Application definition
@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',
+        'NAME': 'django_projects',
         'HOST': 'goalstar.tv',
         'PORT': '3306',
         'USER': 'goalstar',
