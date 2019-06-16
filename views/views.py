@@ -1,10 +1,9 @@
 from models.models import *
 from django.shortcuts import render, HttpResponse
-
+from business import accountkit
 import random
 import string
 import requests
-import json
 
 # Create your views here.
 
@@ -21,32 +20,31 @@ def login(request):
 
 def authCode(request):
     if request.method == "POST":
-        data = request.body
-        listData = data.decode().split(',')
-        codeData = listData[1].split(':')
-        code = codeData[1].replace('"', '')
-        
-        response = requests.get('https://graph.accountkit.com/v1.3/access_token?grant_type=authorization_code' \
-            '&code=' + code + '&access_token=AA|374722036360552|b5623e49377b054de9e1149a2513fda1')
-        access_data = response.text
-        access_code = access_data.split(',')[1].split(':')[1].replace('"', '')
+        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.body))
 
-        response = requests.get('https://graph.accountkit.com/v1.3/me/?access_token=' + access_code)
-        user_data = response.text.replace('"', '').replace('{', '').replace('}', '').replace(',', ':').split(':')
-        account_kit_user_id = user_data[1]
-        phone_numbers = user_data[4]
-
-        exists = AppAuthData.objects.filter(account_kit_id = account_kit_user_id).exists()
+        exists = AppAuthData.objects.filter(account_kit_id = accountkit_data[0]).exists() 
         if exists:
             print('exists')
         else:
             appAuthData = AppAuthData(
-                account_kit_id = account_kit_user_id,
-                phone_number = phone_numbers
+                account_kit_id = accountkit_data[0],
+                phone_number = accountkit_data[1]
             )
             appAuthData.save()
 
         myResponse = HttpResponse()
-        myResponse.set_cookie(key='goalstar', value=access_data, max_age=31536000, httponly=True)
+        myResponse.set_cookie(key='goalstar', value=accountkit_data, max_age=31536000, httponly=True)
 
         return myResponse
+
+def notify(request):
+    if request.method == "POST":
+        print(request.body)
+        
+        notify_me = catch_email_temp(
+            email=str(request.body)
+        )
+        notify_me.save()
+
+
+        return HttpResponse('')

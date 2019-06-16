@@ -53,18 +53,20 @@
         var code = response.code;
         var csrf = response.state;
         // Send code to server to exchange for access token
-        console.log(response);
+        // console.log(response);
         $.ajaxSetup({
           headers: {'X-CSRFToken': $("[name=csrfmiddlewaretoken]").val()}
         });
         $.ajax({
           type: "POST",
-          url: 'http://goalstar.tv/auth-code',
+          url: 'http://localhost:8000/auth-code',//'http://goalstar.tv/auth-code',
           data: JSON.stringify(response),
           dataType: 'JSON',
           success: function(data){
             console.log('success');
           }
+        }).done(function(data) {
+          console.log('success');
         });
       }
       else if (response.status === "NOT_AUTHENTICATED") {

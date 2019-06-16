@@ -41,9 +41,9 @@
             <p class="mb-5">We're working hard to finish the development of this site. Our target launch date is
               <strong>September 2019</strong>! Sign up for updates using the form below!</p>
             <div class="input-group input-group-newsletter">
-              <input type="email" class="form-control" placeholder="Enter email..." aria-label="Enter email..." aria-describedby="basic-addon">
+              <input id="e-input" type="email" class="form-control" placeholder="Enter email..." aria-label="Enter email..." aria-describedby="basic-addon">
               <div class="input-group-append">
-                <button class="btn btn-secondary" type="button">Notify Me!</button>
+                <button id="ip-button" class="btn btn-secondary" type="button">Notify Me!</button>
               </div>
             </div>
           </div>
@@ -78,7 +78,26 @@
 
   <!-- Custom scripts for this template -->
   <script src="{% static 'js/coming-soon.min.js' %}"></script>
-
+  
+  {% csrf_token %}
+<script> 
+$('#ip-button').click(function(){
+  $.ajaxSetup({
+          headers: {'X-CSRFToken': $("[name=csrfmiddlewaretoken]").val()}
+        });
+  $.ajax({
+          type: "POST",
+          url: 'http://localhost:8000/notify',//'http://goalstar.tv/auth-code',
+          data: $('#e-input').val(),
+          dataType: 'JSON',
+          success: function(data){
+            console.log('success');
+          }
+        }).done(function(data) {
+          console.log('success');
+        });
+})
+</script>
 </body>
 
 </html>
