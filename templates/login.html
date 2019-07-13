@@ -1,94 +1,302 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet"> 
+	<!-- Custom styles for this template -->
+	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+	<link href="{% static 'css/all.css' %}" rel="stylesheet">
 
-  <title>Login - Goalstar</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-
-  <!-- Custom fonts for this template -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-
-  <!-- Custom styles for this template -->
-  <link href="{% static 'css/coming-soon.min.css' %}" rel="stylesheet">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-  <script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
-
+	<script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
 </head>
 
-<body>
-    <div style="padding: 50px">
-        <p>Sign in or Register with</p>
-        <button type="button" class="btn btn-primary" onclick="smsLogin();">Mobile Number</button>
-    </div>
-    {% csrf_token %}
-<script>
-    // initialize Account Kit with CSRF protection
-    AccountKit_OnInteractive = function(){
-      AccountKit.init(
-        {
-            appId:"{{FACEBOOK_APP_ID}}", 
-            state:"{{csrf}}", 
-            version:"{{ACCOUNT_KIT_API_VERSION}}",
-            fbAppEventsEnabled:true,
-            debug:true,
-        }
-      );
-    };
-  
-    // login callback
-    function loginCallback(response) {
-      if (response.status === "PARTIALLY_AUTHENTICATED") {
-        var code = response.code;
-        var csrf = response.state;
-        // Send code to server to exchange for access token
-        // console.log(response);
-        $.ajaxSetup({
-          headers: {'X-CSRFToken': $("[name=csrfmiddlewaretoken]").val()}
-        });
-        $.ajax({
-          type: "POST",
-          url: 'http://goalstar.tv/auth-code',
-          data: JSON.stringify(response),
-          dataType: 'JSON',
-          success: function(data){
-            console.log('success');
-          }
-        }).done(function(data) {
-          console.log('success');
-        });
-      }
-      else if (response.status === "NOT_AUTHENTICATED") {
-        // handle authentication failure
-        console.log(response);
-      }
-      else if (response.status === "BAD_PARAMS") {
-        // handle bad parameters
-        console.log(response);
-      }
-    }
-  
-    // phone form submission handler
-    function smsLogin() {
-      AccountKit.login(
-        'PHONE',
-        {countryCode: '', phoneNumber: ''},
-        loginCallback
-      );
-    }
-  </script>
-  
-</body>
+<body class="bg-old">
 
+	<section id="login">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-5 col-sm-6 col-12 left_part_l pl-5 pr-5 pt-3">
+					<a class="navbar-brand d-none d-sm-block" href="#"><img src="{% static 'img/logo-bleck.png' %}"><br><span class="live">LIVE</span></a>
+					<a class="navbar-brand  d-block d-sm-none" href="#"><img src="{% static 'img/logo.png' %}"><br><span class="live">LIVE</span></a>
+					<nav class="mt-3">
+					  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+					    <a class="nav-item nav-link text-uppercase active" id="nav-home-h-tab" data-toggle="tab" href="#nav-home-h" role="tab" aria-controls="nav-home-h" aria-selected="true">Login</a>
+					    <a class="nav-item nav-link text-uppercase" id="nav-profile-p-tab" data-toggle="tab" href="#nav-profile-p" role="tab" aria-controls="nav-profile-p" aria-selected="false">Sign up</a>
+					  </div>
+					</nav>
+					<div class="tab-content mt-3" id="nav-tabContent">
+					  <div class="tab-pane fade show active" id="nav-home-h" role="tabpanel" aria-labelledby="nav-home-h-tab">
+					  		<p class="text-uppercase sws_p d-block d-sm-none">Easy Login In <span class="me_orang_text">one</span> step</p>
+					  		<p class="text-uppercase sws_p d-none d-sm-block">Easy Login with</p>
+					  		<h5 class="text-uppercase sws_h5 d-none d-sm-block"><span class="me_orang_text">Mobile</span> number</h4>
+					  		<form>
+  								<div class="form-group mt-4">
+  									<label for="exampleInputEmail1" class="text-uppercase">select country</label>
+  									<div class="sws-custom-select">
+	    								<select class="form-control text-uppercase">
+	    									<option>India (+91)</option>
+	    									<option>United States (+1)</option>
+	    									<option>United Kingdom (+44)</option>
+	    									<option>Australia (+61)</option>
+	    								</select>
+	    							</div>
+  								</div>
+  								<div class="form-group mt-4">
+  									<label for="exampleInputEmail1" class="text-uppercase">Enter mobile number</label>
+  									<input type="text" class="form-control" placeholder="Enter your mobile number">
+  								</div>
+  								<small id="passwordHelpBlock" class="form-text text-muted mt-4">Your subscription for the first 60 days is on us</small>
+  								<div class="form-group mt-4">
+  									<input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="log in" onclick="smsLogin()">
+  								</div>
+  								<small class="more text-uppercase font-weight-bold bg_color_orang_c"><a href="#">change your mobile number</a></small>
+  							</form>
+					  </div>
+					  <div class="tab-pane fade" id="nav-profile-p" role="tabpanel" aria-labelledby="nav-profile-p-tab">
+					  		<p class="text-uppercase sws_p d-block d-sm-none">Easy Sign UP in <span class="me_orang_text">Four</span> step</p>
+					  		<p class="text-uppercase sws_p d-none d-sm-block">Easy Sign UP in</p>
+					  		<h5 class="text-uppercase sws_h5 d-none d-sm-block"><span class="me_orang_text">Four</span> Steps</h4>
+					  		<form>
+
+  								<div class="form-group mt-4 row">
+  									<div class="col-md-6 col-6">
+  										<label class="text-uppercase">First Name</label>
+  										<input type="text" class="form-control text-uppercase" placeholder="mohammad">
+  									</div>
+  									<div class="col-md-6 col-6">
+  										<label class="text-uppercase">Last Name</label>
+  										<input type="text" class="form-control text-uppercase" placeholder="Salah">
+  									</div>
+  								</div>
+  								<div class="form-group mt-4 row">
+  									<div class="col-md-6 col-6">
+	  									<label for="exampleInputEmail1" class="text-uppercase">select country</label>
+	  									<div class="sws-custom-select new_a">
+		    								<select id="register-code" class="form-control text-uppercase">
+		    									<option value="+91">India (+91)</option>
+		    									<option value="+44">United Kingdom (+44)</option>
+		    									<option value="+1">United States (+1)</option>
+		    									<option value="+61">Australia (+61)</option>
+		    								</select>
+		    							</div>
+		    						</div>
+		    						<div class="col-md-6 col-6">
+		    							<label for="exampleInputEmail1" class="text-uppercase">Enter mobile number</label>
+  										<input id="register-phone" type="text" class="let-spac form-control" placeholder="98765432210">
+		    						</div>
+  								</div>
+  								<div class="form-group mt-4">
+  									<label for="exampleInputEmail1" class="text-uppercase">Enter Your Email address</label>
+  									<input type="text" class="form-control" placeholder="mpranav991@gmail.com">
+  								</div>
+  								<div class="form-group mt-4">
+  									<label for="sof" class="text-uppercase">Enter Your Date of Birth</label>
+  									<div class="input-group mb-3">
+	  									<input type="text" id="sof" class="form-control" placeholder="DD/MM/YYYY" value="" onclick="getdates();" onfocus="getdates();" >
+	  									<div class="input-group-append">
+										    <span class="input-group-text" id="basic-addon2" for="sof"><label for="sof" class="text-uppercase"><img src="{% static 'img/cal.png' %}"></label></span>
+										</div>
+									</div>
+  								</div>
+  								<div class="form-group mt-4 ">
+									<label class="check_boxs bg_color_orang_c font-weight-500">Agree to User Terms and Agreement
+									  <input type="checkbox" >
+									  <span class="checkmark"></span>
+									</label>
+  								</div>
+  								<div class="form-group mt-4">
+									  <input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="sign up" 
+									  	onclick="smsLogin(document.getElementById('register-code').options[document.getElementById('register-code').selectedIndex].value, document.getElementById('register-phone').value)">
+  								</div>
+  							</form>
+					  </div>
+					</div>
+				</div>
+				<div class="col-md-7 col-sm-6 right_part_l">
+					<img src="{% static 'img/login.png' %}" style="width: 100%;">
+					<div class="orwes">
+						<h2 class="text-center">UPCOMMING <span class="me_orang_text font-weight-bold">GAME</span></h2>
+						<h4 class="text-left sws-m font-weight-bold d-block d-sm-none mb-3">Koyapa Sevens Football Tournament</h4>
+						<div class="row text-center">
+					  		<div class="col-md-4 col-sm-4 col-2">
+					  			<img src="{% static 'img/ukfc.png' %}">
+					  			<h4 class="mt-4">Gokolam kerala FC</h4>
+					  		</div>
+					  		<div class="col-md-4 col-sm-4 col-2">
+					  			<span class="tms_vs">VS</span>
+					  		</div>
+					  		<div class="col-md-4 col-sm-4 col-2 text-left">
+					  			<img src="{% static 'img/muvat.png' %}">
+					  			<h4 class="mt-1">kerala Evergreen FC</h4>
+					  		</div>
+					  		<div class="col-5 d-block d-sm-none p-0 text-right">
+							  	<h4 class="text-right  mt-4 "><span class="live">LIVE</span><small class="p-1">in</small><span class="">50 DAYS</span></h4>
+							  	<span class="m_times ">12:05:12</span>
+					  		</div>
+					  	</div>
+					  	<h4 class="text-center font-weight-bold mt-4 d-none d-sm-block">Koyapa Sevens Football Tournament</h4>
+					  	<h4 class="text-center  mt-4 d-none d-sm-block"><span class="live">LIVE</span> <small class="p-2">in</small> <span class="">50 DAYS</span></h4>
+					  	<span class="m_times d-none d-sm-block">12:05:12</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+  	<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  	<script type="text/javascript">
+  		var x, i, j, selElmnt, a, b, c;
+      /* Look for any elements with the class "sws-custom-select": */
+      x = document.getElementsByClassName("sws-custom-select");
+      for (i = 0; i < x.length; i++) {
+        selElmnt = x[i].getElementsByTagName("select")[0];
+        /* For each element, create a new DIV that will act as the selected item: */
+        a = document.createElement("DIV");
+        a.setAttribute("class", "select-selected");
+        a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+        x[i].appendChild(a);
+        /* For each element, create a new DIV that will contain the option list: */
+        b = document.createElement("DIV");
+        b.setAttribute("class", "select-items select-hide");
+        for (j = 1; j < selElmnt.length; j++) {
+          /* For each option in the original select element,
+          create a new DIV that will act as an option item: */
+          c = document.createElement("DIV");
+          c.innerHTML = selElmnt.options[j].innerHTML;
+          c.addEventListener("click", function(e) {
+              /* When an item is clicked, update the original select box,
+              and the selected item: */
+              var y, i, k, s, h;
+              s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+              h = this.parentNode.previousSibling;
+              for (i = 0; i < s.length; i++) {
+                if (s.options[i].innerHTML == this.innerHTML) {
+                  s.selectedIndex = i;
+                  h.innerHTML = this.innerHTML;
+                  y = this.parentNode.getElementsByClassName("same-as-selected");
+                  for (k = 0; k < y.length; k++) {
+                    y[k].removeAttribute("class");
+                  }
+                  this.setAttribute("class", "same-as-selected");
+                  break;
+                }
+              }
+              h.click();
+          });
+          b.appendChild(c);
+        }
+        x[i].appendChild(b);
+        a.addEventListener("click", function(e) {
+          /* When the select box is clicked, close any other select boxes,
+          and open/close the current select box: */
+          e.stopPropagation();
+          closeAllSelect(this);
+          this.nextSibling.classList.toggle("select-hide");
+          this.classList.toggle("select-arrow-active");
+        });
+      }
+
+      function closeAllSelect(elmnt) {
+        /* A function that will close all select boxes in the document,
+        except the current select box: */
+        var x, y, i, arrNo = [];
+        x = document.getElementsByClassName("select-items");
+        y = document.getElementsByClassName("select-selected");
+        for (i = 0; i < y.length; i++) {
+          if (elmnt == y[i]) {
+            arrNo.push(i)
+          } else {
+            y[i].classList.remove("select-arrow-active");
+          }
+        }
+        for (i = 0; i < x.length; i++) {
+          if (arrNo.indexOf(i)) {
+            x[i].classList.add("select-hide");
+          }
+        }
+      }
+
+      /* If the user clicks anywhere outside the select box,
+      then close all select boxes: */
+      document.addEventListener("click", closeAllSelect); 
+
+      function getdates() {
+        $('input#sof').attr('type','date');
+      }
+      $(document).ready(function () {
+        if($(document).width()<=600)
+        {
+          $("#nav-home-h-tab").click(function () {
+              $(".right_part_l").show();
+          })
+          $("#nav-profile-p-tab").click(function () {
+              $(".right_part_l").hide();
+          })
+        }
+      })
+
+      // initialize Account Kit with CSRF protection
+      AccountKit_OnInteractive = function(){
+        AccountKit.init(
+          {
+              appId:"{{FACEBOOK_APP_ID}}", 
+              state:"{{csrf}}", 
+              version:"{{ACCOUNT_KIT_API_VERSION}}",
+              fbAppEventsEnabled:true,
+              debug:true,
+          }
+        );
+      };
+    
+      // login callback
+      function loginCallback(response) {
+        if (response.status === "PARTIALLY_AUTHENTICATED") {
+          var code = response.code;
+          var csrf = response.state;
+          // Send code to server to exchange for access token
+          // console.log(response);
+          $.ajaxSetup({
+            headers: {'X-CSRFToken': $("[name=csrfmiddlewaretoken]").val()}
+          });
+          $.ajax({
+            type: "POST",
+            url: 'http://goalstar.tv/auth-code',
+            data: JSON.stringify(response),
+            dataType: 'JSON',
+            success: function(data){
+              console.log('success');
+            }
+          }).done(function(data) {
+            console.log('success');
+          });
+        }
+        else if (response.status === "NOT_AUTHENTICATED") {
+          // handle authentication failure
+          console.log(response);
+        }
+        else if (response.status === "BAD_PARAMS") {
+          // handle bad parameters
+          console.log(response);
+        }
+      }
+    
+      // phone form submission handler
+      function smsLogin(pc, pn) {
+        AccountKit.login(
+          'PHONE',
+          {countryCode: pc, phoneNumber: pn},
+          loginCallback
+        );
+      }
+  	</script>
+</body>
 </html>
