@@ -1,34 +1,1066 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Login - Goalstar</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-
-  <!-- Custom fonts for this template -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-
-  <!-- Custom styles for this template -->
-  <link href="{% static 'css/coming-soon.min.css' %}" rel="stylesheet">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-  <script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet"> 
+	<!-- Custom styles for this template -->
+	<link href="css/styles.css" rel="stylesheet">
+	<link href="css/responsive.css" rel="stylesheet">
+	<link href="css/all.css" rel="stylesheet">
 </head>
 
-<body>
-    
-</body>
+<body class="home">
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark1 fixed-top">
+		<div class="container">
+		  <a class="navbar-brand" href="index.html"><img src="img/logo.png"><br><span class="live">LIVE</span></a>
+		  <a class="nav-link sws-block sws-se" href="#"><img src="img/search-iocn.png"></a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarResponsive">
+		    <ul class="navbar-nav ml-auto">
+		      <li class="nav-item">
+		        <a class="nav-link" href="#"><img src="img/search-iocn.png"></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="#"><img src="img/user-icon.png"></a>
+		      </li>
+		    </ul>
+		  </div>
+		</div>
+	</nav>
+	<header>
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+		  <ol class="carousel-indicators">
+		    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+		    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+		    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+		  </ol>
+		  <div class="carousel-inner">
+		    <div class="carousel-item active">
+		    <div class="cou_bles"></div>
+		      <img class="d-block w-100 sws-none" src="img/b1.png" alt="Third slide">
+		      <img class="d-block w-100 sws-block" src="img/m1.png" alt="First slide">
+		      	<div class="carousel-caption  d-block">
+				    <div class="row text-left ">
+				      	<div class="col-md-6">
+				      		<h3 class="text-uppercase font-weight-bold">Eagles Fc <br><span class="me_orang_text">vs</span><br>Malabar United fc</h3>
+				      	</div>
+				   	</div>
+				</div>
+		    </div>
+		    <div class="carousel-item">
+		    	<div class="cou_bles"></div>
+		      <img class="d-block w-100 sws-none" src="img/b1.png" alt="Third slide">
+		      <img class="d-block w-100 sws-block" src="img/m1.png" alt="First slide">
+		    </div>
+		    <div class="carousel-item">
+		    	<div class="cou_bles"></div>
+		      <img class="d-block w-100 sws-none" src="img/b1.png" alt="Third slide">
+		      <img class="d-block w-100 sws-block" src="img/m1.png" alt="First slide">
+		    </div>
+		  </div>
+		  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+		    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		    <span class="sr-only">Previous</span>
+		  </a>
+		  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+		    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		    <span class="sr-only">Next</span>
+		  </a>
+		</div>
+	</header>
+	<section id="cur_mt">
+		<div class="container">
+			<h2>CURRENT <span class="me_orang_text font-weight-bold">MATCH</span></h2>
+			<div class="row">
+				<div class="col-md-8 col-12">
+			    	<div class="i-over"></div>
+			      	<img src="img/ground-current.png">
+					<div class="cur_gro">
+						<div class="row">
+							<div class="col-md-6 col-6 part-left text-center">
+								<h4 class=""><span>Kerala Evergeen FC</span></h4>
+							</div>
+							<div class="col-md-6 col-6 part-right text-center">
+								<h4 class=""><span>Gokulam Karela FC</span></h4>
+							</div>
+							<div class="col-md-4 col-4 tm_s text-center">
+								<img src="img/team1.png" width="100%">
+								<h3>3</h3>
+							</div>
+							<div class="col-md-4 col-4 text-center">
+								<span class="t_vs">VS</span>
+							</div>
+							<div class="col-md-4 col-4 tm_s text-center">
+								<img src="img/team2.png" width="100%">
+								<h3 class="tm_lef">2</h3>
+							</div>
+							<div class="col-md-12 text-center mt-5 ">
+								<a class="btn sws-block me_orang_bgc text-white font-weight-bold" href="javascript:void(0);">WATCH NOW</a>
+								<h4 class="font-weight-light"><span class="live">LIVE</span> from JLN Stadium</h4></div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="col-md-4 m-auto sws-none">
+					<h4 class="text-uppercase me_orang_text font-weight-bold">XYZ Tournament</h4>
+					<p>Lorem ipsum dolor sit amet, con-sectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua est laborum.</p>
+					<a class="btn me_orang_bgc text-white font-weight-bold" href="javascript:void(0);">WATCH NOW</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="toun_dtl" class="s_150">
+		<div class="container">
+			<h2>TOURNAMENT <span class="me_orang_text font-weight-bold">DETAILS</span></h2>
+		</div>
+		<div class="container ">
+			<div class="container-slider"></div>
+			<div class="slider">
+			  <div class="slick-slideshow__slide">
+			  	<div class="overlays">
+			   		<img src="img/player1.png">
+	            	<div class="toum_del">
+	            		<div class="toum_info">
+	                		<h5>Koyapa Sevens</h5>
+	                		<h5>Football Tournament</h5>
+	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+	                	</div>
+	            	</div>
+            	</div>
+			  </div>
+			  <div class="slick-slideshow__slide">
+			  	<div class="overlays">
+			   		<img src="img/player1.png">
+	            	<div class="toum_del bor-top-red">
+	            		<div class="toum_info">
+	                		<h5>Koyapa Sevens</h5>
+	                		<h5>Football Tournament</h5>
+	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+	                	</div>
+	            	</div>
+            	</div>
+			  </div>
+			  <div class="slick-slideshow__slide">
+			  	<div class="overlays">
+			   		<img src="img/player1.png">
+	            	<div class="toum_del bor-top-blue">
+	            		<div class="toum_info">
+	                		<h5>Koyapa Sevens</h5>
+	                		<h5>Football Tournament</h5>
+	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+	                	</div>
+	            	</div>
+            	</div>
+			  </div>
+			  <div class="slick-slideshow__slide">
+			  	<div class="overlays">
+			   		<img src="img/player1.png">
+	            	<div class="toum_del">
+	            		<div class="toum_info ">
+	                		<h5>Koyapa Sevens</h5>
+	                		<h5>Football Tournament</h5>
+	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+	                	</div>
+	            	</div>
+            	</div>
+			  </div>
+			  <div class="slick-slideshow__slide">
+			  	<div class="overlays">
+			   		<img src="img/player1.png">
+	            	<div class="toum_del bor-top-red">
+	            		<div class="toum_info">
+	                		<h5>Koyapa Sevens</h5>
+	                		<h5>Football Tournament</h5>
+	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+	                	</div>
+	            	</div>
+            	</div>
+			  </div>
+			  <div class="slick-slideshow__slide">
+			  	<div class="overlays">
+			   		<img src="img/player1.png">
+	            	<div class="toum_del bor-top-blue">
+	            		<div class="toum_info">
+	                		<h5>Koyapa Sevens</h5>
+	                		<h5>Football Tournament</h5>
+	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+	                	</div>
+	            	</div>
+            	</div>
+			  </div>
+			  <div class="slick-slideshow__slide">
+			  	<div class="overlays">
+			   		<img src="img/player1.png">
+	            	<div class="toum_del">
+	            		<div class="toum_info ">
+	                		<h5>Koyapa Sevens</h5>
+	                		<h5>Football Tournament</h5>
+	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+	                	</div>
+	            	</div>
+            	</div>
+			  </div>
+			  <div class="slick-slideshow__slide">
+			  	<div class="overlays">
+			   		<img src="img/player1.png">
+	            	<div class="toum_del bor-top-red">
+	            		<div class="toum_info">
+	                		<h5>Koyapa Sevens</h5>
+	                		<h5>Football Tournament</h5>
+	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+	                	</div>
+	            	</div>
+            	</div>
+			  </div>
+			</div>
+		</div>
+		<div class="container">
 
+			<div class="oversss"></div>
+	        <div class="more_info_tab">
+	        	<div class="incre_d">
+	        		<nav>
+					  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+					    <a class="nav-item nav-link active" id="nav-home-h-tab" data-toggle="tab" href="#nav-home-h" role="tab" aria-controls="nav-home-h" aria-selected="true">Introduction</a>
+					    <a class="nav-item nav-link" id="nav-profile-p-tab" data-toggle="tab" href="#nav-profile-p" role="tab" aria-controls="nav-profile-p" aria-selected="false">Matches</a>
+					    <a class="nav-item nav-link" id="nav-profile-y-tab" data-toggle="tab" href="#nav-profile-y" role="tab" aria-controls="nav-profile-y" aria-selected="false">Organizors</a>
+					  </div>
+					</nav>
+					<div class="tab-content mt-5" id="nav-tabContent">
+					  <div class="tab-pane fade show active" id="nav-home-h" role="tabpanel" aria-labelledby="nav-home-h-tab">
+					  	<div class="row">
+					  		<div class="col-md-5">
+					  			<h3 class="text-uppercase">Koyappa Sevens <br>Football Tournament</h3>
+					  			<h6 class="me_orang_text">16 Matches | Feb 2020-April 2020</h6>
+					  			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.</p>
+					  			<h4>Venue: Kadalundi Ground</h4>
+					  		</div>
+					  		<div class="col-md-1"></div>
+					  		<div class="col-md-5" style="background-color: rgba(0,0,0,0.4);padding: 4%;">
+					  			<h4 class="font-weight-nomal sws-none mb-4">Next Match</h4>
+					  			<h4 class="font-weight-nomal sws-block text-uppercase">upcomming Match</h4>
+					  			<div class="row text-center up_tms">
+							  		<div class="col-md-4 col-3">
+							  			<img src="img/ukfc.png">
+							  		</div>
+							  		<div class="col-md-4 col-2">
+							  			<span class="tms_vs">VS</span>
+							  			<p class=" sws-none"><span class="live">LIVE</span> on</p>
+							  			<p class="sws-none">17 May at 14:05 PM</p>
+							  		</div>
+							  		<div class="col-md-4 col-3">
+							  			<img src="img/muvat.png">
+							  		</div>
+							  		<div class="col-md-4 col-4 sws-block">
+							  			<p><span class="live">LIVE</span> on</p>
+							  			<p>17 May at 14:05 PM</p>
+							  		</div>
+							  	</div>
+					  		</div>
+					  	</div>
+					  </div>
+					  <div class="tab-pane fade" id="nav-profile-p" role="tabpanel" aria-labelledby="nav-profile-p-tab">
+					  	<div class="slider_4">
+					  		<div class="slick-slideshow__slide_4">
+			                	<img src="img/1554700132_Football.jpg">
+			                	<div class="slid_4">
+			                    	<h6>Gokolam Kerala FC</h6>
+			                    	<small>VS</small>
+			                    	<h6>Kerala Evergreen FC</h6>
+			                    	<p><span class="live">LIVE</span> on</p>
+			                	</div>
+			                </div>
+					  		<div class="slick-slideshow__slide_4">
+			                	<img src="img/1554700132_Football.jpg">
+			                	<div class="slid_4">
+			                    	<h6>Gokolam Kerala FC</h6>
+			                    	<small>VS</small>
+			                    	<h6>Kerala Evergreen FC</h6>
+			                    	<p><span class="live">LIVE</span> on</p>
+			                	</div>
+			                </div>
+					  		<div class="slick-slideshow__slide_4">
+			                	<img src="img/1554700132_Football.jpg">
+			                	<div class="slid_4">
+			                    	<h6>Gokolam Kerala FC</h6>
+			                    	<small>VS</small>
+			                    	<h6>Kerala Evergreen FC</h6>
+			                    	<p><span class="live">LIVE</span> on</p>
+			                	</div>
+			                </div>
+					  		<div class="slick-slideshow__slide_4">
+			                	<img src="img/1554700132_Football.jpg">
+			                	<div class="slid_4">
+			                    	<h6>Gokolam Kerala FC</h6>
+			                    	<small>VS</small>
+			                    	<h6>Kerala Evergreen FC</h6>
+			                    	<p><span class="live">LIVE</span> on</p>
+			                	</div>
+			                </div>
+					  		<div class="slick-slideshow__slide_4">
+			                	<img src="img/1554700132_Football.jpg">
+			                	<div class="slid_4">
+			                    	<h6>Gokolam Kerala FC</h6>
+			                    	<small>VS</small>
+			                    	<h6>Kerala Evergreen FC</h6>
+			                    	<p><span class="live">LIVE</span> on</p>
+			                	</div>
+			                </div>
+					  		<div class="slick-slideshow__slide_4">
+			                	<img src="img/1554700132_Football.jpg">
+			                	<div class="slid_4">
+			                    	<h6>Gokolam Kerala FC</h6>
+			                    	<small>VS</small>
+			                    	<h6>Kerala Evergreen FC</h6>
+			                    	<p><span class="live">LIVE</span> on</p>
+			                	</div>
+			                </div>
+			            </div>
+					  </div>
+					  <div class="tab-pane fade" id="nav-profile-y" role="tabpanel" aria-labelledby="nav-profile-y-tab">
+					  	<div class="row">
+					  		<div class="col-md-2 col-4">
+					  			<h6 class="text-uppercase me_orang_text">Title</h6>
+					  			<ul class="mb-3">
+						  			<li>Vivek Shyam Khan</li>
+						  		</ul>
+					  			<h6 class="text-uppercase me_orang_text">Title</h6>
+					  			<ul class="mb-4">
+						  			<li>Vivek Shyam Khan</li>
+						  		</ul>
+					  			<h6 class="text-uppercase me_orang_text pt-3">Title</h6>
+					  			<ul class="mb-3">
+						  			<li>Vivek Shyam Khan</li>
+						  		</ul>
+					  			<h6 class="text-uppercase me_orang_text">Title</h6>
+					  			<ul>
+						  			<li>Vivek Shyam Khan</li>
+						  		</ul>
+					  		</div>
+					  		<div class="col-md-2 col-4">
+					  			<h6 class="text-uppercase me_orang_text">Title Team</h6>
+					  			<ul class="sws-sp">
+					  				<li>Vivek Shyam Khan</li>
+					  				<li>Leena Kariyii</li>
+					  				<li>Mohammad Salah</li>
+					  				<li>Roger Federer</li>
+					  				<li>Serena Williams</li>
+					  				<li>Ronnie O Sullivan</li>
+					  				<li>Andrew Symonds</li>
+					  				<li>Saina Nehwal</li>
+					  				<li>Kobe Bryant</li>
+					  				<li>Michael Schumacker</li>
+					  				<li>Michael Phelps</ul>
+					  		</div>
+					  		<div class="col-md-2 col-4">
+					  			<h6 class="text-uppercase me_orang_text">Title Team</h6>
+					  			<ul>
+					  				<li>Vivek Shyam Khan</li>
+					  				<li>Leena Kariyii</li>
+					  				<li>Mohammad Salah</li>
+					  				<li>Roger Federer</li>
+					  				<li>Serena Williams</li>
+					  			</ul>
+					  			<h6 class="text-uppercase me_orang_text">Title Team</h6>
+					  			<ul>
+					  				<li>Vivek Shyam Khan</li>
+					  				<li>Leena Kariyii</li>
+					  				<li>Mohammad Salah</li>
+					  				<li>Roger Federer</li>
+					  			</ul>
+					  		</div>
+					  		<div class="col-md-2 col-4">
+					  			<h6 class="text-uppercase me_orang_text">Title</h6>
+					  			<ul class="mb-3">
+						  			<li>Vivek Shyam Khan</li>
+						  		</ul>
+					  			<h6 class="text-uppercase me_orang_text">Title</h6>
+					  			<ul class="mb-4">
+						  			<li>Vivek Shyam Khan</li>
+						  		</ul>
+					  			<h6 class="text-uppercase me_orang_text pt-3">Title</h6>
+					  			<ul class="mb-3">
+						  			<li>Vivek Shyam Khan</li>
+						  		</ul>
+					  			<h6 class="text-uppercase me_orang_text">Title</h6>
+					  			<ul>
+						  			<li>Vivek Shyam Khan</li>
+						  		</ul>
+					  		</div>
+					  		<div class="col-md-2 col-4">
+					  			<h6 class="text-uppercase me_orang_text">Title Team</h6>
+					  			<ul class="sws-sp">
+					  				<li>Vivek Shyam Khan</li>
+					  				<li>Leena Kariyii</li>
+					  				<li>Mohammad Salah</li>
+					  				<li>Roger Federer</li>
+					  				<li>Serena Williams</li>
+					  				<li>Ronnie O Sullivan</li>
+					  				<li>Andrew Symonds</li>
+					  				<li>Saina Nehwal</li>
+					  				<li>Kobe Bryant</li>
+					  				<li>Michael Schumacker</li>
+					  				<li>Michael Phelps</ul>
+					  		</div>
+					  		<div class="col-md-2 col-4">
+					  			<h6 class="text-uppercase me_orang_text">Title Team</h6>
+					  			<ul>
+					  				<li>Vivek Shyam Khan</li>
+					  				<li>Leena Kariyii</li>
+					  				<li>Mohammad Salah</li>
+					  				<li>Roger Federer</li>
+					  				<li>Serena Williams</li>
+					  			</ul>
+					  			<h6 class="text-uppercase me_orang_text">Title Team</h6>
+					  			<ul>
+					  				<li>Vivek Shyam Khan</li>
+					  				<li>Leena Kariyii</li>
+					  				<li>Mohammad Salah</li>
+					  				<li>Roger Federer</li>
+					  			</ul>
+					  		</div>
+
+					  	</div>
+					  </div>
+					</div>
+					<span class="sws-block text-uppercase ces">cancel</span>
+	        	</div>
+
+	        </div>
+		</div>
+	</section>
+
+	<section id="up_gm">
+		<div class="container">
+			<h2>UPCOMMING <span class="me_orang_text font-weight-bold">GAME</span></h2>
+		  	<div class="row text-center up_tms">
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/ukfc.png">
+		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-2 col-4">
+		  			<span class="tms_vs">VS</span>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/muvat.png">
+		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-4 sws-none">
+		  			<h6 class="mt-1">ABC Champions League</h6>
+		  			<p class="me_orang_text"><span class="live">LIVE</span> on</p>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 upnots  col-2"><i class="fa fa-bell fa-2x me_orang_text"></i></div>
+		  	</div>
+		  	<div class="row text-center up_tms bor-left-green">
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/ukfc.png">
+		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-2 col-4">
+		  			<span class="tms_vs">VS</span>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/muvat.png">
+		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-4 sws-none">
+		  			<h6 class="mt-1">ABC Champions League</h6>
+		  			<p class="me_orang_text"><span class="live">LIVE</span> on</p>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 upnots  col-2"><i class="fa fa-bell fa-2x me_orang_text"></i></div>
+			</div>
+		  	<div class="row text-center up_tms bor-left-blue">
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/ukfc.png">
+		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-2 col-4">
+		  			<span class="tms_vs">VS</span>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/muvat.png">
+		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-4 sws-none">
+		  			<h6 class="mt-1">ABC Champions League</h6>
+		  			<p class="me_orang_text"><span class="live">LIVE</span> on</p>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 upnots  col-2"><i class="fa fa-bell fa-2x me_orang_text"></i></div>
+			</div>
+		  	<div class="row text-center up_tms">
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/ukfc.png">
+		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-2 col-4">
+		  			<span class="tms_vs">VS</span>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/muvat.png">
+		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-4 sws-none">
+		  			<h6 class="mt-1">ABC Champions League</h6>
+		  			<p class="me_orang_text"><span class="live">LIVE</span> on</p>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 upnots  col-2"><i class="fa fa-bell fa-2x me_orang_text"></i></div>
+			</div>
+		  	<div class="row text-center up_tms bor-left-green">
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/ukfc.png">
+		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-2 col-4">
+		  			<span class="tms_vs">VS</span>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 col-3">
+		  			<img src="img/muvat.png">
+		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
+		  		</div>
+		  		<div class="col-md-4 sws-none">
+		  			<h6 class="mt-1">ABC Champions League</h6>
+		  			<p class="me_orang_text"><span class="live">LIVE</span> on</p>
+		  			<p class="me_orang_text">17 May at 14:05 PM</p>
+		  		</div>
+		  		<div class="col-md-2 upnots  col-2"><i class="fa fa-bell fa-2x me_orang_text"></i></div>
+			</div>
+			<h6 class="text-center mt-5 pt-5 "><a href="#" class="btn me_orang_bgc font-weight-bold rounded-0 pl-5 pr-5">SEE ALL</a></h6>
+		</div>
+	</section>
+	<section id="toun_dtl_1" class="s_150">
+		<div class="container">
+			<h2>MATCH <span class="me_orang_text font-weight-bold">HIGHLIGHTS</span></h2>
+            <div class="slider_2">
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+		  		<div class="slick-slideshow__slide_2">
+                	<span class="onplay"></span>
+                	<img src="img/1554700132_Football.jpg">
+                    <h5>Kozhikode Kings vs Idukki Idiots</h5>
+                </div>
+            </div>
+		</div>
+	</section>
+
+
+	<section id="toun_dtl_2" class="s_150">
+		<div class="container">
+			<h2>TRENDING <span class="me_orang_text font-weight-bold">NOW</span></h2>
+			<div class="slider_3">
+		  		<div class="slick-slideshow__slide_3">
+                	<img src="img/player3.png">
+                	<div class="toum_del">
+                		<div class="toum_info">
+                			<span class="B-left"></span>
+                			<span class="B-top"></span>
+                			<span class="B-right"></span>
+                			<span class="B-bottom"></span>
+                    		<h2>MY<br>UNTOLO<br>JOURNEY</h2>
+                    	</div>
+                	</div>
+                </div>
+		  		<div class="slick-slideshow__slide_3">
+                	<img src="img/player3.png">
+                	<div class="toum_del">
+                		<div class="toum_info">
+                			<span class="B-left"></span>
+                			<span class="B-top"></span>
+                			<span class="B-right"></span>
+                			<span class="B-bottom"></span>
+                    		<h2>MY<br>UNTOLO<br>JOURNEY</h2>
+                    	</div>
+                	</div>
+                </div>
+		  		<div class="slick-slideshow__slide_3">
+                	<img src="img/player3.png">
+                	<div class="toum_del">
+                		<div class="toum_info">
+                			<span class="B-left"></span>
+                			<span class="B-top"></span>
+                			<span class="B-right"></span>
+                			<span class="B-bottom"></span>
+                    		<h2>MY<br>UNTOLO<br>JOURNEY</h2>
+                    	</div>
+                	</div>
+                </div>
+		  		<div class="slick-slideshow__slide_3">
+                	<img src="img/player3.png">
+                	<div class="toum_del">
+                		<div class="toum_info">
+                			<span class="B-left"></span>
+                			<span class="B-top"></span>
+                			<span class="B-right"></span>
+                			<span class="B-bottom"></span>
+                    		<h2>MY<br>UNTOLO<br>JOURNEY</h2>
+                    	</div>
+                	</div>
+                </div>
+		  		<div class="slick-slideshow__slide_3">
+                	<img src="img/player3.png">
+                	<div class="toum_del">
+                		<div class="toum_info">
+                			<span class="B-left"></span>
+                			<span class="B-top"></span>
+                			<span class="B-right"></span>
+                			<span class="B-bottom"></span>
+                    		<h2>MY<br>UNTOLO<br>JOURNEY</h2>
+                    	</div>
+                	</div>
+                </div>
+		  		<div class="slick-slideshow__slide_3">
+                	<img src="img/player3.png">
+                	<div class="toum_del">
+                		<div class="toum_info">
+                			<span class="B-left"></span>
+                			<span class="B-top"></span>
+                			<span class="B-right"></span>
+                			<span class="B-bottom"></span>
+                    		<h2>MY<br>UNTOLO<br>JOURNEY</h2>
+                    	</div>
+                	</div>
+                </div>
+            </div>
+		</div>
+	</section>
+	<footer>
+		<p>FOOTER</p>
+	</footer>
+	<script src="js/jquery.min.js"></script>
+  	<script src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+				
+  	<script type="text/javascript">
+  		var cheas=0;
+  		var $carousel = $('.slider');
+		var settings = {
+		  dots: false,
+		  arrows: true,
+		  slide: '.slick-slideshow__slide',
+		  slidesToShow: 4,
+		  centerMode: true,//variableWidth: true,
+		  centerPadding: '60px',
+		  responsive: [
+		  	{
+		      breakpoint: 1920,
+		      settings: {
+		        slidesToShow: 4,
+		        slidesToScroll: 1,
+		        infinite: true,
+		        dots: false
+		      }
+		    },
+		    {
+		      breakpoint: 1024,
+		      settings: {
+		      	centerPadding: '30px',
+		      	centerMode: true,
+		        slidesToShow: 2,
+		        slidesToScroll: 1,
+		        infinite: true,
+		        dots: false
+		      }
+		    },
+		    {
+		      breakpoint: 600,
+		      settings: {
+		      	centerMode: true,
+		        slidesToShow: 3,
+		        slidesToScroll: 1
+		      }
+		    },
+		    {
+		      breakpoint: 480,
+		      settings: {
+		      	centerPadding: '60px',
+		      	centerMode: true,
+		        slidesToShow: 2,
+		        slidesToScroll: 1
+		      }
+		    }
+		  ]
+		};
+		$carousel.slick(settings);
+		
+		var $slider_2 = $('.slider_2');
+		var settings_slider_2 = {
+		  dots: false,
+		  arrows: true,
+		  slide: '.slick-slideshow__slide_2',
+		  slidesToShow: 4,
+		  centerMode: true,//variableWidth: true,
+		  centerPadding: '60px',
+		    infinite: false,
+		  responsive: [
+		    {
+		      breakpoint: 1024,
+		      settings: {
+		        slidesToShow: 3,
+		        slidesToScroll: 3,
+		        infinite: true,
+		        dots: true
+		      }
+		    },
+		    {
+		      breakpoint: 600,
+		      settings: {
+		        slidesToShow: 2,
+		        slidesToScroll: 1
+		      }
+		    },
+		    {
+		      breakpoint: 480,
+		      settings: {
+		      	centerPadding: '10px',
+		        slidesToShow: 1.8,
+		        slidesToScroll: 1
+		      }
+		    }
+		  ]
+		};
+		$slider_2.slick(settings_slider_2);
+		
+
+		var $slider_3 = $('.slider_3');
+		var settings_slider_3 = {
+		  dots: false,
+		  arrows: true,
+		  slide: '.slick-slideshow__slide_3',
+		  slidesToShow: 5,
+		  //centerMode: true,//variableWidth: true,
+		  centerPadding: '60px',
+		  responsive: [
+		    {
+		      breakpoint: 1024,
+		      settings: {
+		        slidesToShow: 3,
+		        slidesToScroll: 3,
+		        infinite: true,
+		        dots: true
+		      }
+		    },
+		    {
+		      breakpoint: 600,
+		      settings: {
+		        slidesToShow: 2,
+		        slidesToScroll: 2
+		      }
+		    },
+		    {
+		      breakpoint: 480,
+		      settings: {
+		      	centerMode: true,
+		      	centerPadding: '105px',
+		        slidesToShow: 2,
+		        slidesToScroll: 1
+		      }
+		    }
+		  ]
+		};
+		$slider_3.slick(settings_slider_3);
+		
+
+		var $slider_4 = $('.slider_4');
+		var settings_slider_4 = {
+		  dots: false,
+		  arrows: true,
+		  slide: '.slick-slideshow__slide_4',
+		  slidesToShow: 4,
+		  centerMode: true,//variableWidth: true,
+		  centerPadding: '130px',
+		  responsive: [
+		    {
+		      breakpoint: 1024,
+		      settings: {
+		        slidesToShow: 3,
+		        slidesToScroll: 3,
+		        infinite: true,
+		        dots: true
+		      }
+		    },
+		    {
+		      breakpoint: 600,
+		      settings: {
+		        slidesToShow: 2,
+		        slidesToScroll: 2
+		      }
+		    },
+		    {
+		      breakpoint: 480,
+		      settings: {
+		        slidesToShow: 1,
+		        slidesToScroll: 1
+		      }
+		    }
+		  ]
+		};
+		$slider_4.slick(settings_slider_4);
+		$slider_4.slick('slickGoTo', 2);
+		/*$slider_4.slick(settings_slider_4);
+		$slider_4.slick('slickGoTo', 2);*/
+		
+		$(document).ready(function () {
+			if($(document).width()<=600)
+			{
+				$carousel.slick('slickGoTo', 1);
+				$slider_2.slick('slickGoTo', 1);
+				$slider_3.slick('slickGoTo', 1);
+
+				
+			}
+			else
+			{
+				$carousel.slick('slickGoTo', 2);
+				$slider_2.slick('slickGoTo', 2);
+				$slider_3.slick('slickGoTo', 2);
+			}
+		});
+		$(document).resize(function () {
+			if($(document).width()<=600)
+			{
+				$carousel.slick('slickGoTo', 1);
+				$slider_2.slick('slickGoTo', 1);
+				$slider_3.slick('slickGoTo', 1);
+			}
+			else
+			{
+				$carousel.slick('slickGoTo', 2);
+				$slider_2.slick('slickGoTo', 2);
+				$slider_3.slick('slickGoTo', 2);
+			}
+		});
+
+		var chect=0;
+    	$(document).ready(function () {
+    		$(document).on("click", ".far.fa-bell", function () {
+    			$(this).addClass('fa').addClass('active').removeClass('far');
+    			setTimeout(function() {
+    				$(".fa-bell").removeClass('active');
+    			},5000)
+    		});
+    		$(document).on("click", ".fa.fa-bell", function () {
+    			$(this).addClass('far').addClass('active').removeClass('fa');
+    			setTimeout(function() {
+    				$(".fa-bell").removeClass('active');
+    			},5000)
+    		});
+    		$("#toun_dtl .more_btn").click(function () {
+    			/*alert($(document).width()+' X '+$(document).height())*/
+    			if($(document).width()<=600)
+				{
+	    			var bbc=$(this).parent().parent().css('border-top-color');
+	    			$('.more_info_tab .incre_d').css('border-top-color','transparent')
+	    			$('.more_info_tab .incre_d .nav-tabs .nav-link').css('border-bottom-color',bbc);
+	    			var newco=bbc.replace('rgb','rgba');
+	    			newco=newco.replace(')',',0.3)');
+	    			$(".slid_4").css('background-color',newco);
+				}
+				else
+				{
+	    			var bbc=$(this).parent().parent().css('border-bottom-color');
+	    			$('.more_info_tab .incre_d').css('border-top-color',bbc)
+	    			$('.more_info_tab .incre_d .nav-tabs .nav-link').css('border-bottom-color',bbc)
+	    			var newco=bbc.replace('rgb','rgba');
+	    			newco=newco.replace(')',',0.3)');
+	    			$(".slid_4").css('background-color',newco);
+	    		}
+    			if($(this).hasClass('btnActive') && chect==1)
+    			{
+    				$(this).parent().parent().parent().removeClass('at-iver');
+    				$(this).find('i').removeClass('acv');
+    				$(".more_info_tab").removeClass('t_show');
+    				$(this).removeClass('btnActive');	
+    				$(this).find('i').removeClass('acv');
+    				chect=1;
+    			}
+    			else if($(this).hasClass('btnActive') && chect==0)
+    			{
+    				$(".overlays.at-iver").removeClass('at-iver');
+    				$("#toun_dtl .more_btn").removeClass('btnActive');
+    				$("#toun_dtl .more_btn").find('i').removeClass('acv');
+    				chect=0;
+    			}
+    			else
+    			{
+    				$(".overlays.at-iver").removeClass('at-iver');
+    				$("#toun_dtl .more_btn").removeClass('btnActive');
+    				$("#toun_dtl .more_btn").find('i').removeClass('acv');
+    				chect=0;
+    			}
+
+    			if(chect==0)
+    			{
+    				$(this).parent().parent().parent().addClass('at-iver');
+    				$(this).find('i').addClass('acv');
+    				$(".more_info_tab").addClass('t_show');
+    				$(this).addClass('btnActive');
+    				chect=1;
+    			}
+    			else
+    			{
+    				$(this).parent().parent().parent().removeClass('at-iver');
+    				$(this).find('i').removeClass('acv');
+    				$(".more_info_tab").removeClass('t_show');
+    				$(this).removeClass('btnActive');
+    				chect=0;	
+    			}
+
+
+    		})
+    		if($(document).width()<=600)
+				{
+	    		$(document).on("click", "#toun_dtl .toum_info", function () {
+					if($(document).width()<=600)
+					{
+		    			var bbc=$(this).parent().css('border-top-color');
+		    			$('.more_info_tab .incre_d').css('border-top-color','transparent')
+		    			$('.more_info_tab .incre_d .nav-tabs .nav-link').css('border-bottom-color',bbc);
+		    			var newco=bbc.replace('rgb','rgba');
+		    			newco=newco.replace(')',',0.3)');
+		    			$(".slid_4").css('background-color',newco);
+					}
+					else
+					{
+		    			var bbc=$(this).parent().css('border-bottom-color');
+		    			$('.more_info_tab .incre_d').css('border-top-color',bbc)
+		    			$('.more_info_tab .incre_d .nav-tabs .nav-link').css('border-bottom-color',bbc)
+		    			var newco=bbc.replace('rgb','rgba');
+		    			newco=newco.replace(')',',0.3)');
+		    			$(".slid_4").css('background-color',newco);
+		    		}
+	    			if($(this).find('.more_btn').hasClass('btnActive') && chect==1)
+	    			{
+	    				$(this).parent().parent().removeClass('at-iver');
+	    				$(this).find('.more_btn').find('i').removeClass('acv');
+	    				$(".more_info_tab").removeClass('t_show');
+	    				$(this).find('.more_btn').removeClass('btnActive');	
+	    				$(this).find('.more_btn').find('i').removeClass('acv');
+	    				chect=1;
+	    			}
+	    			else if($(this).find('.more_btn').hasClass('btnActive') && chect==0)
+	    			{
+	    				$(".overlays.at-iver").removeClass('at-iver');
+	    				$("#toun_dtl .more_btn").removeClass('btnActive');
+	    				$("#toun_dtl .more_btn").find('i').removeClass('acv');
+	    				chect=0;
+	    			}
+	    			else
+	    			{
+	    				$(".overlays.at-iver").removeClass('at-iver');
+	    				$("#toun_dtl .more_btn").removeClass('btnActive');
+	    				$("#toun_dtl .more_btn").find('i').removeClass('acv');
+	    				chect=0;
+	    			}
+
+	    			if(chect==0)
+	    			{
+	    				$(this).parent().parent().addClass('at-iver');
+	    				$(this).find('.more_btn').find('i').addClass('acv');
+	    				$(".more_info_tab").addClass('t_show');
+	    				$(this).find('.more_btn').addClass('btnActive');
+	    				chect=1;
+	    			}
+	    			else
+	    			{
+	    				$(this).parent().parent().removeClass('at-iver');
+	    				$(this).find('.more_btn').find('i').removeClass('acv');
+	    				$(".more_info_tab").removeClass('t_show');
+	    				$(this).find('.more_btn').removeClass('btnActive');
+	    				chect=0;	
+	    			}
+				})
+			};
+    		$("#nav-profile-p-tab").click(function () {
+				$('.slider_4').resize();
+				$slider_4.slick('slickGoTo', 2);
+				$('#nav-profile-p').show();
+    		});
+    		$("#nav-profile-y-tab").click(function () {
+    			$('.slider_4').resize();
+				$slider_4.slick('slickGoTo', 2);
+				$('#nav-profile-p').hide();
+    		});
+    		$("#toun_dtl .ls_clo,#toun_dtl .ces").click(function () {
+    			chect=0;
+    			$(".more_info_tab").removeClass('t_show');	
+    		});
+    	})
+  	</script>
+</body>
 </html>
