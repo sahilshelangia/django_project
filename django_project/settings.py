@@ -25,7 +25,7 @@ SECRET_KEY = 'ba%uvojd_ig#zno6da1&gl_sj)n7w@j_eq!z=b_lp4g@s4v*9x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['goalstar.tv', 'www.goalstar.tv', 'localhost']
+ALLOWED_HOSTS = ['goalstar.tv', 'www.goalstar.tv', 'localhost','127.0.0.1']
 
 
 # Application definition
@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'views',
     'models',
-    'business'
+    'business',
+    'colorfield',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[ 
     BASE_DIR + '/static/',
 ]
+
+
