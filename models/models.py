@@ -4,7 +4,7 @@ from colorfield.fields import ColorField
 # Create your models here.
 
 # Model for storing authentication data
-# Account kit id is receivedd in response
+# Account kit id is received in response
 class AppAuthData(models.Model):
     account_kit_id = models.CharField(max_length = 25, unique = True)
     phone_number = models.CharField(max_length = 25, unique = True)
