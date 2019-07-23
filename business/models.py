@@ -11,7 +11,7 @@ class AppAuthDataModel:
 
     def __init__(self, account_kit_id, phone_number):
         self.account_kit_id = account_kit_id
-        self.phone_number = phone_numberNotificationType
+        self.phone_number = phone_number
 
     def save(self):
         appAuthData = AppAuthData(
