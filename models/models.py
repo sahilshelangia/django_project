@@ -146,3 +146,10 @@ class match(models.Model):
 
     def __str__(self):
         return '{} vs {}'.format(self.team_home,self.team_away)
+#Model for User Log
+class UserLog(models.Model):
+    user_id = models.ForeignKey(UserInfo,on_delete = models.CASCADE)
+    action = models.CharField(max_length=30)
+    device_name = models.CharField(max_length=30)
+    class Meta:
+        db_table = "user_log"
