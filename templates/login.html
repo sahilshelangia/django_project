@@ -65,16 +65,16 @@
 					  		<p class="text-uppercase sws_p d-block d-sm-none">Easy Sign UP in <span class="me_orang_text">Four</span> step</p>
 					  		<p class="text-uppercase sws_p d-none d-sm-block">Easy Sign UP in</p>
 					  		<h5 class="text-uppercase sws_h5 d-none d-sm-block"><span class="me_orang_text">Four</span> Steps</h4>
-					  		<form>
 
+					  		<form>
   								<div class="form-group mt-4 row">
   									<div class="col-md-6 col-6">
   										<label class="text-uppercase">First Name</label>
-  										<input type="text" class="form-control text-uppercase" placeholder="mohammad">
+  										<input id="register-first-name" type="text" class="form-control text-uppercase" placeholder="mohammad">
   									</div>
   									<div class="col-md-6 col-6">
   										<label class="text-uppercase">Last Name</label>
-  										<input type="text" class="form-control text-uppercase" placeholder="Salah">
+  										<input id="register-last-name" type="text" class="form-control text-uppercase" placeholder="Salah">
   									</div>
   								</div>
   								<div class="form-group mt-4 row">
@@ -96,7 +96,7 @@
   								</div>
   								<div class="form-group mt-4">
   									<label for="exampleInputEmail1" class="text-uppercase">Enter Your Email address</label>
-  									<input type="text" class="form-control" placeholder="mpranav991@gmail.com">
+  									<input type="text" id="register-email" class="form-control" placeholder="mpranav991@gmail.com">
   								</div>
   								<div class="form-group mt-4">
   									<label for="sof" class="text-uppercase">Enter Your Date of Birth</label>
@@ -115,7 +115,7 @@
   								</div>
   								<div class="form-group mt-4">
 									  <input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="sign up" 
-									  	onclick="smsLogin(document.getElementById('register-code').options[document.getElementById('register-code').selectedIndex].value, document.getElementById('register-phone').value)">
+									  	onclick="smsLogin(document.getElementById('register-code').options[document.getElementById('register-code').selectedIndex].value, document.getElementById('register-phone').value,document.getElementById('register-first-name').value,document.getElementById('register-last-name').value,document.getElementById('register-email').value,document.getElementById('sof').value)">
   								</div>
   							</form>
 					  </div>
@@ -258,18 +258,28 @@
       };
     
       // login callback
+
       function loginCallback(response) {
+        alert(document.getElementById('register-phone').value)
         if (response.status === "PARTIALLY_AUTHENTICATED") {
           var code = response.code;
           var csrf = response.state;
           // Send code to server to exchange for access token
           // console.log(response);
+          // alert(JSON.stringify(response));
+          response["first_name"]=document.getElementById('register-first-name').value;
+          response["last_name"]=document.getElementById('register-last-name').value;
+          response["email"]=document.getElementById('register-email').value;
+          response["dob"]=document.getElementById('sof').value;
+          console.log(response);
+
           $.ajaxSetup({
             headers: {'X-CSRFToken': $("[name=csrfmiddlewaretoken]").val()}
           });
           $.ajax({
             type: "POST",
-            url: 'http://goalstar.tv/auth-code',
+            // url: 'http://goalstar.tv/auth-code',
+            url: 'http://localhost:8000/auth-code',
             data: JSON.stringify(response),
             dataType: 'JSON',
             success: function(data){
@@ -289,14 +299,39 @@
         }
       }
     
-      // phone form submission handler
-      function smsLogin(pc, pn) {
-        AccountKit.login(
-          'PHONE',
-          {countryCode: pc, phoneNumber: pn},
-          loginCallback
-        );
+
+      function smsLogin(pc, pn,first_name,last_name,email,dob) {
+        var xhttp = new XMLHttpRequest();
+        var formData = new FormData();
+        formData.append('country_code',pc);
+        formData.append('phone_number',pn);
+        formData.append('first_name',first_name);
+        formData.append('last_name',last_name);
+        formData.append('email',email);
+        formData.append('dob',dob);
+        formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText);
+            console.log(data["output"]);
+            if(data['output']=="yes")
+                alert("User already exist!");
+            else
+                {
+                    AccountKit.login(
+                    'PHONE',
+                    {countryCode: pc, phoneNumber: pn},
+                    loginCallback
+                  );
+                }
+          }
+        };
+        xhttp.open("POST", "../register", true);
+        xhttp.send(formData);
       }
-  	</script>
+    </script>
 </body>
 </html>
+   
+
+            
