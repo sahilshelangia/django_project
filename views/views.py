@@ -23,29 +23,30 @@ def login(request):
 
 
 
-from django.views.decorators.csrf import csrf_exempt
-@csrf_exempt
+
 def authCode(request):
     if request.method == "POST":
-        user_data=json.loads(request.body)
-        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.body))
+        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['accountkit_data']))
         appAuthData = AppAuthData(
                 account_kit_id = accountkit_data[0],
                 phone_number = accountkit_data[1]
             )
         appAuthData.save()
+
         # create profile for the same
-        userInfo=UserInfo(app_auth_data_id=appAuthData,first_name=user_data['first_name'],\
-            last_name=user_data['last_name'],email=user_data['email'],date_of_birth=user_data['dob'],\
+        userInfo=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
+            last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
             subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
+        userInfo.save()
 
         # add notification to the same
-        
-        userInfo.save()
-        myResponse = HttpResponse()
+        for obj in NotificationType.objects.all():
+            userNotificationType=UserNotificationType(app_auth_data=appAuthData,notification_type_id=obj)
+            userNotificationType.save()
+
+        myResponse = render(request,'home.html',{})
         myResponse.set_cookie(key='goalstar', value=accountkit_data, max_age=31536000, httponly=True)
         return myResponse
-
 
 def notify(request):
     if request.method == "POST":

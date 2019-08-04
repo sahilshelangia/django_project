@@ -70,8 +70,8 @@ class UserInfo(models.Model):
 
 # connect userid with all notification type by default
 class UserNotificationType(models.Model):
-    user_info_id = models.ForeignKey(
-        UserInfo,
+    app_auth_data = models.ForeignKey(
+        AppAuthData,
         on_delete = models.CASCADE
     )
     notification_type_id = models.ForeignKey(
@@ -81,6 +81,9 @@ class UserNotificationType(models.Model):
 
     class Meta:
         db_table = "user_notification_type"
+
+    def __str__(self):
+        return "{}=>{}".format(self.app_auth_data,self.notification_type_id)
 
 
 

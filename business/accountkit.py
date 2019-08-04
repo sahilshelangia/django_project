@@ -22,12 +22,12 @@ def get_accountkit_app_secret():
 # Function to retrieve access token using Graph API
 def get_accountkit_access_token(data):
 
-    json_data = json.loads(data)
     response = requests.get('https://graph.accountkit.com/v1.3/access_token?grant_type=authorization_code' \
-        '&code=' + json_data['code'] + '&access_token=AA|'+ get_facebook_app_id() + '|' + get_accountkit_app_secret())
+        '&code=' + data + '&access_token=AA|'+ get_facebook_app_id() + '|' + get_accountkit_app_secret())
     access_code = json.loads(response.text)['access_token']
 
     return access_code
+
 
 # Function to validate access token and retrieve account kit id and phone number
 def validate_accountkit_access_token(token):

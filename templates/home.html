@@ -7,38 +7,120 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
+	
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet"> 
 	<!-- Custom styles for this template -->
+	
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
-	<link href="{% static 'css/all.css'}" rel="stylesheet">
-	<link href="{% static 'css/responsive.css'}" rel="stylesheet">
+	<link href="{% static 'css/all.css' %}" rel="stylesheet">
 </head>
 
 <body class="home">
+		<style>
+ .dropbtn {
+  background-color: black;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+ display:none;
+  position: absolute;
+  size: 1000px;
+  right: 0;
+  background-color: black;
+  color: white;
+  width: 260px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.show{display:block;}
+			  </style>
+			
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark1 fixed-top">
-		<div class="container">
-		  <a class="navbar-brand" href="index.html"><img src="img/logo.png"><br><span class="live">LIVE</span></a>
-		  <a class="nav-link sws-block sws-se" href="#"><img src="img/search-iocn.png"></a>
-		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-		    <span class="navbar-toggler-icon"></span>
-		  </button>
-		  <div class="collapse navbar-collapse" id="navbarResponsive">
-		    <ul class="navbar-nav ml-auto">
-		      <li class="nav-item">
-		        <a class="nav-link" href="#"><img src="img/search-iocn.png"></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="#"><img src="img/user-icon.png"></a>
-		      </li>
-		    </ul>
-		  </div>
-		</div>
+			<div class="container">
+			  <a class="navbar-brand" href="index.html"><img src="{% static 'img/logo.png' %}"><br><span class="live">LIVE</span></a>
+			  <div id="navbarResponsive">
+								  <div style="float:right">
+					<a href="#" style="margin:70px;"><img src="{% static 'img/search-iocn.png' %}"></a>
+				  
+					<div class="dropdown">
+							
+							<a href="#" onclick="myFunction()"><img src="{% static 'img/user-icon.png' %}"></a>
+					</div>
+					<div class="dropdown">
+					<div class="dropdown-content" style="top:20px;">
+						<div style="background-color:rgb(19, 23, 24);">
+							<b><a href="#" data-toggle="modal" data-target="#myModal">First Name</a></b>
+							<b><a href="#">Last Name</a></b>
+							<a href="#" style="font-size:10px;">Standard Plan</a>
+						</div>
+							<br>
+							<a href="#">Profile</a>
+							<a href="#">Account</a>
+							<a href="#">Help</a>
+							<a href="#">Downloads</a>
+							<a href="#">Sign Out</a>
+						  </div>
+				  </div>
+				
+			  </div>
+			</div>
+	<script>
+			  
+				/* When the user clicks on the button, 
+				toggle between hiding and showing the dropdown content */
+				function myFunction() {
+					document.querySelector('.dropdown-content').classList.toggle('show');
+				}
+				document.querySelector(DOM.check1).addEventListener('click',myFunction);
+				
+				
+				
+	</script>
 	</nav>
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
+	  
+		  <!-- Modal content-->
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <a class="modal-title" style="color:black; margin-left:50px;">Profile</a>
+			  <a class="modal-title" style="color:black; margin-left:50px;">Account</a>
+			  <a class="modal-title" style="color:black; margin-left:50px;">App Settings</a>
+			  <a class="modal-title" style="color:black; margin-left:50px;">Help</a>
+			  <a class="modal-title" style="color:black; margin-left:50px;">Downloads</a>
+			  <button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+			  <p style="color:black;">Some text in the modal.</p>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		  </div>
+	  
+		</div>
+	  </div>
 	<header>
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		  <ol class="carousel-indicators">
@@ -49,8 +131,8 @@
 		  <div class="carousel-inner">
 		    <div class="carousel-item active">
 		    <div class="cou_bles"></div>
-		      <img class="d-block w-100 sws-none" src="img/b1.png" alt="Third slide">
-		      <img class="d-block w-100 sws-block" src="img/m1.png" alt="First slide">
+		      <img class="d-block w-100 sws-none" src="{% static 'img/b1.png' %}" alt="Third slide">
+		      <img class="d-block w-100 sws-block" src="{% static 'img/m1.png' %}" alt="First slide">
 		      	<div class="carousel-caption  d-block">
 				    <div class="row text-left ">
 				      	<div class="col-md-6">
@@ -61,13 +143,13 @@
 		    </div>
 		    <div class="carousel-item">
 		    	<div class="cou_bles"></div>
-		      <img class="d-block w-100 sws-none" src="img/b1.png" alt="Third slide">
-		      <img class="d-block w-100 sws-block" src="img/m1.png" alt="First slide">
+		      <img class="d-block w-100 sws-none" src="{% static 'img/b1.png' %}" alt="Third slide">
+		      <img class="d-block w-100 sws-block" src="{% static 'img/m1.png' %}" alt="First slide">
 		    </div>
 		    <div class="carousel-item">
 		    	<div class="cou_bles"></div>
-		      <img class="d-block w-100 sws-none" src="img/b1.png" alt="Third slide">
-		      <img class="d-block w-100 sws-block" src="img/m1.png" alt="First slide">
+		      <img class="d-block w-100 sws-none" src="{% static 'img/b1.png' %}" alt="Third slide">
+		      <img class="d-block w-100 sws-block" src="{% static 'img/m1.png' %}" alt="First slide">
 		    </div>
 		  </div>
 		  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -86,7 +168,7 @@
 			<div class="row">
 				<div class="col-md-8 col-12">
 			    	<div class="i-over"></div>
-			      	<img src="img/ground-current.png">
+			      	<img src="{% static 'img/ground-current.png' %}">
 					<div class="cur_gro">
 						<div class="row">
 							<div class="col-md-6 col-6 part-left text-center">
@@ -96,14 +178,14 @@
 								<h4 class=""><span>Gokulam Karela FC</span></h4>
 							</div>
 							<div class="col-md-4 col-4 tm_s text-center">
-								<img src="img/team1.png" width="100%">
+								<img src="{% static 'img/team1.png' %}" width="100%">
 								<h3>3</h3>
 							</div>
 							<div class="col-md-4 col-4 text-center">
 								<span class="t_vs">VS</span>
 							</div>
 							<div class="col-md-4 col-4 tm_s text-center">
-								<img src="img/team2.png" width="100%">
+								<img src="{% static 'img/team2.png' %}" width="100%">
 								<h3 class="tm_lef">2</h3>
 							</div>
 							<div class="col-md-12 text-center mt-5 ">
@@ -130,7 +212,7 @@
 			<div class="slider">
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src="img/player1.png">
+			   		<img src='{% static "img/player1.png" %}'>
 	            	<div class="toum_del">
 	            		<div class="toum_info">
 	                		<h5>Koyapa Sevens</h5>
@@ -142,7 +224,7 @@
 			  </div>
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src="img/player1.png">
+			   		<img src="{% static 'img/player1.png' %}">
 	            	<div class="toum_del bor-top-red">
 	            		<div class="toum_info">
 	                		<h5>Koyapa Sevens</h5>
@@ -154,7 +236,7 @@
 			  </div>
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src="img/player1.png">
+			   		<img src="{% static 'img/player1.png' %}">
 	            	<div class="toum_del bor-top-blue">
 	            		<div class="toum_info">
 	                		<h5>Koyapa Sevens</h5>
@@ -166,7 +248,7 @@
 			  </div>
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src="img/player1.png">
+			   		<img src="{% static 'img/player1.png' %}">
 	            	<div class="toum_del">
 	            		<div class="toum_info ">
 	                		<h5>Koyapa Sevens</h5>
@@ -178,7 +260,7 @@
 			  </div>
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src="img/player1.png">
+			   		<img src="{% static 'img/player1.png' %}">
 	            	<div class="toum_del bor-top-red">
 	            		<div class="toum_info">
 	                		<h5>Koyapa Sevens</h5>
@@ -190,7 +272,7 @@
 			  </div>
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src="img/player1.png">
+			   		<img src="{% static 'img/player1.png' %}">
 	            	<div class="toum_del bor-top-blue">
 	            		<div class="toum_info">
 	                		<h5>Koyapa Sevens</h5>
@@ -202,7 +284,7 @@
 			  </div>
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src="img/player1.png">
+			   		<img src="{% static 'img/player1.png' %}">
 	            	<div class="toum_del">
 	            		<div class="toum_info ">
 	                		<h5>Koyapa Sevens</h5>
@@ -214,7 +296,7 @@
 			  </div>
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src="img/player1.png">
+			   		<img src="{% static 'img/player1.png' %}">
 	            	<div class="toum_del bor-top-red">
 	            		<div class="toum_info">
 	                		<h5>Koyapa Sevens</h5>
@@ -253,7 +335,7 @@
 					  			<h4 class="font-weight-nomal sws-block text-uppercase">upcomming Match</h4>
 					  			<div class="row text-center up_tms">
 							  		<div class="col-md-4 col-3">
-							  			<img src="img/ukfc.png">
+							  			<img src="{% static 'img/ukfc.png' %}">
 							  		</div>
 							  		<div class="col-md-4 col-2">
 							  			<span class="tms_vs">VS</span>
@@ -261,7 +343,7 @@
 							  			<p class="sws-none">17 May at 14:05 PM</p>
 							  		</div>
 							  		<div class="col-md-4 col-3">
-							  			<img src="img/muvat.png">
+							  			<img src="{% static 'img/muvat.png' %}">
 							  		</div>
 							  		<div class="col-md-4 col-4 sws-block">
 							  			<p><span class="live">LIVE</span> on</p>
@@ -274,7 +356,7 @@
 					  <div class="tab-pane fade" id="nav-profile-p" role="tabpanel" aria-labelledby="nav-profile-p-tab">
 					  	<div class="slider_4">
 					  		<div class="slick-slideshow__slide_4">
-			                	<img src="img/1554700132_Football.jpg">
+			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
 			                	<div class="slid_4">
 			                    	<h6>Gokolam Kerala FC</h6>
 			                    	<small>VS</small>
@@ -283,7 +365,7 @@
 			                	</div>
 			                </div>
 					  		<div class="slick-slideshow__slide_4">
-			                	<img src="img/1554700132_Football.jpg">
+			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
 			                	<div class="slid_4">
 			                    	<h6>Gokolam Kerala FC</h6>
 			                    	<small>VS</small>
@@ -292,7 +374,7 @@
 			                	</div>
 			                </div>
 					  		<div class="slick-slideshow__slide_4">
-			                	<img src="img/1554700132_Football.jpg">
+			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
 			                	<div class="slid_4">
 			                    	<h6>Gokolam Kerala FC</h6>
 			                    	<small>VS</small>
@@ -301,7 +383,7 @@
 			                	</div>
 			                </div>
 					  		<div class="slick-slideshow__slide_4">
-			                	<img src="img/1554700132_Football.jpg">
+			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
 			                	<div class="slid_4">
 			                    	<h6>Gokolam Kerala FC</h6>
 			                    	<small>VS</small>
@@ -310,7 +392,7 @@
 			                	</div>
 			                </div>
 					  		<div class="slick-slideshow__slide_4">
-			                	<img src="img/1554700132_Football.jpg">
+			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
 			                	<div class="slid_4">
 			                    	<h6>Gokolam Kerala FC</h6>
 			                    	<small>VS</small>
@@ -319,7 +401,7 @@
 			                	</div>
 			                </div>
 					  		<div class="slick-slideshow__slide_4">
-			                	<img src="img/1554700132_Football.jpg">
+			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
 			                	<div class="slid_4">
 			                    	<h6>Gokolam Kerala FC</h6>
 			                    	<small>VS</small>
@@ -447,7 +529,7 @@
 			<h2>UPCOMMING <span class="me_orang_text font-weight-bold">GAME</span></h2>
 		  	<div class="row text-center up_tms">
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/ukfc.png">
+		  			<img src="{% static 'img/ukfc.png' %}">
 		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-2 col-4">
@@ -455,7 +537,7 @@
 		  			<p class="me_orang_text">17 May at 14:05 PM</p>
 		  		</div>
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/muvat.png">
+		  			<img src="{% static 'img/muvat.png' %}">
 		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-4 sws-none">
@@ -467,7 +549,7 @@
 		  	</div>
 		  	<div class="row text-center up_tms bor-left-green">
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/ukfc.png">
+		  			<img src="{% static 'img/ukfc.png' %}">
 		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-2 col-4">
@@ -475,7 +557,7 @@
 		  			<p class="me_orang_text">17 May at 14:05 PM</p>
 		  		</div>
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/muvat.png">
+		  			<img src="{% static 'img/muvat.png' %}">
 		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-4 sws-none">
@@ -487,7 +569,7 @@
 			</div>
 		  	<div class="row text-center up_tms bor-left-blue">
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/ukfc.png">
+		  			<img src="{% static 'img/ukfc.png' %}">
 		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-2 col-4">
@@ -495,7 +577,7 @@
 		  			<p class="me_orang_text">17 May at 14:05 PM</p>
 		  		</div>
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/muvat.png">
+		  			<img src="{% static 'img/muvat.png' %}">
 		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-4 sws-none">
@@ -507,7 +589,7 @@
 			</div>
 		  	<div class="row text-center up_tms">
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/ukfc.png">
+		  			<img src="{% static 'img/ukfc.png' %}">
 		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-2 col-4">
@@ -515,7 +597,7 @@
 		  			<p class="me_orang_text">17 May at 14:05 PM</p>
 		  		</div>
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/muvat.png">
+		  			<img src="{% static 'img/muvat.png' %}">
 		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-4 sws-none">
@@ -527,7 +609,7 @@
 			</div>
 		  	<div class="row text-center up_tms bor-left-green">
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/ukfc.png">
+		  			<img src="{% static 'img/ukfc.png' %}">
 		  			<h5 class="sws-block text-uppercase">Evergreen kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-2 col-4">
@@ -535,7 +617,7 @@
 		  			<p class="me_orang_text">17 May at 14:05 PM</p>
 		  		</div>
 		  		<div class="col-md-2 col-3">
-		  			<img src="img/muvat.png">
+		  			<img src="{% static 'img/muvat.png' %}">
 		  			<h5 class="sws-block text-uppercase">Gokulam kerala FC</h5>
 		  		</div>
 		  		<div class="col-md-4 sws-none">
@@ -554,67 +636,67 @@
             <div class="slider_2">
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
 		  		<div class="slick-slideshow__slide_2">
                 	<span class="onplay"></span>
-                	<img src="img/1554700132_Football.jpg">
+                	<img src="{% static 'img/1554700132_Football.jpg' %}">
                     <h5>Kozhikode Kings vs Idukki Idiots</h5>
                 </div>
             </div>
@@ -627,7 +709,7 @@
 			<h2>TRENDING <span class="me_orang_text font-weight-bold">NOW</span></h2>
 			<div class="slider_3">
 		  		<div class="slick-slideshow__slide_3">
-                	<img src="img/player3.png">
+                	<img src="{% static 'img/player3.png' %}">
                 	<div class="toum_del">
                 		<div class="toum_info">
                 			<span class="B-left"></span>
@@ -639,7 +721,7 @@
                 	</div>
                 </div>
 		  		<div class="slick-slideshow__slide_3">
-                	<img src="img/player3.png">
+                	<img src="{% static 'img/player3.png' %}">
                 	<div class="toum_del">
                 		<div class="toum_info">
                 			<span class="B-left"></span>
@@ -651,7 +733,7 @@
                 	</div>
                 </div>
 		  		<div class="slick-slideshow__slide_3">
-                	<img src="img/player3.png">
+                	<img src="{% static 'img/player3.png' %}">
                 	<div class="toum_del">
                 		<div class="toum_info">
                 			<span class="B-left"></span>
@@ -663,7 +745,7 @@
                 	</div>
                 </div>
 		  		<div class="slick-slideshow__slide_3">
-                	<img src="img/player3.png">
+                	<img src="{% static 'img/player3.png' %}">
                 	<div class="toum_del">
                 		<div class="toum_info">
                 			<span class="B-left"></span>
@@ -675,7 +757,7 @@
                 	</div>
                 </div>
 		  		<div class="slick-slideshow__slide_3">
-                	<img src="img/player3.png">
+                	<img src="{% static 'img/player3.png' %}">
                 	<div class="toum_del">
                 		<div class="toum_info">
                 			<span class="B-left"></span>
@@ -687,7 +769,7 @@
                 	</div>
                 </div>
 		  		<div class="slick-slideshow__slide_3">
-                	<img src="img/player3.png">
+                	<img src="{% static 'img/player3.png' %}">
                 	<div class="toum_del">
                 		<div class="toum_info">
                 			<span class="B-left"></span>
@@ -704,8 +786,8 @@
 	<footer>
 		<p>FOOTER</p>
 	</footer>
-	<script src="js/jquery.min.js"></script>
-  	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+  	<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 				
   	<script type="text/javascript">
@@ -911,19 +993,19 @@
 		var chect=0;
     	$(document).ready(function () {
     		$(document).on("click", ".far.fa-bell", function () {
-    			$(this).addClass('fa').addClass('active').removeClass('far');
+    			$(this).addClass('fa').addClass('active').removeClass('fa');
     			setTimeout(function() {
     				$(".fa-bell").removeClass('active');
     			},5000)
     		});
     		$(document).on("click", ".fa.fa-bell", function () {
-    			$(this).addClass('far').addClass('active').removeClass('fa');
+    			$(this).addClass('fab').addClass('active').removeClass('fa');
     			setTimeout(function() {
     				$(".fa-bell").removeClass('active');
     			},5000)
     		});
     		$("#toun_dtl .more_btn").click(function () {
-    			/*alert($(document).width()+' X '+$(document).height())*/
+    			/alert($(document).width()+' X '+$(document).height())/
     			if($(document).width()<=600)
 				{
 	    			var bbc=$(this).parent().parent().css('border-top-color');
