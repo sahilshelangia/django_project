@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.timezone import datetime
 from colorfield.fields import ColorField
+import datetime
 # Create your models here.
 
 # Model for storing authentication data
@@ -12,19 +13,34 @@ class AppAuthData(models.Model):
     class Meta:
         db_table = "app_auth_data"
 
+    def __str__(self):
+        return self.phone_number
+
+
 # Model which stores notification types
+# sms,whatsapp,email
+# many to many relationship with user Info
 class NotificationType(models.Model):
     notify_on = models.CharField(max_length = 25)
 
     class Meta:
         db_table = "notification_type"
 
+    def __str__(self):
+        return self.notify_on
+
+
 # Model which stores subscription types
+# free(default,3 months), monthly ,seasonal
 class SubscriptionType(models.Model):
     subscription = models.CharField(max_length = 25)
 
     class Meta:
         db_table = "subscription_type"
+
+    def __str__(self):
+        return self.subscription
+
 
 # Model for storing user info
 # app_auth_data_id links the user with authentication information
@@ -42,12 +58,17 @@ class UserInfo(models.Model):
         on_delete = models.CASCADE,
         default = 1
     )
-    expiry_date = models.DateField(blank = True, null = True)
+    expiry_date = models.DateField(null=True,blank=True)
     is_active = models.BooleanField(default = True)
 
     class Meta:
         db_table = "user_info"
 
+    def __str__(self):
+        return self.first_name+" "+self.last_name
+
+
+# connect userid with all notification type by default
 class UserNotificationType(models.Model):
     user_info_id = models.ForeignKey(
         UserInfo,
@@ -61,13 +82,13 @@ class UserNotificationType(models.Model):
     class Meta:
         db_table = "user_notification_type"
 
+
+
 class catch_email_temp(models.Model):
     email = models.CharField(max_length = 50)
 
     class Meta:
         db_table = "catch_email_temp"
-
-
 
 
 
@@ -146,6 +167,7 @@ class match(models.Model):
 
     def __str__(self):
         return '{} vs {}'.format(self.team_home,self.team_away)
+
 #Model for User Log
 class UserLog(models.Model):
     user_id = models.ForeignKey(UserInfo,on_delete = models.CASCADE)

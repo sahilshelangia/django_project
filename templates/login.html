@@ -20,7 +20,6 @@
 </head>
 
 <body class="bg-old">
-
 	<section id="login">
 		<div class="container-fluid">
 			<div class="row">
@@ -42,19 +41,19 @@
   								<div class="form-group mt-4">
   									<label for="exampleInputEmail1" class="text-uppercase">select country</label>
   									<div class="sws-custom-select">
-	    								<select class="form-control text-uppercase">
-	    									<option>India (+91)</option>
-	    									<option>United States (+1)</option>
-	    									<option>United Kingdom (+44)</option>
-	    									<option>Australia (+61)</option>
+	    								<select id="login-code" class="form-control text-uppercase">
+	    									<option value="+91">India (+91)</option>
+                        <option value="+44">United Kingdom (+44)</option>
+                        <option value="+1">United States (+1)</option>
+                        <option value="+61">Australia (+61)</option>
 	    								</select>
 	    							</div>
   								</div>
   								<div class="form-group mt-4">
   									<label for="exampleInputEmail1" class="text-uppercase">Enter mobile number</label>
-  									<input type="text" class="form-control" placeholder="Enter your mobile number">
+  									<input id="login-phone" type="text" class="form-control" placeholder="Enter your mobile number">
   								</div>
-  								<small id="passwordHelpBlock" class="form-text text-muted mt-4">Your subscription for the first 60 days is on us</small>
+  								<small id="passwordHelpBlock" class="form-text text-muted mt-4">Your subscription for the first 90 days is on us</small>
   								<div class="form-group mt-4">
   									<input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="log in" onclick="smsLogin()">
   								</div>
@@ -65,6 +64,7 @@
 					  		<p class="text-uppercase sws_p d-block d-sm-none">Easy Sign UP in <span class="me_orang_text">Four</span> step</p>
 					  		<p class="text-uppercase sws_p d-none d-sm-block">Easy Sign UP in</p>
 					  		<h5 class="text-uppercase sws_h5 d-none d-sm-block"><span class="me_orang_text">Four</span> Steps</h4>
+
 
 					  		<form>
   								<div class="form-group mt-4 row">
@@ -271,7 +271,7 @@
           response["last_name"]=document.getElementById('register-last-name').value;
           response["email"]=document.getElementById('register-email').value;
           response["dob"]=document.getElementById('sof').value;
-          console.log(response);
+          
 
           $.ajaxSetup({
             headers: {'X-CSRFToken': $("[name=csrfmiddlewaretoken]").val()}
@@ -298,18 +298,14 @@
           console.log(response);
         }
       }
-    
 
-      function smsLogin(pc, pn,first_name,last_name,email,dob) {
+      function smsLogin(pc, pn) {
         var xhttp = new XMLHttpRequest();
         var formData = new FormData();
         formData.append('country_code',pc);
         formData.append('phone_number',pn);
-        formData.append('first_name',first_name);
-        formData.append('last_name',last_name);
-        formData.append('email',email);
-        formData.append('dob',dob);
         formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
+        
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             data = JSON.parse(this.responseText);

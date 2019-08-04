@@ -25,7 +25,8 @@ class AppAuthDataModel:
             account_kit_id = self.account_kit_id,
             phone_number = self.phone_number
         )  
-        appAuthData.delete()  
+        appAuthData.delete() 
+         
 
 class UserInfoModel(AppAuthDataModel):
 
