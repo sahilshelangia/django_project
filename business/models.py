@@ -48,7 +48,9 @@ class UserInfoModel(AppAuthDataModel):
         super(AppAuthDataModel).__init__(self)
 
     def save(self):
+        appAuth = super().save()
         userInfo = UserInfo(
+            app_auth_data_id = appAuth.id
             first_name = self.first_name,
             last_name = self.last_name,
             email = self.email,
@@ -138,4 +140,17 @@ class UserNotificationTypeModel:
         self.id = 0
         super(UserInfoModel,NotificationTypeModel).__init__(self)  
 
+class UserLogModel:
 
+    def __init__(self):
+        self.user_id = 0
+        self.action = ''
+        self.device_name = ''
+
+    def save(self):
+        userLog = UserLog(
+            user_id = self.user_id
+            action = self.action
+            device_name = self.device_name
+        )
+        userLog.save()
