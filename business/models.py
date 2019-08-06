@@ -36,20 +36,12 @@ class UserInfoModel(AppAuthDataModel):
         self.last_name = ''
         self.email = ''
         self.date_of_birth = ''
+        self.expiry_date = None
         self.is_active = True
         super(AppAuthDataModel).__init__()
 
-    def __init__(self,first_name,last_name,email,date_of_birth,expiry_date,is_active):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.date_of_birth = date_of_birth
-        self.expiry_date = expiry_date
-        self.is_active = is_active
-        super(AppAuthDataModel).__init__(self)
-
     def save(self):
-        appAuth = super().save()
+        appAuth = super(AppAuthDataModel).save()
         userInfo = UserInfo(
             app_auth_data_id = appAuth.id,
             first_name = self.first_name,
