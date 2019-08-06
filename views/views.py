@@ -3,6 +3,7 @@ from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 import json
 from business import accountkit
+from business.models import *
 import random
 import string
 import requests
@@ -27,18 +28,28 @@ def login(request):
 def authCode(request):
     if request.method == "POST":
         accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['accountkit_data']))
-        appAuthData = AppAuthData(
-                account_kit_id = accountkit_data[0],
-                phone_number = accountkit_data[1]
-            )
-        appAuthData.save()
+        # appAuthData = AppAuthData(
+        #         account_kit_id = accountkit_data[0],
+        #         phone_number = accountkit_data[1]
+        #     )
+        # appAuthData.save()
 
-        # create profile for the same
-        userInfo=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
-            last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
-            subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
-        userInfo.save()
+        # # create profile for the same
+        # userInfo=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
+        #     last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
+        #     subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
+        # userInfo.save()
 
+        userInfoModel=UserInfoModel()
+        userInfoModel.account_kit_id=accountkit_data[0]
+        userInfoModel.phone_number=accountkit_data[1]
+        userInfoModel.first_name=request.POST['first_name']
+        userInfoModel.last_name=request.POST['last_name']
+        userInfoModel.email=request.POST['email']
+        userInfoModel.date_of_birth=request.POST['dob']
+        userInfoModel.subscription_type_id=SubscriptionType.objects.get(subscription="free")
+        userInfoModel.expiry_date=datetime.date.today()+datetime.timedelta(days=90)
+        userInfoModel.save()
         # add notification to the same
         for obj in NotificationType.objects.all():
             userNotificationType=UserNotificationType(app_auth_data=appAuthData,notification_type_id=obj)

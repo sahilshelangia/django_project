@@ -26,6 +26,7 @@ class AppAuthDataModel:
             phone_number = self.phone_number
         )  
         appAuthData.delete() 
+
          
 
 class UserInfoModel(AppAuthDataModel):
@@ -38,10 +39,12 @@ class UserInfoModel(AppAuthDataModel):
         self.date_of_birth = ''
         self.expiry_date = None
         self.is_active = True
-        super(AppAuthDataModel).__init__()
+        # super(AppAuthDataModel).__init__()
+        self.account_kit_id=''
+        self.phone_number=''
 
     def save(self):
-        appAuth = super(AppAuthDataModel).save()
+        appAuth = super(AppAuthDataModel).save(account_kit_id,phone_number)
         userInfo = UserInfo(
             app_auth_data_id = appAuth.id,
             first_name = self.first_name,
