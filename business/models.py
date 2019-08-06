@@ -50,7 +50,7 @@ class UserInfoModel(AppAuthDataModel):
     def save(self):
         appAuth = super().save()
         userInfo = UserInfo(
-            app_auth_data_id = appAuth.id
+            app_auth_data_id = appAuth.id,
             first_name = self.first_name,
             last_name = self.last_name,
             email = self.email,
@@ -149,8 +149,8 @@ class UserLogModel:
 
     def save(self):
         userLog = UserLog(
-            user_id = self.user_id
-            action = self.action
+            user_id = self.user_id,
+            action = self.action,
             device_name = self.device_name
         )
         userLog.save()
