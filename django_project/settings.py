@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'models',
     'business',
     'colorfield',
+    'django_user_agents',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -131,3 +133,4 @@ STATICFILES_DIRS=[
 ]
 
 
+USER_AGENTS_CACHE = 'default'

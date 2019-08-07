@@ -176,5 +176,9 @@ class UserLog(models.Model):
     user_id = models.ForeignKey(UserInfo,on_delete = models.CASCADE)
     action = models.CharField(max_length=30)
     device_name = models.CharField(max_length=30)
+    date_time=models.DateTimeField(default=datetime.datetime.now,blank=True,null=True)
     class Meta:
         db_table = "user_log"
+
+    def __str__(self):
+        return '{} done {} with {} at {}'.format(self.user_id,self.action,self.device_name,self.date_time)

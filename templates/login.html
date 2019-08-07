@@ -37,11 +37,12 @@
 					  		<p class="text-uppercase sws_p d-block d-sm-none">Easy Login In <span class="me_orang_text">one</span> step</p>
 					  		<p class="text-uppercase sws_p d-none d-sm-block">Easy Login with</p>
 					  		<h5 class="text-uppercase sws_h5 d-none d-sm-block"><span class="me_orang_text">Mobile</span> number</h4>
-					  		<form>
+					  		<form id="login-form" method="POST" action="{%url 'login'%}">
+                  {%csrf_token%}
   								<div class="form-group mt-4">
   									<label for="exampleInputEmail1" class="text-uppercase">select country</label>
   									<div class="sws-custom-select">
-	    								<select id="login-code" class="form-control text-uppercase">
+	    								<select name="login-code" id="login-code" class="form-control text-uppercase">
 	    									<option value="+91">India (+91)</option>
                         <option value="+44">United Kingdom (+44)</option>
                         <option value="+1">United States (+1)</option>
@@ -51,11 +52,11 @@
   								</div>
   								<div class="form-group mt-4">
   									<label for="exampleInputEmail1" class="text-uppercase">Enter mobile number</label>
-  									<input id="login-phone" type="text" class="form-control" placeholder="Enter your mobile number">
+  									<input name="login-phone" id="login-phone" type="text" class="form-control" placeholder="Enter your mobile number">
   								</div>
   								<small id="passwordHelpBlock" class="form-text text-muted mt-4">Your subscription for the first 90 days is on us</small>
   								<div class="form-group mt-4">
-  									<input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="log in" onclick="smsLogin()">
+  									<input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="log in" onclick="smsLogin1(document.getElementById('login-code').options[document.getElementById('login-code').selectedIndex].value, document.getElementById('login-phone').value)">
   								</div>
   								<small class="more text-uppercase font-weight-bold bg_color_orang_c"><a href="#">change your mobile number</a></small>
   							</form>
@@ -281,6 +282,20 @@
         }
       }
 
+      function loginCallback1(response) {
+        if (response.status === "PARTIALLY_AUTHENTICATED") {
+          document.getElementById("login-form").submit();
+        }
+        else if (response.status === "NOT_AUTHENTICATED") {
+          // handle authentication failure
+          console.log(response);
+        }
+        else if (response.status === "BAD_PARAMS") {
+          // handle bad parameters
+          console.log(response);
+        }
+      }
+
       function smsLogin(pc, pn) {
         var xhttp = new XMLHttpRequest();
         var formData = new FormData();
@@ -307,6 +322,15 @@
         xhttp.open("POST", "../register", true);
         xhttp.send(formData);
       }
+
+      function smsLogin1(pc, pn) {
+            AccountKit.login(
+            'PHONE',
+            {countryCode: pc, phoneNumber: pn},
+            loginCallback1
+          );
+      }
+
     </script>
 </body>
 </html>

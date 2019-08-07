@@ -15,6 +15,26 @@ def index(request):
     return render(request, 'index.html')
 
 def login(request):
+    if request.POST:
+        device=''
+        if request.user_agent.is_mobile:
+            device='mobile'
+
+        if request.user_agent.is_tablet :
+            device='tablet'
+        
+        if request.user_agent.is_pc:
+            device='pc'
+
+        myResponse = render(request,'home.html',{})
+        # phone number,device Info
+        phoneNumber=request.POST['login-code']+request.POST['login-phone']
+        myResponse.set_cookie('key','goalstar')
+        myResponse.set_cookie('max_age',31536000)
+        myResponse.set_cookie('phone',phoneNumber)
+        myResponse.set_cookie('device',device)
+        return myResponse
+
     dic = {
         'FACEBOOK_APP_ID': '374722036360552',
         'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
@@ -24,40 +44,58 @@ def login(request):
 
 
 
-
 def authCode(request):
     if request.method == "POST":
         accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['accountkit_data']))
-        # appAuthData = AppAuthData(
-        #         account_kit_id = accountkit_data[0],
-        #         phone_number = accountkit_data[1]
-        #     )
-        # appAuthData.save()
+        appAuthData = AppAuthData(
+                account_kit_id = accountkit_data[0],
+                phone_number = accountkit_data[1]
+            )
+        appAuthData.save()
 
-        # # create profile for the same
-        # userInfo=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
-        #     last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
-        #     subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
-        # userInfo.save()
-
-        userInfoModel=UserInfoModel()
-        userInfoModel.account_kit_id=accountkit_data[0]
-        userInfoModel.phone_number=accountkit_data[1]
-        userInfoModel.first_name=request.POST['first_name']
-        userInfoModel.last_name=request.POST['last_name']
-        userInfoModel.email=request.POST['email']
-        userInfoModel.date_of_birth=request.POST['dob']
-        userInfoModel.subscription_type_id=SubscriptionType.objects.get(subscription="free")
-        userInfoModel.expiry_date=datetime.date.today()+datetime.timedelta(days=90)
+        # create profile for the same
+        userInfoModel=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
+            last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
+            subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
         userInfoModel.save()
+
+        # userInfoModel=UserInfoModel()
+        # userInfoModel.account_kit_id=accountkit_data[0]
+        # userInfoModel.phone_number=accountkit_data[1]
+        # userInfoModel.first_name=request.POST['first_name']
+        # userInfoModel.last_name=request.POST['last_name']
+        # userInfoModel.email=request.POST['email']
+        # userInfoModel.date_of_birth=request.POST['dob']
+        # userInfoModel.subscription_type_id=SubscriptionType.objects.get(subscription="free")
+        # userInfoModel.expiry_date=datetime.date.today()+datetime.timedelta(days=90)
+        # userInfoModel.save()
         # add notification to the same
         for obj in NotificationType.objects.all():
             userNotificationType=UserNotificationType(app_auth_data=appAuthData,notification_type_id=obj)
             userNotificationType.save()
 
+        userLog=UserLog()
+        userLog.user_id=userInfoModel
+        userLog.action='Registration done'
+        if request.user_agent.is_mobile:
+            userLog.device_name='mobile'
+
+        if request.user_agent.is_tablet :
+            userLog.device_name='tablet'
+        
+        if request.user_agent.is_pc:
+            userLog.device_name='pc'
+        userLog.save()
+
         myResponse = render(request,'home.html',{})
-        myResponse.set_cookie(key='goalstar', value=accountkit_data, max_age=31536000, httponly=True)
+        # phone number,device Info
+        myResponse.set_cookie('key','goalstar')
+        myResponse.set_cookie('value',accountkit_data)
+        myResponse.set_cookie('max_age',31536000, 'httponly',True)
+        myResponse.set_cookie('phone',accountkit_data[1])
+        myResponse.set_cookie('device',userLog.device_name)
         return myResponse
+
 
 def notify(request):
     if request.method == "POST":
@@ -83,4 +121,4 @@ def registerUser(request):
         return JsonResponse(data)
 
 def home(request):
-    return render(request,'home.html',{})        
+    return render(request,'home.html',{})
