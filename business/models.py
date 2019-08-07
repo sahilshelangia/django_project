@@ -4,68 +4,47 @@ from models.models import *
 
 class AppAuthDataModel:
 
-    def __init__(self):
-        self.id = 0
-        self.account_kit_id = ''
-        self.phone_number = ''
-
-    def __init__(self, account_kit_id, phone_number):
-        self.account_kit_id = account_kit_id
-        self.phone_number = phone_number
-
-    def save(self):
+    def save(self, appAuthDataEntity):
         appAuthData = AppAuthData(
-            account_kit_id = self.account_kit_id,
-            phone_number = self.phone_number
+            account_kit_id = appAuthDataEntity.account_kit_id,
+            phone_number = appAuthDataEntity.phone_number
         )
         appAuthData.save()
+        return appAuthData.id
 
-    def delete(self,request):
-        appAuthData = AppAuthData(
-            account_kit_id = self.account_kit_id,
-            phone_number = self.phone_number
-        )  
-        appAuthData.delete() 
-
+    # def delete(self,request):
+    #     appAuthData = AppAuthData(
+    #         account_kit_id = self.account_kit_id,
+    #         phone_number = self.phone_number
+    #     )  
+    #     appAuthData.delete() 
          
 
-class UserInfoModel(AppAuthDataModel):
+class UserInfoModel:
 
-    def __init__(self):
-        self.id = 0
-        self.first_name = ''
-        self.last_name = ''
-        self.email = ''
-        self.date_of_birth = ''
-        self.expiry_date = None
-        self.is_active = True
-        # super(AppAuthDataModel).__init__()
-        self.account_kit_id=''
-        self.phone_number=''
-
-    def save(self):
-        appAuth = super(AppAuthDataModel).save(account_kit_id,phone_number)
+    def save(self, userInfoEntity):
         userInfo = UserInfo(
-            app_auth_data_id = appAuth.id,
-            first_name = self.first_name,
-            last_name = self.last_name,
-            email = self.email,
-            date_of_birth = self.date_of_birth,
-            expiry_date = self.expiry_date,
-            is_active = self.is_active
+            app_auth_data_id = userInfoEntity.id,
+            first_name = userInfoEntity.first_name,
+            last_name = userInfoEntity.last_name,
+            email = userInfoEntity.email,
+            date_of_birth = userInfoEntity.date_of_birth,
+            subscription_type_id = userInfoEntity.subscription_type_id,
+            expiry_date = userInfoEntity.expiry_date,
+            is_active = userInfoEntity.is_active
         )
         userInfo.save()
 
-    def delete(self):
-        userInfo = UserInfo(
-            first_name = self.first_name,
-            last_name = self.last_name,
-            email = self.email,
-            date_of_birth = self.date_of_birth,
-            expiry_date = self.expiry_date,
-            is_active = self.is_active
-        )
-        userInfo.delete()
+    # def delete(self):
+    #     userInfo = UserInfo(
+    #         first_name = self.first_name,
+    #         last_name = self.last_name,
+    #         email = self.email,
+    #         date_of_birth = self.date_of_birth,
+    #         expiry_date = self.expiry_date,
+    #         is_active = self.is_active
+    #     )
+    #     userInfo.delete()
 
 class NotificationTypeModel:
     
