@@ -4,6 +4,7 @@ from django.http import JsonResponse
 import json
 from business import accountkit
 from business.models import *
+from business.entities import *
 import random
 import string
 import requests
@@ -47,31 +48,38 @@ def login(request):
 def authCode(request):
     if request.method == "POST":
         accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['accountkit_data']))
-        appAuthData = AppAuthData(
-                account_kit_id = accountkit_data[0],
-                phone_number = accountkit_data[1]
-            )
-        appAuthData.save()
+        # appAuthData = AppAuthData(
+        #         account_kit_id = accountkit_data[0],
+        #         phone_number = accountkit_data[1]
+        #     )
+        # appAuthData.save()
+        appAuthDataEntity=AppAuthDataEntity()
+        appAuthDataEntity.account_kit_id=accountkit_data[0]
+        appAuthDataEntity.phone_number=accountkit_data[1]
 
+        appAuthDataModel=AppAuthDataModel()
+        idd=appAuthDataModel.save(appAuthDataEntity)
         # create profile for the same
-        userInfoModel=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
-            last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
-            subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
-        userInfoModel.save()
-
-        # userInfoModel=UserInfoModel()
-        # userInfoModel.account_kit_id=accountkit_data[0]
-        # userInfoModel.phone_number=accountkit_data[1]
-        # userInfoModel.first_name=request.POST['first_name']
-        # userInfoModel.last_name=request.POST['last_name']
-        # userInfoModel.email=request.POST['email']
-        # userInfoModel.date_of_birth=request.POST['dob']
-        # userInfoModel.subscription_type_id=SubscriptionType.objects.get(subscription="free")
-        # userInfoModel.expiry_date=datetime.date.today()+datetime.timedelta(days=90)
+        
+        # userInfoModel=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
+        #     last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
+        #     subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
         # userInfoModel.save()
+
+        userInfoEntity=UserInfoEntity()
+        userInfoEntity.app_auth_data_id=appAuthDataModel
+        userInfoEntity.first_name=request.POST['first_name']
+        userInfoEntity.last_name=request.POST['last_name']
+        userInfoEntity.email=request.POST['email']
+        userInfoEntity.date_of_birth=request.POST['dob']
+        userInfoEntity.subscription_type_id=SubscriptionType.objects.get(subscription="free")
+        userInfoEntity.expiry_date=datetime.date.today()+datetime.timedelta(days=90)
+        userInfoModel=UserInfoModel()
+        userInfoModel.save(userInfoEntity)
+
         # add notification to the same
         for obj in NotificationType.objects.all():
-            userNotificationType=UserNotificationType(app_auth_data=appAuthData,notification_type_id=obj)
+            userNotificationType=UserNotificationType(app_auth_data=idd,notification_type_id=obj)
             userNotificationType.save()
 
         userLog=UserLog()
@@ -94,6 +102,7 @@ def authCode(request):
         myResponse.set_cookie('max_age',31536000, 'httponly',True)
         myResponse.set_cookie('phone',accountkit_data[1])
         myResponse.set_cookie('device',userLog.device_name)
+        
         return myResponse
 
 
