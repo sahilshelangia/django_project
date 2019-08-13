@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'django_user_agents',
     'views',
     'models',
     'business',
-    'colorfield',
-    'django_user_agents',
+    'colorfield'
 ]
 
 MIDDLEWARE = [

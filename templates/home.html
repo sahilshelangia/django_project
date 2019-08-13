@@ -7,121 +7,410 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-	
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet"> 
 	<!-- Custom styles for this template -->
-	
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
 	<link href="{% static 'css/all.css' %}" rel="stylesheet">
 </head>
 
 <body class="home">
-		<style>
- .dropbtn {
-  background-color: black;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
- display:none;
-  position: absolute;
-  size: 1000px;
-  right: 0;
-  background-color: black;
-  color: white;
-  width: 260px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.show{display:block;}
-			  </style>
+	<style>
 			
+  
+  
+			.plan{
+	  display:flex;
+	  flex-direction: row;
+	  justify-content: space-between; 
+
+	  }
+  
+  .show{
+	display:block;
+	}
+
+ .box{
+	 padding-top: 20px;
+	 padding-left:15px;
+	 margin:10px;
+	 background-color:rgb( 33, 32, 32);
+ }
+ .modal{
+	 font-family: Montserrat-Medium;
+ }
+ .modal-lg{
+	 width:90%;
+ }
+ .mode.a{
+	 padding: 20px;
+ }
+ .weight{
+	 font-weight: bold;
+ }
+ label{
+	 font-size: 15px;
+	 font-family: Montserrat-Regular;
+	 color:rgb(245,245,245);
+	 
+ }
+ p{
+	 font-size:18px;
+	 font-family: Montserrat-Medium;
+	 color:rgb(245,245,245);
+ }
+ .line{
+	display:flex;
+	 flex-direction: row;
+	 justify-content: space-between; 
+
+ }
+ button{
+	 background-color:inherit;
+	 height: 20px;
+	 color:rgb(245,245,245);
+	 width: 80px;
+	 font-size: 10px;
+	 font-family: Montserrat-Light;
+	 border:0.1px solid white;
+	 margin-right: 53px;
+ }
+ #Cancel{
+	 margin-right: 17px;
+ }
+ #account{
+	 font-family: Montserrat-SemiBold;
+	 font-size: 19px;
+	 color:rgb(203,203,203);
+	 margin-bottom: 5px;
+	padding-bottom: 0px;
+	 
+ }
+ 
+
+#plans{
+	font-family: Montserrat-Light;
+	font-size: 14px;
+	color:rgb(213,213,213);
+}
+.fa-cog{
+	padding: 10px;
+	color: rgb(93,93,93);
+}
+#myaccount,#sub,#help,#sign{
+	font-family: Montserrat-Light;
+	color: rgb(213,213,213,213);
+	font-size: 19px;
+}
+.modal-open .container-fluid, .modal-open  .container {
+    -webkit-filter: blur(5px) grayscale(90%);
+}
+.modal-dialog {
+
+	max-width: 90% ;
+	max-height: 80% !important;
+
+}
+
+.modal-title{
+	font-family: Montserrat-Medium;
+	font-size:15px;
+	padding-left:10px;
+	color: rgb(227,227,227);
+}
+#editChange{
+	font-family: Montserrat-Medium;
+	background-color: rgb(255,255,255);
+	color:rgb(51,51,51);
+}
+.link_active{
+	font-family: Montserrat-Medium;
+	color: rgb(217,217,217);
+	font-size:18px;
+}
+.link_back{
+	font-family: Montserrat-Regular;
+	color: rgb(116,116,116);
+	font-size:18px;
+}
+.dropdown {
+	position: relative;
+	display: inline-block;
+  }
+  .dropdown-content {
+	display:none;
+	position: absolute;
+	 size: 15%;
+	 right: 0;
+	 background-color:rgb(26,26,26);
+	 color: rgb(203,203,203);
+	 width: 260px;
+	 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	 z-index: 1;
+	 }
+	 .dropdown-content a,.dropdown-content p {
+	display: block;
+  padding: 5px 0px 18.6px 10px;
+  text-decoration: none;
+  } 
+  .account:hover{
+	  color:#BAB7B7;
+	  text-decoration: none;
+  }
+  .sub:hover{
+	  color:#BAB7B7;
+	  text-decoration: none;
+  }
+  .help:hover{
+	  color:#BAB7B7;
+	  text-decoration: none;
+  }
+  
+
+.line input{
+	background-color: rgb(33,32,32);
+	border:rgb(33,32,32);
+	font-size:18px;
+	color:rgb(245,245,245);
+	text-decoration: underline;
+	-webkit-transition: 0.5s;
+	
+}
+.line input[type=text]:focus {
+	outline:none;
+}
+.navbar-nav{
+	display:flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+	</style>
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark1 fixed-top">
 			<div class="container">
 			  <a class="navbar-brand" href="index.html"><img src="{% static 'img/logo.png' %}"><br><span class="live">LIVE</span></a>
-			  <div id="navbarResponsive">
-								  <div style="float:right">
-					<a href="#" style="margin:70px;"><img src="{% static 'img/search-iocn.png' %}"></a>
-				  
+			  <form class="form-inline my-2 my-lg-0" style="display:none;">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+					<a class="nav-link search1" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;display:block;"></a>
+				</form>
+			  	
+            <ul class="navbar-nav">
+				<li class="nav-item">
+							<a class="nav-link search" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;margin-right:23px;"></a>
+				</li>
+				<li class="nav-item">
 					<div class="dropdown">
-							
-							<a href="#" onclick="myFunction()"><img src="{% static 'img/user-icon.png' %}"></a>
+					<a class="nav-link click" href="#"><img src="{% static 'img/user-icon.png' %}"style="height: 23.2px;width:24.3px;"></a>
 					</div>
 					<div class="dropdown">
-					<div class="dropdown-content" style="top:20px;">
-						<div style="background-color:rgb(19, 23, 24);">
-							<b><a href="#" data-toggle="modal" data-target="#myModal">First Name</a></b>
-							<b><a href="#">Last Name</a></b>
-							<a href="#" style="font-size:10px;">Standard Plan</a>
-						</div>
-							<br>
-							<a href="#">Profile</a>
-							<a href="#">Account</a>
-							<a href="#">Help</a>
-							<a href="#">Downloads</a>
-							<a href="#">Sign Out</a>
-						  </div>
-				  </div>
-				
-			  </div>
-			</div>
-	<script>
+							<div  id="drop" class="dropdown-content" style="top:20px;">
+							<div class="links">
+								<div style="background-color:rgb(34,34,34);">
+									<b><p href="#" id="account">Abhirup</p></b>
+								<div class="plan">
+									<p href="#" id="plans" style="font-size:14px; margin-right:100px;">Standard Plan</p>
+									<a href="#" style="font-size:14px;" data-toggle="modal" data-target="#myModal"  id="sub"><i class="fas fa-cog"></i></a>
+								</div>
+								</div>
+									
+									<a href="#" data-toggle="modal" data-target="#myModal"  id="myaccount">Account</a>
+									<a href="#" data-toggle="modal" data-target="#myModal"  id="sub">Manage Subscriptions</a>
+									<a href="#" data-toggle="modal" data-target="#myModal"  id="help">Help</a>
+									<a href="#" id="sign">Sign Out</a>
+					        </div>
+							</div>
+					</div>
+				</li>
+				</ul>
 			  
-				/* When the user clicks on the button, 
-				toggle between hiding and showing the dropdown content */
-				function myFunction() {
-					document.querySelector('.dropdown-content').classList.toggle('show');
-				}
-				document.querySelector(DOM.check1).addEventListener('click',myFunction);
-				
-				
-				
-	</script>
-	</nav>
-	<div id="myModal" class="modal fade" role="dialog">
-		<div class="modal-dialog modal-lg">
-	  
-		  <!-- Modal content-->
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <a class="modal-title" style="color:black; margin-left:50px;">Profile</a>
-			  <a class="modal-title" style="color:black; margin-left:50px;">Account</a>
-			  <a class="modal-title" style="color:black; margin-left:50px;">App Settings</a>
-			  <a class="modal-title" style="color:black; margin-left:50px;">Help</a>
-			  <a class="modal-title" style="color:black; margin-left:50px;">Downloads</a>
-			  <button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
-			<div class="modal-body">
-			  <p style="color:black;">Some text in the modal.</p>
-			</div>
-			<div class="modal-footer">
-			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
-		  </div>
-	  
-		</div>
-	  </div>
-	<header>
+		</nav>
+		<div id="myModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+			  
+				  <!-- Modal content-->
+				  <div class="modal-content" style="background-color:rgb( 28, 28, 28);">
+					
+					<div class="modal-body">
+						<div style="border-width: 0px 0px 1px 0px; border-color: white; border-style: solid;">
+							<h4 class="modal-title" style="float:left;">First Name</h4>
+							<h4 class="modal-title" style="float:left; padding-left:5px;">Last Name</h4>
+							  <button class="close"type="button" class="close" data-dismiss="modal" style="margin: 10px 0px 0px 10px;color:white;float:right;">&times;</button>  
+							<br>
+							<br>
+							<a href="#" style="margin-left:15px;" class="account col-xs-4">Account</a>
+							<a href="#" style="margin-left:15px;" class="sub col-xs-4">Manage Subscriptions</a>
+							<a href="#" style="margin-left:10px;" class="help col-xs-4">Help</a>
+						</div>
+						<br>
+						<div class="Changes_Plan" style="display:none;">
+							<div class="box">
+								<label>Your Subscriptions</label>
+							<div class="line">
+								<p>Monthly Pro</p>
+							<div class="bio">	
+								<button id="Cancel">Cancel</button>
+								<button  id="editChange">Save</button>
+							</div>
+							</div>
+							</div>
+						</div>
+						<div class="Changes_Method" style="display:none;">
+							<div class="box">
+								<label>Payment Method</label>
+							<div class="line">
+								<p>Paytm</p>
+							<div class="bio">	
+								<button id="Cancel">Cancel</button>
+								<button  id="editChange">Save</button>
+							</div>
+							</div>
+							</div>
+						</div>
+						<div class="Account">
+							<div class="box Name">
+								<label>Name</label>
+							<div class="line">
+								<p>Abhirup Pal</p>
+								<button id="edit" class="editName">Edit Now</button>
+							</div>
+							</div>
+							<div class="ChangesName" style="display: none;">
+							<div class="box">
+								<label>Name</label>
+							<div class="line">
+								<p><input type="text" value="Abhirup Pal" autofocus></p>
+							<div class="bio">	
+								<button id="Cancel">Cancel</button>
+								<button  id="editChange">Save</button>
+							</div>
+							</div>
+							</div>
+							</div>
+		
+							<div class="box Language">
+								<label>Language</label>
+							<div class="line">
+								<p>English</p>
+								<button id="edit" class="editLanguage">Edit Now</button>
+							</div>	
+							</div>
+							<div class="ChangesLanguage" style="display:none;">
+								<div class="box">
+									<label>Language(Check to add and uncheck to remove languages)</label>
+								<div class="line">	
+									<p><input type="radio" checked>English</p>
+									<p><input type="radio">മലയാളം</p>
+								<div class="bio">
+									<button id="Cancel">Cancel</button>
+									<button id="editChange">Save</button>
+								</div>
+								</div>
+								</div>
+								
+							</div>
+			
+		
+							<div class="box Phone">
+								<label>Phone Number</label>
+							<div class="line">	
+								<p>9051323282</p>
+								<button class="editPhone">Edit Now</button>
+							</div>
+							</div>
+							<div class="ChangesPhone" style="display:none;">
+								<div class="box">
+									<label>Phone Number</label>
+								<div class="line">
+									<p>+91-9051323282</p>
+								<div class="bio">	
+									<button id="Cancel">Cancel</button>
+									<button  id="editChange">Save</button>
+								</div>
+								</div>
+								</div>
+							</div>
+			
+		
+							<div class="box Email">	
+								<label>Email Address</label>
+							
+							<div class="line">
+								<p>abhiruppalmethodist@gmail.com</p>
+								<button class="editEmail">Edit Now</button>
+							</div>
+							</div>
+							<div class="ChangesEmail" style="display:none;">
+								<div class="box">
+									<label>Email</label>
+								<div class="line">
+									<p>abhiruppalmethodist@gmail.com</p>
+								<div class="bio">	
+									<button id="Cancel">Cancel</button>
+									<button  id="editChange">Save</button>
+								</div>
+								</div>
+								</div>
+							</div>
+			
+		
+						</div>
+						<div class="Subscriptions">
+							<div class="box">
+								<label>Your Subscriptions</label>
+							<div class="line">
+								<p>Monthly Pro</p>
+								<button>Upgrade</button>
+							</div>
+							</div>
+							<div class="box">
+								<label>Payment Method</label>
+							<div class="line">
+								<p>Paytm</p>
+								<button>Change</button>
+							</div>
+							</div>
+							<div class="box">
+								<label>New Payment Date</label>
+								<p>25th December 2019</p>
+							</div>
+							<div class="box">
+								<label>Cancel Subscriptions</label>
+							<div class="line">
+								<p>If you wish to cancel click cancel</p>
+								<button>Cancel</button>
+							</div>
+							</div>
+						</div>
+						<div class="Help">
+							<div class="box">
+								<label>Drop Us a mail At</label>
+							<div class="line">
+								<p>support@goalstar.com</p>
+								<button>Email Now</button>
+							</div>
+							</div>
+							<div class="box">
+								<label>Chat with us</label>
+							<div class="line">
+								<p>Click on 'Chat Now' to enable chat</p>
+								<button>Chat Now</button>
+							</div>
+							</div>
+						</div>
+						
+						</div>
+						</div>
+					
+				  </div>
+			  
+				</div>
+		
+		
+		<header>
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		  <ol class="carousel-indicators">
 		    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -212,7 +501,7 @@
 			<div class="slider">
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src='{% static "img/player1.png" %}'>
+			   		<img src="{% static 'img/player1.png' %}">
 	            	<div class="toum_del">
 	            		<div class="toum_info">
 	                		<h5>Koyapa Sevens</h5>
@@ -841,7 +1130,94 @@
 		  ]
 		};
 		$carousel.slick(settings);
+		$(".search").click(function(){
+			$(".search").hide();
+			$(".search1").show();
+			$(".form-inline").show();
+
+		})
+		$(".search1").click(function(){
+			$(".search1").hide();
+			
+			$(".search").show();
+			$(".form-inline").hide();
+
+		})
 		
+				//code to add or remove modal views
+				$(".editName").click(function(){
+				$(".Name,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
+				$(".ChangesName,.Language,.Phone,.Email,.Account").show();		
+				$(".sub,.help").addClass("link_back");
+				$(".sub,.help").removeClass("link_active");
+				$(".account").addClass("link_active");
+				$(".account").removeClass("link_back");	
+			})	
+			$(".editPhone").click(function(){
+				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.Phone,.ChangesEmail").hide();
+				$(".Name,.Language,.ChangesPhone,.Email,.Account").show();		
+				$(".sub,.help").addClass("link_back");
+				$(".sub,.help").removeClass("link_active");
+				$(".account").addClass("link_active");
+				$(".account").removeClass("link_back");		
+				
+			})
+			$(".editPhone").click(function(){
+				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.Phone,.ChangesEmail").hide();
+				$(".Name,.Language,.ChangesPhone,.Email,.Account").show();		
+				$(".sub,.help").addClass("link_back");
+				$(".sub,.help").removeClass("link_active");
+				$(".account").addClass("link_active");
+				$(".account").removeClass("link_back");		
+				
+			})
+			$(".editLanguage").click(function(){
+				$(".ChangesName,.Language,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
+				$(".Name,.ChangesLanguage,.Phone,.Email,.Account").show();		
+				$(".sub,.help").addClass("link_back");
+				$(".sub,.help").removeClass("link_active");
+				$(".account").addClass("link_active");
+				$(".account").removeClass("link_back");		
+				
+			})
+			$(".editEmail").click(function(){
+				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.Email").hide();
+				$(".Name,.Language,.Phone,.ChangesEmail,.Account").show();		
+				$(".sub,.help").addClass("link_back");
+				$(".sub,.help").removeClass("link_active");
+				$(".account").addClass("link_active");
+				$(".account").removeClass("link_back");		
+				
+			})
+			$("#myaccount,.account, #Cancel").click(function(){
+				$(".ChangesName,.ChangesLanguage,.ChangesPhone,.ChangesEmail,.Subscriptions,.Help,.dropdown-content").hide();
+				$(".Name,.Language,.Phone,.Email,.Account").show();
+				$(".sub,.help").addClass("link_back");
+				$(".sub,.help").removeClass("link_active");
+				$(".account").addClass("link_active");
+				$(".account").removeClass("link_back");		
+				
+			})
+			$("#sub,.sub").click(function(){
+				$(".Account,.Help,.dropdown-content").hide();
+				$(".Subscriptions").show();
+				$(".account,.help").addClass("link_back");
+				$(".account,.help").removeClass("link_active");
+				$(".sub").addClass("link_active");
+				$(".sub").removeClass("link_back");		
+				
+			})
+
+			$("#help,.help").click(function(){
+				$(".Account,.Subscriptions,.dropdown-content").hide();
+				$(".Help").show();
+				$(".sub,.account").addClass("link_back");
+				$(".sub,.account").removeClass("link_active");
+				$(".help").addClass("link_active");
+				$(".help").removeClass("link_back");		
+				
+			})
+
 		var $slider_2 = $('.slider_2');
 		var settings_slider_2 = {
 		  dots: false,
@@ -880,7 +1256,6 @@
 		};
 		$slider_2.slick(settings_slider_2);
 		
-
 		var $slider_3 = $('.slider_3');
 		var settings_slider_3 = {
 		  dots: false,
@@ -919,7 +1294,6 @@
 		};
 		$slider_3.slick(settings_slider_3);
 		
-
 		var $slider_4 = $('.slider_4');
 		var settings_slider_4 = {
 		  dots: false,
@@ -965,7 +1339,6 @@
 				$carousel.slick('slickGoTo', 1);
 				$slider_2.slick('slickGoTo', 1);
 				$slider_3.slick('slickGoTo', 1);
-
 				
 			}
 			else
@@ -989,23 +1362,22 @@
 				$slider_3.slick('slickGoTo', 2);
 			}
 		});
-
 		var chect=0;
     	$(document).ready(function () {
     		$(document).on("click", ".far.fa-bell", function () {
-    			$(this).addClass('fa').addClass('active').removeClass('fa');
+    			$(this).addClass('fa').addClass('active').removeClass('far');
     			setTimeout(function() {
     				$(".fa-bell").removeClass('active');
     			},5000)
     		});
     		$(document).on("click", ".fa.fa-bell", function () {
-    			$(this).addClass('fab').addClass('active').removeClass('fa');
+    			$(this).addClass('far').addClass('active').removeClass('fa');
     			setTimeout(function() {
     				$(".fa-bell").removeClass('active');
     			},5000)
     		});
     		$("#toun_dtl .more_btn").click(function () {
-    			/alert($(document).width()+' X '+$(document).height())/
+    			/*alert($(document).width()+' X '+$(document).height())*/
     			if($(document).width()<=600)
 				{
 	    			var bbc=$(this).parent().parent().css('border-top-color');
@@ -1047,7 +1419,6 @@
     				$("#toun_dtl .more_btn").find('i').removeClass('acv');
     				chect=0;
     			}
-
     			if(chect==0)
     			{
     				$(this).parent().parent().parent().addClass('at-iver');
@@ -1064,8 +1435,6 @@
     				$(this).removeClass('btnActive');
     				chect=0;	
     			}
-
-
     		})
     		if($(document).width()<=600)
 				{
@@ -1111,7 +1480,6 @@
 	    				$("#toun_dtl .more_btn").find('i').removeClass('acv');
 	    				chect=0;
 	    			}
-
 	    			if(chect==0)
 	    			{
 	    				$(this).parent().parent().addClass('at-iver');
@@ -1145,6 +1513,29 @@
     			$(".more_info_tab").removeClass('t_show');	
     		});
     	})
-  	</script>
+	  </script>
+	  			  <script>
+						/* When the user clicks on the button, 
+		   toggle between hiding and showing the dropdown content */
+		   document.querySelector('.dropdown-content').style.display="none";
+		   function myFunction() {
+			   var element=document.querySelector('.dropdown-content');
+			   if(element.style.display==='none')
+			   element.style.display='block';
+			   else
+			   element.style.display='none';
+			   
+			   
+		   }
+		   document.querySelector('.click').addEventListener('click',myFunction);
+		   
+		  
+		  
+		   
+		   
+		   
+		   // Close the dropdown menu if the user clicks outside of it
+			</script>
+	
 </body>
 </html>
