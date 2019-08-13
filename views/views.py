@@ -16,7 +16,9 @@ def index(request):
     return render(request, 'index.html')
 
 def login(request):
+    # use login in 
     if request.POST:
+        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['login_accountkit_data']))
         device=''
         if request.user_agent.is_mobile:
             device='mobile'
@@ -28,58 +30,62 @@ def login(request):
             device='pc'
 
         myResponse = render(request,'home.html',{})
+        
         # phone number,device Info
         phoneNumber=request.POST['login-code']+request.POST['login-phone']
-        myResponse.set_cookie('key','goalstar')
-        myResponse.set_cookie('max_age',31536000)
-        myResponse.set_cookie('phone',phoneNumber)
-        myResponse.set_cookie('device',device)
+        cookieInfo={'accountkit_data':accountkit_data,'device':device}
+        myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
         return myResponse
 
-    dic = {
-        'FACEBOOK_APP_ID': '374722036360552',
-        'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
-        'ACCOUNT_KIT_API_VERSION': 'v1.1'
-    }
-    return render(request, 'login.html', dic)
+    else:
+        if request.COOKIES['goalstar']:
+            import ast
+            cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
+            myResponse = render(request,'home.html',{})
+            return myResponse  
+        else:
+            return render(request, 'login.html', dic)
 
 
 
 def authCode(request):
     if request.method == "POST":
         accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['accountkit_data']))
-        # appAuthData = AppAuthData(
-        #         account_kit_id = accountkit_data[0],
-        #         phone_number = accountkit_data[1]
-        #     )
-        # appAuthData.save()
-        appAuthDataEntity=AppAuthDataEntity()
-        appAuthDataEntity.account_kit_id=accountkit_data[0]
-        appAuthDataEntity.phone_number=accountkit_data[1]
+        appAuthData = AppAuthData(
+                account_kit_id = accountkit_data[0],
+                phone_number = accountkit_data[1]
+            )
+        appAuthData.save()
 
-        appAuthDataModel=AppAuthDataModel()
-        idd=appAuthDataModel.save(appAuthDataEntity)
+
+        # appAuthDataEntity=AppAuthDataEntity()
+        # appAuthDataEntity.account_kit_id=accountkit_data[0]
+        # appAuthDataEntity.phone_number=accountkit_data[1]
+
+        # appAuthDataModel=AppAuthDataModel()
+        # idd=appAuthDataModel.save(appAuthDataEntity)
+
         # create profile for the same
         
-        # userInfoModel=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
-        #     last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
-        #     subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
-        # userInfoModel.save()
+        userInfoModel=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
+            last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
+            subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
+        userInfoModel.save()
 
-        userInfoEntity=UserInfoEntity()
-        userInfoEntity.app_auth_data_id=appAuthDataModel
-        userInfoEntity.first_name=request.POST['first_name']
-        userInfoEntity.last_name=request.POST['last_name']
-        userInfoEntity.email=request.POST['email']
-        userInfoEntity.date_of_birth=request.POST['dob']
-        userInfoEntity.subscription_type_id=SubscriptionType.objects.get(subscription="free")
-        userInfoEntity.expiry_date=datetime.date.today()+datetime.timedelta(days=90)
-        userInfoModel=UserInfoModel()
-        userInfoModel.save(userInfoEntity)
+        # userInfoEntity=UserInfoEntity()
+        # userInfoEntity.app_auth_data_id=appAuthDataModel
+        # userInfoEntity.first_name=request.POST['first_name']
+        # userInfoEntity.last_name=request.POST['last_name']
+        # userInfoEntity.email=request.POST['email']
+        # userInfoEntity.date_of_birth=request.POST['dob']
+        # userInfoEntity.subscription_type_id=SubscriptionType.objects.get(subscription="free")
+        # userInfoEntity.expiry_date=datetime.date.today()+datetime.timedelta(days=90)
+        # userInfoModel=UserInfoModel()
+        # userInfoModel.save(userInfoEntity)
 
         # add notification to the same
         for obj in NotificationType.objects.all():
-            userNotificationType=UserNotificationType(app_auth_data=idd,notification_type_id=obj)
+            userNotificationType=UserNotificationType(app_auth_data=appAuthData,notification_type_id=obj)
             userNotificationType.save()
 
         userLog=UserLog()
@@ -97,12 +103,8 @@ def authCode(request):
 
         myResponse = render(request,'home.html',{})
         # phone number,device Info
-        myResponse.set_cookie('key','goalstar')
-        myResponse.set_cookie('value',accountkit_data)
-        myResponse.set_cookie('max_age',31536000, 'httponly',True)
-        myResponse.set_cookie('phone',accountkit_data[1])
-        myResponse.set_cookie('device',userLog.device_name)
-        
+        cookieInfo={'accountkit_data':accountkit_data,'device':userLog.device_name}
+        myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
         return myResponse
 
 
@@ -130,4 +132,5 @@ def registerUser(request):
         return JsonResponse(data)
 
 def home(request):
-    return render(request,'home.html',{})
+    myResponse = render(request,'home.html',{})
+    return myResponse
