@@ -79,6 +79,7 @@ def login(request):
             return redirect('home')
 
         else:
+            # get_facebook_app_id i will change
             dic = {
                 'FACEBOOK_APP_ID': '374722036360552',
                 'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
@@ -141,6 +142,7 @@ def authCode(request):
         userLog.save()
 
         context={'userInfo':userInfoModel}
+        # ? change redirect to home rather then rendering hone.html================================
         myResponse = render(request,'home.html',context=context)
         # phone number,device Info
         cookieInfo={'accountkit_data':accountkit_data,'device':userLog.device_name}
