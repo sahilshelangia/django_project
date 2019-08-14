@@ -15,6 +15,17 @@ import datetime
 def index(request):
     return render(request, 'index.html')
 
+def logout(request):
+    dic = {
+        'FACEBOOK_APP_ID': '374722036360552',
+        'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
+        'ACCOUNT_KIT_API_VERSION': 'v1.1'
+    }
+    myResponse = render(request,'login.html',dic)
+    myResponse.delete_cookie('goalstar')
+    return myResponse
+    
+
 def login(request):
     # use login in 
     if request.POST:
@@ -38,14 +49,18 @@ def login(request):
         return myResponse
 
     else:
-        if request.COOKIES['goalstar']:
+        if request.COOKIES.get('goalstar'):
             import ast
             cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
             myResponse = render(request,'home.html',{})
             return myResponse  
         else:
+            dic = {
+                'FACEBOOK_APP_ID': '374722036360552',
+                'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
+                'ACCOUNT_KIT_API_VERSION': 'v1.1'
+            }
             return render(request, 'login.html', dic)
-
 
 
 def authCode(request):
