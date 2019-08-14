@@ -1,41 +1,18 @@
 from models.models import *
 from django.shortcuts import render, HttpResponse
-from django.http import JsonResponse
-import json
 from business import accountkit
-from business.models import *
-from business.entities import *
 import random
 import string
 import requests
-import datetime
 
 # Create your views here.
 
 def index(request):
     return render(request, 'index.html')
+def home(request):
+    return render(request, 'home.html')
 
 def login(request):
-    if request.POST:
-        device=''
-        if request.user_agent.is_mobile:
-            device='mobile'
-
-        if request.user_agent.is_tablet :
-            device='tablet'
-        
-        if request.user_agent.is_pc:
-            device='pc'
-
-        myResponse = render(request,'home.html',{})
-        # phone number,device Info
-        phoneNumber=request.POST['login-code']+request.POST['login-phone']
-        myResponse.set_cookie('key','goalstar')
-        myResponse.set_cookie('max_age',31536000)
-        myResponse.set_cookie('phone',phoneNumber)
-        myResponse.set_cookie('device',device)
-        return myResponse
-
     dic = {
         'FACEBOOK_APP_ID': '374722036360552',
         'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
@@ -43,28 +20,19 @@ def login(request):
     }
     return render(request, 'login.html', dic)
 
-
-
 def authCode(request):
     if request.method == "POST":
-        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['accountkit_data']))
-        # appAuthData = AppAuthData(
-        #         account_kit_id = accountkit_data[0],
-        #         phone_number = accountkit_data[1]
-        #     )
-        # appAuthData.save()
-        appAuthDataEntity=AppAuthDataEntity()
-        appAuthDataEntity.account_kit_id=accountkit_data[0]
-        appAuthDataEntity.phone_number=accountkit_data[1]
+        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.body))
 
-        appAuthDataModel=AppAuthDataModel()
-        idd=appAuthDataModel.save(appAuthDataEntity)
-        # create profile for the same
-        
-        # userInfoModel=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
-        #     last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
-        #     subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
-        # userInfoModel.save()
+        exists = AppAuthData.objects.filter(account_kit_id = accountkit_data[0]).exists() 
+        if exists:
+            print('exists')
+        else:
+            appAuthData = AppAuthData(
+                account_kit_id = accountkit_data[0],
+                phone_number = accountkit_data[1]
+            )
+            appAuthData.save()
 
         userInfoEntity=UserInfoEntity()
         userInfoEntity.app_auth_data_id=idd
@@ -106,7 +74,6 @@ def authCode(request):
         
         return myResponse
 
-
 def notify(request):
     if request.method == "POST":
         print(request.body)
@@ -115,20 +82,6 @@ def notify(request):
             email=str(request.body)
         )
         notify_me.save()
+
+
         return HttpResponse('')
-
-
-# check user is already registered or not
-def registerUser(request):
-    if request.method=="POST":
-        phone_number=request.POST['phone_number']
-        country_code=request.POST['country_code']
-        data={}
-        if AppAuthData.objects.all().filter(phone_number=country_code+phone_number):
-            data={'output':"yes"}
-        else:            
-           data={'output':"no"}
-        return JsonResponse(data)
-
-def home(request):
-    return render(request,'home.html',{})
