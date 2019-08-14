@@ -181,6 +181,10 @@
 .line input[type=text]:focus {
 	outline:none;
 }
+.close:focus{
+	color:#BAB7B7;
+	outline: none;
+}
 .navbar-nav{
 	display:flex;
 	flex-direction: row;
@@ -236,8 +240,8 @@
 					
 					<div class="modal-body">
 						<div style="border-width: 0px 0px 1px 0px; border-color: white; border-style: solid;">
-							<h4 class="modal-title" style="float:left;">First Name</h4>
-							<h4 class="modal-title" style="float:left; padding-left:5px;">Last Name</h4>
+							<h4 class="modal-title" style="float:left;">{{userInfo.first_name}}</h4>
+							<h4 class="modal-title" style="float:left; padding-left:5px;"> {{userInfo.last_name}}</h4>
 							  <button class="close"type="button" class="close" data-dismiss="modal" style="margin: 10px 0px 0px 10px;color:white;float:right;">&times;</button>  
 							<br>
 							<br>
@@ -281,13 +285,15 @@
 							<div class="ChangesName" style="display: none;">
 							<div class="box">
 								<label>Name</label>
+							<form>
 							<div class="line">
-								<p><input type="text" value="{{userInfo.first_name}} {{userInfo.last_name}}" autofocus></p>
+								<p><input  id="eName" type="text" value="{{userInfo.first_name}} {{userInfo.last_name}}" autofocus></p>
 							<div class="bio">	
 								<button id="Cancel">Cancel</button>
 								<button  id="editChange">Save</button>
 							</div>
 							</div>
+							</form>
 							</div>
 							</div>
 		
@@ -301,14 +307,16 @@
 							<div class="ChangesLanguage" style="display:none;">
 								<div class="box">
 									<label>Language(Check to add and uncheck to remove languages)</label>
+								<form>
 								<div class="line">	
-									<p><input type="radio" checked>English</p>
-									<p><input type="radio">മലയാളം</p>
+									<p><input type="radio" type="radio" name="language" value="english"  checked>English</p>
+									<p><input type="radio" name="language" value="malayalam" >മലയാളം</p>
 								<div class="bio">
 									<button id="Cancel">Cancel</button>
 									<button id="editChange">Save</button>
 								</div>
 								</div>
+								</form>
 								</div>
 								
 							</div>
@@ -324,20 +332,21 @@
 							<div class="ChangesPhone" style="display:none;">
 								<div class="box">
 									<label>Phone Number</label>
+								<form>
 								<div class="line">
-									<p>{{userInfo.app_auth_data_id.phone_number}}</p>
+									<p><input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
 								<div class="bio">	
 									<button id="Cancel">Cancel</button>
 									<button  id="editChange">Save</button>
 								</div>
 								</div>
+								</form>
 								</div>
 							</div>
 			
 		
 							<div class="box Email">	
 								<label>Email Address</label>
-							
 							<div class="line">
 								<p>{{userInfo.email}}</p>
 								<button class="editEmail">Edit Now</button>
@@ -346,13 +355,15 @@
 							<div class="ChangesEmail" style="display:none;">
 								<div class="box">
 									<label>Email</label>
+								<form>
 								<div class="line">
-									<p>{{userInfo.email}}</p>
+									<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus></p>
 								<div class="bio">	
 									<button id="Cancel">Cancel</button>
 									<button  id="editChange">Save</button>
 								</div>
 								</div>
+								</form>
 								</div>
 							</div>
 			
@@ -390,7 +401,7 @@
 								<label>Drop Us a mail At</label>
 							<div class="line">
 								<p>support@goalstar.com</p>
-								<button>Email Now</button>
+								<button><a href="mailto:goalstar%40support%2ecom?subject=Help&body=Type your query" style="text-decoration: none;color:rgb(203,203,203);">Email Now</a></button>
 							</div>
 							</div>
 							<div class="box">
@@ -1147,7 +1158,8 @@
 				//code to add or remove modal views
 				$(".editName").click(function(){
 				$(".Name,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
-				$(".ChangesName,.Language,.Phone,.Email,.Account").show();		
+				$(".ChangesName,.Language,.Phone,.Email,.Account").show();
+				$("#eName").focus();		
 				$(".sub,.help").addClass("link_back");
 				$(".sub,.help").removeClass("link_active");
 				$(".account").addClass("link_active");
@@ -1155,16 +1167,8 @@
 			})	
 			$(".editPhone").click(function(){
 				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.Phone,.ChangesEmail").hide();
-				$(".Name,.Language,.ChangesPhone,.Email,.Account").show();		
-				$(".sub,.help").addClass("link_back");
-				$(".sub,.help").removeClass("link_active");
-				$(".account").addClass("link_active");
-				$(".account").removeClass("link_back");		
-				
-			})
-			$(".editPhone").click(function(){
-				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.Phone,.ChangesEmail").hide();
-				$(".Name,.Language,.ChangesPhone,.Email,.Account").show();		
+				$(".Name,.Language,.ChangesPhone,.Email,.Account").show();
+				$("#eNumber").focus();		
 				$(".sub,.help").addClass("link_back");
 				$(".sub,.help").removeClass("link_active");
 				$(".account").addClass("link_active");
@@ -1173,7 +1177,7 @@
 			})
 			$(".editLanguage").click(function(){
 				$(".ChangesName,.Language,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
-				$(".Name,.ChangesLanguage,.Phone,.Email,.Account").show();		
+				$(".Name,.ChangesLanguage,.Phone,.Email,.Account").show();
 				$(".sub,.help").addClass("link_back");
 				$(".sub,.help").removeClass("link_active");
 				$(".account").addClass("link_active");
@@ -1182,7 +1186,8 @@
 			})
 			$(".editEmail").click(function(){
 				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.Email").hide();
-				$(".Name,.Language,.Phone,.ChangesEmail,.Account").show();		
+				$(".Name,.Language,.Phone,.ChangesEmail,.Account").show();
+				$("#eEmail").focus();	
 				$(".sub,.help").addClass("link_back");
 				$(".sub,.help").removeClass("link_active");
 				$(".account").addClass("link_active");
