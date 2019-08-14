@@ -21,6 +21,7 @@ class AppAuthData(models.Model):
 # sms,whatsapp,email
 # many to many relationship with user Info
 class NotificationType(models.Model):
+    
     notify_on = models.CharField(max_length = 25)
 
     class Meta:

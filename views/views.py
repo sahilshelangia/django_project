@@ -67,7 +67,7 @@ def authCode(request):
         # userInfoModel.save()
 
         userInfoEntity=UserInfoEntity()
-        userInfoEntity.app_auth_data_id=appAuthDataModel
+        userInfoEntity.app_auth_data_id=idd
         userInfoEntity.first_name=request.POST['first_name']
         userInfoEntity.last_name=request.POST['last_name']
         userInfoEntity.email=request.POST['email']
@@ -75,15 +75,16 @@ def authCode(request):
         userInfoEntity.subscription_type_id=SubscriptionType.objects.get(subscription="free")
         userInfoEntity.expiry_date=datetime.date.today()+datetime.timedelta(days=90)
         userInfoModel=UserInfoModel()
-        userInfoModel.save(userInfoEntity)
+        ins = userInfoModel.save(userInfoEntity)
 
         # add notification to the same
-        for obj in NotificationType.objects.all():
+        notificationTypeModel = NotificationTypeModel()
+        for obj in notificationTypeModel.get_all():
             userNotificationType=UserNotificationType(app_auth_data=idd,notification_type_id=obj)
             userNotificationType.save()
 
         userLog=UserLog()
-        userLog.user_id=userInfoModel
+        userLog.user_id = ins
         userLog.action='Registration done'
         if request.user_agent.is_mobile:
             userLog.device_name='mobile'

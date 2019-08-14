@@ -10,7 +10,7 @@ class AppAuthDataModel:
             phone_number = appAuthDataEntity.phone_number
         )
         appAuthData.save()
-        return appAuthData.id
+        return appAuthData
 
     # def delete(self,request):
     #     appAuthData = AppAuthData(
@@ -24,7 +24,7 @@ class UserInfoModel:
 
     def save(self, userInfoEntity):
         userInfo = UserInfo(
-            app_auth_data_id = userInfoEntity.id,
+            app_auth_data_id = userInfoEntity.app_auth_data_id,
             first_name = userInfoEntity.first_name,
             last_name = userInfoEntity.last_name,
             email = userInfoEntity.email,
@@ -34,6 +34,7 @@ class UserInfoModel:
             is_active = userInfoEntity.is_active
         )
         userInfo.save()
+        return userInfo
 
     # def delete(self):
     #     userInfo = UserInfo(
@@ -48,45 +49,24 @@ class UserInfoModel:
 
 class NotificationTypeModel:
     
-    def __init__(self):
-        self.id = 0
-        self.notify_on = ''
-
-    def __init__(self,notify_on):
-        self.notify_on = notify_on
-
-    def save(self):
+    def save(self, notificationTypeEntity):
         notificationType = NotificationType(
-            notify_on = self.notify_on
+            notify_on = notificationTypeEntity.notify_on
         )
         notificationType.save()
+        return notificationType
 
-    def delete(self,request):
-        notificationType = NotificationType(
-            notify_on = self.notify_on
-        )
-        notificationType.delete()
+    def get_all(self):
+        return NotificationType.objects.all()    
 
 class SubscriptionTypeModel:
 
-    def __init__(self):
-        self.id = 0
-        self.subscription = ''
-
-    def __init__(self,subscription):
-        self.subscription = subscription
-
-    def save(self):
+    def save(self, subscriptionTypeEntity):
         subscriptionType = SubscriptionType(
-            subscription = self.subscription
+            subscription = subscriptionTypeEntity.subscription
         )    
         subscriptionType.save()
-
-    def delete(self,request):
-        subscriptionType = SubscriptionType(
-            subscription = self.subscription
-        )    
-        subscriptionType.delete()
+        return subscriptionType
 
 class CatchEmailTempModel:
 
