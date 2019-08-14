@@ -78,22 +78,26 @@ class CatchEmailTempModel:
         self.email = email
 
     def save(self):
-        catchEmailTemp = CatchEmailTemp(
+        catchEmailTemp = catch_email_temp(
             email = self.email
         )
         catchEmailTemp.save()
 
     def delete(self):
-        catchEmailTemp = CatchEmailTemp(
+        catchEmailTemp = catch_email_temp(
             email = self.email
         )
         catchEmailTemp.delete()            
 
 class UserNotificationTypeModel:
 
-    def __init__(self):
-        self.id = 0
-        super(UserInfoModel,NotificationTypeModel).__init__(self)  
+    def save(self, userNotificationTypeEntitiy):
+        userNotificationType = UserNotificationType(
+            app_auth_data = userNotificationTypeEntitiy.app_auth_data,
+            notification_type_id = userNotificationTypeEntitiy.notification_type_id
+        )
+        userNotificationType.save()
+        return userNotificationType
 
 class UserLogModel:
 

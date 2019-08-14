@@ -55,6 +55,7 @@
   									<input name="login-phone" id="login-phone" type="text" class="form-control" placeholder="Enter your mobile number">
   								</div>
   								<small id="passwordHelpBlock" class="form-text text-muted mt-4">Your subscription for the first 90 days is on us</small>
+                  <input name="login_accountkit_data" type="hidden" id="login_accountkit_data">
   								<div class="form-group mt-4">
   									<input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="log in" onclick="smsLogin1(document.getElementById('login-code').options[document.getElementById('login-code').selectedIndex].value, document.getElementById('login-phone').value)">
   								</div>
@@ -284,6 +285,7 @@
 
       function loginCallback1(response) {
         if (response.status === "PARTIALLY_AUTHENTICATED") {
+           document.getElementById('login_accountkit_data').value=response.code
           document.getElementById("login-form").submit();
         }
         else if (response.status === "NOT_AUTHENTICATED") {
@@ -324,11 +326,30 @@
       }
 
       function smsLogin1(pc, pn) {
-            AccountKit.login(
-            'PHONE',
-            {countryCode: pc, phoneNumber: pn},
-            loginCallback1
-          );
+          var xhttp = new XMLHttpRequest();
+          var formData = new FormData();
+          formData.append('country_code',pc);
+          formData.append('phone_number',pn);
+          formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
+          
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              data = JSON.parse(this.responseText);
+              console.log(data["output"]);
+              if(data['output']=="no")
+                  alert("User doesnot exist! Please register first.");
+              else
+                  {
+                      AccountKit.login(
+                      'PHONE',
+                      {countryCode: pc, phoneNumber: pn},
+                      loginCallback1
+                    );
+                  }
+            }
+          };
+          xhttp.open("POST", "../register", true);
+          xhttp.send(formData);
       }
 
     </script>
