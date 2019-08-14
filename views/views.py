@@ -1,19 +1,16 @@
 from models.models import *
 from django.shortcuts import render, HttpResponse
-from django.http import JsonResponse
-import json
 from business import accountkit
-from business.models import *
-from business.entities import *
 import random
 import string
 import requests
-import datetime
 
 # Create your views here.
 
 def index(request):
     return render(request, 'index.html')
+def home(request):
+    return render(request, 'home.html')
 
 def logout(request):
     dic = {
@@ -27,6 +24,7 @@ def logout(request):
     
 
 def login(request):
+<<<<<<< HEAD
     # use login in 
     if request.POST:
         accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['login_accountkit_data']))
@@ -120,8 +118,33 @@ def authCode(request):
         # phone number,device Info
         cookieInfo={'accountkit_data':accountkit_data,'device':userLog.device_name}
         myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
-        return myResponse
+=======
+    dic = {
+        'FACEBOOK_APP_ID': '374722036360552',
+        'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
+        'ACCOUNT_KIT_API_VERSION': 'v1.1'
+    }
+    return render(request, 'login.html', dic)
 
+def authCode(request):
+    if request.method == "POST":
+        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.body))
+
+        exists = AppAuthData.objects.filter(account_kit_id = accountkit_data[0]).exists() 
+        if exists:
+            print('exists')
+        else:
+            appAuthData = AppAuthData(
+                account_kit_id = accountkit_data[0],
+                phone_number = accountkit_data[1]
+            )
+            appAuthData.save()
+
+        myResponse = HttpResponse()
+        myResponse.set_cookie(key='goalstar', value=accountkit_data, max_age=31536000, httponly=True)
+
+>>>>>>> 22dd5159f7895ed4d3dd1fd953ce1de50a4b9fea
+        return myResponse
 
 def notify(request):
     if request.method == "POST":
@@ -131,9 +154,9 @@ def notify(request):
             email=str(request.body)
         )
         notify_me.save()
-        return HttpResponse('')
 
 
+<<<<<<< HEAD
 # check user is already registered or not
 def registerUser(request):
     if request.method=="POST":
@@ -149,3 +172,6 @@ def registerUser(request):
 def home(request):
     myResponse = render(request,'home.html',{})
     return myResponse
+=======
+        return HttpResponse('')
+>>>>>>> 22dd5159f7895ed4d3dd1fd953ce1de50a4b9fea
