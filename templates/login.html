@@ -326,11 +326,30 @@
       }
 
       function smsLogin1(pc, pn) {
-            AccountKit.login(
-            'PHONE',
-            {countryCode: pc, phoneNumber: pn},
-            loginCallback1
-          );
+          var xhttp = new XMLHttpRequest();
+          var formData = new FormData();
+          formData.append('country_code',pc);
+          formData.append('phone_number',pn);
+          formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
+          
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              data = JSON.parse(this.responseText);
+              console.log(data["output"]);
+              if(data['output']=="no")
+                  alert("User doesnot exist! Please register first.");
+              else
+                  {
+                      AccountKit.login(
+                      'PHONE',
+                      {countryCode: pc, phoneNumber: pn},
+                      loginCallback1
+                    );
+                  }
+            }
+          };
+          xhttp.open("POST", "../register", true);
+          xhttp.send(formData);
       }
 
     </script>

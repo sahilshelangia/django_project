@@ -1,5 +1,6 @@
 from models.models import *
-from django.shortcuts import render, HttpResponse
+from django.http import JsonResponse
+from django.shortcuts import render, HttpResponse,redirect
 from business import accountkit
 import random
 import string
@@ -9,25 +10,46 @@ import requests
 
 def index(request):
     return render(request, 'index.html')
+
 def home(request):
-    return render(request, 'home.html')
+    if request.COOKIES.get('goalstar'):
+        import ast
+        cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
+        appAuthData=AppAuthData.objects.all().filter(phone_number=cookie_dict['accountkit_data'][1])[0]
+        userInfo=UserInfo.objects.all().filter(app_auth_data_id=appAuthData)[0]
+        context={'userInfo':userInfo}
+        myResponse = render(request,'home.html',context=context)
+        return myResponse 
+    else:
+        return redirect('login')
 
 def logout(request):
-    dic = {
-        'FACEBOOK_APP_ID': '374722036360552',
-        'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
-        'ACCOUNT_KIT_API_VERSION': 'v1.1'
-    }
-    myResponse = render(request,'login.html',dic)
-    myResponse.delete_cookie('goalstar')
-    return myResponse
+    if request.COOKIES.get('goalstar'):
+        import ast
+        cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
+        appAuthData=AppAuthData.objects.all().filter(phone_number=cookie_dict['accountkit_data'][1])[0]
+        userInfo=UserInfo.objects.all().filter(app_auth_data_id=appAuthData)[0]
+        device=''
+        if request.user_agent.is_mobile:
+            device='mobile'
+
+        if request.user_agent.is_tablet :
+            device='tablet'
+        
+        if request.user_agent.is_pc:
+            device='pc'
+        userLog=UserLog(user_id=userInfo,action='logout',device_name=device)
+        userLog.save()
+
+        myResponse = redirect('login')
+        myResponse.delete_cookie('goalstar')
+        return myResponse
     
 
 def login(request):
-<<<<<<< HEAD
     # use login in 
     if request.POST:
-        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['login_accountkit_data']))
+        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST.get('login_accountkit_data')))
         device=''
         if request.user_agent.is_mobile:
             device='mobile'
@@ -38,20 +60,24 @@ def login(request):
         if request.user_agent.is_pc:
             device='pc'
 
-        myResponse = render(request,'home.html',{})
+        appAuthData=AppAuthData.objects.all().filter(phone_number=accountkit_data[1])[0]
+        userInfo=UserInfo.objects.all().filter(app_auth_data_id=appAuthData)[0]
+        context={'userInfo':userInfo}
+        myResponse = render(request,'home.html',context=context)
         
+
         # phone number,device Info
-        phoneNumber=request.POST['login-code']+request.POST['login-phone']
+        userLog=UserLog(user_id=userInfo,action='login',device_name=device)
+        userLog.save()
+
         cookieInfo={'accountkit_data':accountkit_data,'device':device}
         myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
         return myResponse
 
     else:
         if request.COOKIES.get('goalstar'):
-            import ast
-            cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
-            myResponse = render(request,'home.html',{})
-            return myResponse  
+            return redirect('home')
+
         else:
             dic = {
                 'FACEBOOK_APP_ID': '374722036360552',
@@ -114,11 +140,12 @@ def authCode(request):
             userLog.device_name='pc'
         userLog.save()
 
-        myResponse = render(request,'home.html',{})
+        context={'userInfo':userInfoModel}
+        myResponse = render(request,'home.html',context=context)
         # phone number,device Info
         cookieInfo={'accountkit_data':accountkit_data,'device':userLog.device_name}
         myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
-=======
+        return myResponse
     dic = {
         'FACEBOOK_APP_ID': '374722036360552',
         'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
@@ -126,25 +153,6 @@ def authCode(request):
     }
     return render(request, 'login.html', dic)
 
-def authCode(request):
-    if request.method == "POST":
-        accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.body))
-
-        exists = AppAuthData.objects.filter(account_kit_id = accountkit_data[0]).exists() 
-        if exists:
-            print('exists')
-        else:
-            appAuthData = AppAuthData(
-                account_kit_id = accountkit_data[0],
-                phone_number = accountkit_data[1]
-            )
-            appAuthData.save()
-
-        myResponse = HttpResponse()
-        myResponse.set_cookie(key='goalstar', value=accountkit_data, max_age=31536000, httponly=True)
-
->>>>>>> 22dd5159f7895ed4d3dd1fd953ce1de50a4b9fea
-        return myResponse
 
 def notify(request):
     if request.method == "POST":
@@ -156,7 +164,6 @@ def notify(request):
         notify_me.save()
 
 
-<<<<<<< HEAD
 # check user is already registered or not
 def registerUser(request):
     if request.method=="POST":
@@ -169,9 +176,3 @@ def registerUser(request):
            data={'output':"no"}
         return JsonResponse(data)
 
-def home(request):
-    myResponse = render(request,'home.html',{})
-    return myResponse
-=======
-        return HttpResponse('')
->>>>>>> 22dd5159f7895ed4d3dd1fd953ce1de50a4b9fea

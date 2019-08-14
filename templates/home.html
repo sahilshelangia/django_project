@@ -209,7 +209,7 @@
 							<div  id="drop" class="dropdown-content" style="top:20px;">
 							<div class="links">
 								<div style="background-color:rgb(34,34,34);">
-									<b><p href="#" id="account">Abhirup</p></b>
+									<b><p href="#" id="account">{{userInfo.first_name}}</p></b>
 								<div class="plan">
 									<p href="#" id="plans" style="font-size:14px; margin-right:100px;">Standard Plan</p>
 									<a href="#" style="font-size:14px;" data-toggle="modal" data-target="#myModal"  id="sub"><i class="fas fa-cog"></i></a>
@@ -219,7 +219,7 @@
 									<a href="#" data-toggle="modal" data-target="#myModal"  id="myaccount">Account</a>
 									<a href="#" data-toggle="modal" data-target="#myModal"  id="sub">Manage Subscriptions</a>
 									<a href="#" data-toggle="modal" data-target="#myModal"  id="help">Help</a>
-									<a href="#" id="sign">Sign Out</a>
+									<a href="{%url 'logout'%}" id="sign">Sign Out</a>
 					        </div>
 							</div>
 					</div>
@@ -274,7 +274,7 @@
 							<div class="box Name">
 								<label>Name</label>
 							<div class="line">
-								<p>Abhirup Pal</p>
+								<p>{{userInfo.first_name}} {{userInfo.last_name}}</p>
 								<button id="edit" class="editName">Edit Now</button>
 							</div>
 							</div>
@@ -282,7 +282,7 @@
 							<div class="box">
 								<label>Name</label>
 							<div class="line">
-								<p><input type="text" value="Abhirup Pal" autofocus></p>
+								<p><input type="text" value="{{userInfo.first_name}} {{userInfo.last_name}}" autofocus></p>
 							<div class="bio">	
 								<button id="Cancel">Cancel</button>
 								<button  id="editChange">Save</button>
@@ -317,7 +317,7 @@
 							<div class="box Phone">
 								<label>Phone Number</label>
 							<div class="line">	
-								<p>9051323282</p>
+								<p>{{userInfo.app_auth_data_id.phone_number}}</p>
 								<button class="editPhone">Edit Now</button>
 							</div>
 							</div>
@@ -325,7 +325,7 @@
 								<div class="box">
 									<label>Phone Number</label>
 								<div class="line">
-									<p>+91-9051323282</p>
+									<p>{{userInfo.app_auth_data_id.phone_number}}</p>
 								<div class="bio">	
 									<button id="Cancel">Cancel</button>
 									<button  id="editChange">Save</button>
@@ -339,7 +339,7 @@
 								<label>Email Address</label>
 							
 							<div class="line">
-								<p>abhiruppalmethodist@gmail.com</p>
+								<p>{{userInfo.email}}</p>
 								<button class="editEmail">Edit Now</button>
 							</div>
 							</div>
@@ -347,7 +347,7 @@
 								<div class="box">
 									<label>Email</label>
 								<div class="line">
-									<p>abhiruppalmethodist@gmail.com</p>
+									<p>{{userInfo.email}}</p>
 								<div class="bio">	
 									<button id="Cancel">Cancel</button>
 									<button  id="editChange">Save</button>
