@@ -10,7 +10,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
-
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 	<!-- Custom styles for this template -->
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
@@ -192,7 +192,9 @@
 	flex-direction: row;
 	justify-content: flex-end;
 }
-
+.addfocus{
+	-webkit-animation: 1s blink step-end infinite;
+}
 	</style>
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark1 fixed-top">
@@ -287,13 +289,13 @@
 							<div class="ChangesName" style="display: none;">
 							<div class="box">
 								<label>Name</label>
-							<form action="" method="POST" id="eName">
+							<form action="" method="POST" id="eNameC">
 							{%csrf_token%}
 							<div class="line">
 								<p><input  id="eName" type="text" value="{{userInfo.first_name}} {{userInfo.last_name}}" autofocus></p>
 							<div class="bio">	
-								<button id="Cancel">Cancel</button>
-								<button  id="editChange" type="submit" data-toggle="modal" data-target="#myModal">Save</button>
+								<button id="Cancel"type="button">Cancel</button>
+								<button  id="editChange">Save</button>
 							</div>
 							</div>
 							</form>
@@ -316,7 +318,7 @@
 									<p><input type="radio" type="radio" name="language" value="english"  checked>English</p>
 									<p><input type="radio" name="language" value="malayalam" >മലയാളം</p>
 								<div class="bio">
-									<button id="Cancel">Cancel</button>
+									<button id="Cancel"type="button">Cancel</button>
 									<button id="editChange" type="submit">Save</button>
 								</div>
 								</div>
@@ -341,7 +343,7 @@
 								<div class="line">
 									<p><input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
 								<div class="bio">	
-									<button id="Cancel">Cancel</button>
+									<button id="Cancel"type="button">Cancel</button>
 									<button  id="editChange" type="submit">Save</button>
 								</div>
 								</div>
@@ -360,12 +362,12 @@
 							<div class="ChangesEmail" style="display:none;">
 								<div class="box">
 									<label>Email</label>
-								<form action="" method="POST" id="eEmail">
+								<form action="" method="POST" id="eEmailC">
 								{%csrf_token%}
 								<div class="line">
 									<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus></p>
 								<div class="bio">	
-									<button id="Cancel">Cancel</button>
+									<button id="Cancel"type="button">Cancel</button>
 									<button  id="editChange" type="submit">Save</button>
 								</div>
 								</div>
@@ -1160,8 +1162,9 @@
 			$(".form-inline").hide();
 
 		})
-		$("#eName").on('submit',function(e) {
+		$("#eNameC").submit(function(e) {
 		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".ChangesName").hide();
 		e.preventDefault(); // avoid to execute the actual submit of the form.
 		
 		var form = $(this);
@@ -1179,6 +1182,7 @@
 		});
 		$("#eLanguage").submit(function(e) {
 		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".ChangesLanguage").hide();
 		e.preventDefault(); // avoid to execute the actual submit of the form.
 
 		var form = $(this);
@@ -1196,6 +1200,7 @@
 		});
 		$("#ePhone").submit(function(e) {
 		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".ChangesPhone").hide();
 		e.preventDefault(); // avoid to execute the actual submit of the form.
 
 		var form = $(this);
@@ -1211,8 +1216,9 @@
 		}
  		});
 		});
-		$("#eEmail").submit(function(e) {
+		$("#eEmailC").submit(function(e) {
 		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".ChangesEmail").hide();
 		e.preventDefault(); // avoid to execute the actual submit of the form.
 
 		var form = $(this);
