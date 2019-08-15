@@ -15,7 +15,6 @@
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
 	<link href="{% static 'css/all.css' %}" rel="stylesheet">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
 
 <body class="home">
@@ -200,13 +199,14 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark1 fixed-top">
 			<div class="container">
 			  <a class="navbar-brand" href="index.html"><img src="{% static 'img/logo.png' %}"><br><span class="live">LIVE</span></a>
-			  <form class="form-inline my-2 my-lg-0" style="display:none;">
-					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-					<a class="nav-link search1" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;display:block;"></a>
-				</form>
 			  	
             <ul class="navbar-nav">
 				<li class="nav-item">
+						<form class="form-inline my-2 my-lg-0" style="display:none;">
+								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+								<a class="nav-link search1" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;display:block;"></a>
+							</form>
+			
 							<a class="nav-link search" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;margin-right:23px;"></a>
 				</li>
 				<li class="nav-item">
