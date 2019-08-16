@@ -10,6 +10,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 	<!-- Custom styles for this template -->
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
@@ -190,19 +191,22 @@
 	flex-direction: row;
 	justify-content: flex-end;
 }
-
+.addfocus{
+	-webkit-animation: 1s blink step-end infinite;
+}
 	</style>
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark1 fixed-top">
 			<div class="container">
 			  <a class="navbar-brand" href="index.html"><img src="{% static 'img/logo.png' %}"><br><span class="live">LIVE</span></a>
-			  <form class="form-inline my-2 my-lg-0" style="display:none;">
-					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-					<a class="nav-link search1" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;display:block;"></a>
-				</form>
 			  	
             <ul class="navbar-nav">
 				<li class="nav-item">
+						<form class="form-inline my-2 my-lg-0" style="display:none;">
+								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+								<a class="nav-link search1" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;display:block;"></a>
+							</form>
+			
 							<a class="nav-link search" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;margin-right:23px;"></a>
 				</li>
 				<li class="nav-item">
@@ -285,11 +289,12 @@
 							<div class="ChangesName" style="display: none;">
 							<div class="box">
 								<label>Name</label>
-							<form>
+							<form action="" method="POST" id="eNameC">
+							{%csrf_token%}
 							<div class="line">
 								<p><input  id="eName" type="text" value="{{userInfo.first_name}} {{userInfo.last_name}}" autofocus></p>
 							<div class="bio">	
-								<button id="Cancel">Cancel</button>
+								<button id="Cancel"type="button">Cancel</button>
 								<button  id="editChange">Save</button>
 							</div>
 							</div>
@@ -307,13 +312,14 @@
 							<div class="ChangesLanguage" style="display:none;">
 								<div class="box">
 									<label>Language(Check to add and uncheck to remove languages)</label>
-								<form>
+								<form action="" method="POST" id="eLanguage">
+								{%csrf_token%}
 								<div class="line">	
 									<p><input type="radio" type="radio" name="language" value="english"  checked>English</p>
 									<p><input type="radio" name="language" value="malayalam" >മലയാളം</p>
 								<div class="bio">
-									<button id="Cancel">Cancel</button>
-									<button id="editChange">Save</button>
+									<button id="Cancel"type="button">Cancel</button>
+									<button id="editChange" type="submit">Save</button>
 								</div>
 								</div>
 								</form>
@@ -332,12 +338,13 @@
 							<div class="ChangesPhone" style="display:none;">
 								<div class="box">
 									<label>Phone Number</label>
-								<form>
+								<form action="" method="POST" id="ePhone">
+								{%csrf_token%}
 								<div class="line">
 									<p><input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
 								<div class="bio">	
-									<button id="Cancel">Cancel</button>
-									<button  id="editChange">Save</button>
+									<button id="Cancel"type="button">Cancel</button>
+									<button  id="editChange" type="submit">Save</button>
 								</div>
 								</div>
 								</form>
@@ -355,12 +362,13 @@
 							<div class="ChangesEmail" style="display:none;">
 								<div class="box">
 									<label>Email</label>
-								<form>
+								<form action="" method="POST" id="eEmailC">
+								{%csrf_token%}
 								<div class="line">
 									<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus></p>
 								<div class="bio">	
-									<button id="Cancel">Cancel</button>
-									<button  id="editChange">Save</button>
+									<button id="Cancel"type="button">Cancel</button>
+									<button  id="editChange" type="submit">Save</button>
 								</div>
 								</div>
 								</form>
@@ -1154,7 +1162,80 @@
 			$(".form-inline").hide();
 
 		})
+		$("#eNameC").submit(function(e) {
+		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".ChangesName").hide();
+		e.preventDefault(); // avoid to execute the actual submit of the form.
 		
+		var form = $(this);
+		var url = form.attr('action');
+
+		$.ajax({
+	   type: "POST",
+	   url: url,
+	   data: $(this).serialize(),
+	   success: function(data)
+	   {
+		   console.log("Success");
+	   }
+	 	});
+		});
+		$("#eLanguage").submit(function(e) {
+		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".ChangesLanguage").hide();
+		e.preventDefault(); // avoid to execute the actual submit of the form.
+
+		var form = $(this);
+		var url = form.attr('action');
+
+		$.ajax({
+		type: "POST",
+		url: url,
+		data: $(this).serialize(),
+		success: function(data)
+		{
+			console.log("Success");
+		}
+ 		});
+		});
+		$("#ePhone").submit(function(e) {
+		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".ChangesPhone").hide();
+		e.preventDefault(); // avoid to execute the actual submit of the form.
+
+		var form = $(this);
+		var url = form.attr('action');
+
+		$.ajax({
+		type: "POST",
+		url: url,
+		data: $(this).serialize(),// serializes the form's elements.
+		success: function(data)
+		{
+			console.log("Success");
+		}
+ 		});
+		});
+		$("#eEmailC").submit(function(e) {
+		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".ChangesEmail").hide();
+		e.preventDefault(); // avoid to execute the actual submit of the form.
+
+		var form = $(this);
+		var url = form.attr('action');
+
+		$.ajax({
+		type: "POST",
+		url: url,
+		data: $(this).serialize(),// serializes the form's elements.
+		success: function()
+		{
+		console.log("Success");
+		}
+ 		});
+		});
+
+
 				//code to add or remove modal views
 				$(".editName").click(function(){
 				$(".Name,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
