@@ -25,7 +25,9 @@ def home(request):
     else:
         return redirect('login')
 
+# logout using delete cookies
 def logout(request):
+    # first check user is already logged in or not
     if request.COOKIES.get('goalstar'):
         import ast
         cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
@@ -40,7 +42,12 @@ def logout(request):
         
         if request.user_agent.is_pc:
             device='pc'
-        userLog=UserLog(user_id=userInfo,action='logout',device_name=device)
+
+        # log the user action
+        userLog=UserLog()
+        userLog.user_id=userInfo
+        userLog.action='logout'
+        userLog.device_name=device
         userLog.save()
 
         myResponse = redirect('login')
@@ -49,7 +56,8 @@ def logout(request):
     
 
 def login(request):
-    # use login in 
+    # We have three cases for login
+    # This is when user submit login form and trying to login we will use this one
     if request.POST:
         accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST.get('login_accountkit_data')))
         device=''
@@ -76,6 +84,7 @@ def login(request):
         myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
         return myResponse
 
+    # If user is already login and try to login again
     else:
         if request.COOKIES.get('goalstar'):
             return redirect('home')
@@ -90,16 +99,13 @@ def login(request):
             return render(request, 'login.html', dic)
 
 
+# After Checking user is already regitered or not
+# call this view to register new user
 def authCode(request):
     if request.method == "POST":
         accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['accountkit_data']))
-        # appAuthData = AppAuthData(
-        #         account_kit_id = accountkit_data[0],
-        #         phone_number = accountkit_data[1]
-        #     )
-        # appAuthData.save()
-
-
+        
+        # Create AppAuthData Object Using Buisness Logic
         appAuthDataEntity=AppAuthDataEntity()
         appAuthDataEntity.account_kit_id=accountkit_data[0]
         appAuthDataEntity.phone_number=accountkit_data[1]
@@ -108,12 +114,6 @@ def authCode(request):
         idd = appAuthDataModel.save(appAuthDataEntity)
 
         # create profile for the same
-        
-        # userInfoModel=UserInfo(app_auth_data_id=appAuthData,first_name=request.POST['first_name'],\
-        #     last_name=request.POST['last_name'],email=request.POST['email'],date_of_birth=request.POST['dob'],\
-        #     subscription_type_id=SubscriptionType.objects.get(subscription="free"),expiry_date=datetime.date.today()+datetime.timedelta(days=90))
-        # userInfoModel.save()
-
         userInfoEntity=UserInfoEntity()
         userInfoEntity.app_auth_data_id=idd
         userInfoEntity.first_name=request.POST['first_name']
@@ -125,7 +125,7 @@ def authCode(request):
         userInfoModel=UserInfoModel()
         ins = userInfoModel.save(userInfoEntity)
 
-        # add notification to the same
+        # By Default we are going to link all type of notification for new user
         notificationTypeModel = NotificationTypeModel()
         for obj in notificationTypeModel.get_all():
             userNotificationTypeEntity = UserNotificationTypeEntity()
@@ -134,6 +134,7 @@ def authCode(request):
             userNotificationTypeModel = UserNotificationTypeModel()
             userNotificationTypeModel.save(userNotificationTypeEntity)
 
+        # Save this action in user log table
         userLog=UserLog()
         userLog.user_id = ins
         userLog.action = 'resgistration'
@@ -147,13 +148,11 @@ def authCode(request):
             userLog.device_name='pc'
         userLog.save()
 
-        context={'userInfo':userInfoModel}
-        # ? change redirect to home rather then rendering hone.html================================
-        myResponse = render(request,'home.html',context=context)
-        # phone number,device Info
+        myResponse = redirect('home')
         cookieInfo={'accountkit_data':accountkit_data,'device':userLog.device_name}
         myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
         return myResponse
+
     dic = {
         'FACEBOOK_APP_ID': '374722036360552',
         'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
@@ -172,7 +171,7 @@ def notify(request):
         notify_me.save()
 
 
-# check user is already registered or not
+# check user is already registered or not using AJAX
 def registerUser(request):
     if request.method=="POST":
         phone_number=request.POST['phone_number']
@@ -183,4 +182,8 @@ def registerUser(request):
         else:            
            data={'output':"no"}
         return JsonResponse(data)
+
+def checkBuisness(request):
+    print(AppAuthData.objects.all())
+    return HttpResponse('done')
 
