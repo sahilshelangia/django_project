@@ -7,8 +7,8 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 	<!-- Custom styles for this template -->
@@ -40,7 +40,7 @@
 	 background-color:rgb( 33, 32, 32);
  }
  .modal{
-	 font-family: Montserrat-Medium;
+	 font-family: 'Montserrat-Medium',sans-serif;
  }
  .modal-lg{
 	 width:90%;
@@ -53,13 +53,13 @@
  }
  label{
 	 font-size: 15px;
-	 font-family: Montserrat-Regular;
+	 font-family: 'Montserrat-Regular',sans-serif;
 	 color:rgb(245,245,245);
 	 
  }
  p{
 	 font-size:18px;
-	 font-family: Montserrat-Medium;
+	 font-family: 'Montserrat-Medium',sans-serif;
 	 color:rgb(245,245,245);
  }
  .line{
@@ -74,7 +74,7 @@
 	 color:rgb(245,245,245);
 	 width: 80px;
 	 font-size: 10px;
-	 font-family: Montserrat-Light;
+	 font-family: 'Montserrat-Light',sans-serif;
 	 border:0.1px solid white;
 	 margin-right: 53px;
  }
@@ -82,7 +82,7 @@
 	 margin-right: 17px;
  }
  #account{
-	 font-family: Montserrat-SemiBold;
+	 font-family: 'Montserrat-SemiBold',sans-serif;
 	 font-size: 19px;
 	 color:rgb(203,203,203);
 	 margin-bottom: 5px;
@@ -92,7 +92,7 @@
  
 
 #plans{
-	font-family: Montserrat-Light;
+	font-family: 'Montserrat-Light',sans-serif;
 	font-size: 14px;
 	color:rgb(213,213,213);
 }
@@ -101,7 +101,7 @@
 	color: rgb(93,93,93);
 }
 #myaccount,#sub,#help,#sign{
-	font-family: Montserrat-Light;
+	font-family: 'Montserrat-Light',sans-serif;
 	color: rgb(213,213,213,213);
 	font-size: 19px;
 }
@@ -116,23 +116,23 @@
 }
 
 .modal-title{
-	font-family: Montserrat-Medium;
+	font-family: 'Montserrat-Medium',sans-serif;
 	font-size:15px;
 	padding-left:10px;
 	color: rgb(227,227,227);
 }
 #editChange{
-	font-family: Montserrat-Medium;
+	font-family: 'Montserrat-Medium',sans-serif;
 	background-color: rgb(255,255,255);
 	color:rgb(51,51,51);
 }
 .link_active{
-	font-family: Montserrat-Medium;
+	font-family: 'Montserrat-Medium',sans-serif;
 	color: rgb(217,217,217);
 	font-size:18px;
 }
 .link_back{
-	font-family: Montserrat-Regular;
+	font-family: 'Montserrat-Regular',sans-serif;
 	color: rgb(116,116,116);
 	font-size:18px;
 }
@@ -191,10 +191,18 @@
 	flex-direction: row;
 	justify-content: flex-end;
 }
-.addfocus{
-	-webkit-animation: 1s blink step-end infinite;
+select {
+	background-color: #212529;
+    position: absolute;
+    z-index: 0;
 }
-	</style>
+.selectOpen {
+    
+    
+	background-color: #212529;
+	color:rgb(245,245,245);
+}
+</style>
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark1 fixed-top">
 			<div class="container">
@@ -341,7 +349,18 @@
 								<form action="" method="POST" id="ePhone">
 								{%csrf_token%}
 								<div class="line">
-									<p><input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
+								
+									<p>
+											<select id="sel" size = "1">
+													<option></option>
+													<option value="+91">India (+91)</option>
+													<option value="+44">United Kingdom (+44)</option>
+													<option value="+1">United States (+1)</option>
+													<option value="+61">Australia (+61)</option>
+													<option value="+33">France (+33)</option>
+													<option value="+33">France (+33)</option>
+												</select></p><p>												  									  
+												<input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
 								<div class="bio">	
 									<button id="Cancel"type="button">Cancel</button>
 									<button  id="editChange" type="submit">Save</button>
@@ -1612,7 +1631,30 @@
 			   
 			   
 		   }
-		   document.querySelector('.click').addEventListener('click',myFunction);	   
+		   document.querySelector('.click').addEventListener('click',myFunction);
+		   document.getElementById('sel').addEventListener('click', onClickHandler);
+document.getElementById('sel').addEventListener('mousedown', onMouseDownHandler);
+
+function onMouseDownHandler(e){
+	var el = e.currentTarget;
+	
+    if(el.hasAttribute('size') && el.getAttribute('size') == '1'){
+    	e.preventDefault();    
+    }
+}
+function onClickHandler(e) {
+ 	var el = e.currentTarget; 
+
+    if (el.getAttribute('size') == '1') {
+        el.className += " selectOpen";
+        el.setAttribute('size', '6');
+    }
+    else {
+        el.className = '';
+        el.setAttribute('size', '1');
+    }
+}
+
 	</script>
 
 	<script type="text/javascript">

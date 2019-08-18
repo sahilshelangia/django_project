@@ -264,7 +264,7 @@
 	section#toun_dtl .overlays > img {
 	width: 100%;
 		 mask-image: unset;
-		-webkit-mask-image: unset
+		-webkit-mask-image: unset;
 		box-shadow: unset;
 	}
 	section#up_gm h2 {
@@ -865,7 +865,7 @@
 	section#toun_dtl .overlays > img {
 	width: 100%;
 		 mask-image: unset;
-		-webkit-mask-image: unset
+		-webkit-mask-image: unset;
 		box-shadow: unset;
 	}
 	section#up_gm h2 {
