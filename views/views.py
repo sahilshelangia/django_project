@@ -72,14 +72,15 @@ def login(request):
 
         appAuthData=AppAuthData.objects.all().filter(phone_number=accountkit_data[1])[0]
         userInfo=UserInfo.objects.all().filter(app_auth_data_id=appAuthData)[0]
-        context={'userInfo':userInfo}
-        myResponse = render(request,'home.html',context=context)
+        # context={'userInfo':userInfo}
+        # myResponse = render(request,'home.html',context=context)
         
 
         # phone number,device Info
         userLog=UserLog(user_id=userInfo,action='login',device_name=device)
         userLog.save()
 
+        myResponse = redirect('home')
         cookieInfo={'accountkit_data':accountkit_data,'device':device}
         myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
         return myResponse
@@ -137,7 +138,7 @@ def authCode(request):
         # Save this action in user log table
         userLog=UserLog()
         userLog.user_id = ins
-        userLog.action = 'resgistration'
+        userLog.action = 'registration'
         if request.user_agent.is_mobile:
             userLog.device_name='mobile'
 
@@ -187,3 +188,32 @@ def checkBuisness(request):
     print(AppAuthData.objects.all())
     return HttpResponse('done')
 
+
+def updateEmail(request):
+    if request.method=="POST":
+        if request.COOKIES.get('goalstar'):
+            import ast
+            cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
+            appAuthData=AppAuthData.objects.all().filter(phone_number=cookie_dict['accountkit_data'][1])[0]
+            userInfo=UserInfo.objects.all().filter(app_auth_data_id=appAuthData)[0]
+            userInfo.email=request.POST['email']
+            userInfo.save()
+            data={'output':"successful"}
+            return JsonResponse(data)
+        else:
+            return HttpResponse("Permission Denied!!!")
+
+def updatePhone(request):
+    if request.method=="POST":
+        if request.COOKIES.get('goalstar'):
+            import ast
+            cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
+            appAuthData=AppAuthData.objects.all().filter(phone_number=cookie_dict['accountkit_data'][1])[0]
+            appAuthData.phone_number=request.POST['phone']
+            appAuthData.save()
+
+            # update cookie as well
+            data={'output':"successful"}
+            return JsonResponse(data)
+        else:
+            return HttpResponse("Permission Denied!!!")

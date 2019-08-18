@@ -355,26 +355,26 @@
 							<div class="box Email">	
 								<label>Email Address</label>
 							<div class="line">
-								<p>{{userInfo.email}}</p>
+								<p id="emailWithoutEdit">{{userInfo.email}}</p>
 								<button class="editEmail">Edit Now</button>
 							</div>
 							</div>
+
 							<div class="ChangesEmail" style="display:none;">
 								<div class="box">
-									<label>Email</label>
-								<form action="" method="POST" id="eEmailC">
-								{%csrf_token%}
-								<div class="line">
-									<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus></p>
-								<div class="bio">	
-									<button id="Cancel"type="button">Cancel</button>
-									<button  id="editChange" type="submit">Save</button>
-								</div>
-								</div>
-								</form>
+									<label>Email Address</label>
+									<form action="" method="POST" id="eEmailC">
+										{%csrf_token%}
+										<div class="line">
+											<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus></p>
+											<div class="bio">	
+												<button id="Cancel"type="button">Cancel</button>
+												<button  id="editChange" type="button" onclick="changeEmailAjax()">Save</button>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
-			
 		
 						</div>
 						<div class="Subscriptions">
@@ -1156,8 +1156,7 @@
 
 		})
 		$(".search1").click(function(){
-			$(".search1").hide();
-			
+			$(".search1").hide();			
 			$(".search").show();
 			$(".form-inline").hide();
 
@@ -1275,7 +1274,7 @@
 				$(".account").removeClass("link_back");		
 				
 			})
-			$("#myaccount,.account, #Cancel").click(function(){
+			$("#myaccount,.account, #Cancel, #editChange").click(function(){
 				$(".ChangesName,.ChangesLanguage,.ChangesPhone,.ChangesEmail,.Subscriptions,.Help,.dropdown-content").hide();
 				$(".Name,.Language,.Phone,.Email,.Account").show();
 				$(".sub,.help").addClass("link_back");
@@ -1600,7 +1599,7 @@
     		});
     	})
 	  </script>
-	  			  <script>
+	  <script>
 						/* When the user clicks on the button, 
 		   toggle between hiding and showing the dropdown content */
 		   document.querySelector('.dropdown-content').style.display="none";
@@ -1613,15 +1612,41 @@
 			   
 			   
 		   }
-		   document.querySelector('.click').addEventListener('click',myFunction);
-		   
-		  
-		  
-		   
-		   
-		   
-		   // Close the dropdown menu if the user clicks outside of it
-			</script>
+		   document.querySelector('.click').addEventListener('click',myFunction);	   
+	</script>
+
+	<script type="text/javascript">
+	   function changeEmailAjax(){
+	   	var xhttp = new XMLHttpRequest();
+        var formData = new FormData();
+        document.getElementById('emailWithoutEdit').innerHTML=document.getElementById('eEmail').value;
+        formData.append('email',document.getElementById('eEmail').value);
+        formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText);
+          }
+        };
+        xhttp.open("POST", "../updateEmail", true);
+        xhttp.send(formData);
+	}
+	
+	function changePhoneAjax(){
+	   	var xhttp = new XMLHttpRequest();
+        var formData = new FormData();
+        // document.getElementById('emailWithoutEdit').innerHTML=document.getElementById('eEmail').value;
+        formData.append('phone',document.getElementById('eNumber').value);
+        formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
+        alert(document.getElementById('eNumber').value);
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText);
+          }
+        };
+        xhttp.open("POST", "../updatePhone", true);
+        xhttp.send(formData);
+	}	   
+	</script>
 	
 </body>
 </html>
