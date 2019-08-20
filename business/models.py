@@ -12,6 +12,19 @@ class AppAuthDataModel:
         appAuthData.save()
         return appAuthData
 
+    @staticmethod
+    def getObject(attr,value):
+        if attr=='phone_number':
+            if AppAuthData.objects.all().filter(phone_number=value):
+                return AppAuthData.objects.all().get(phone_number=value)
+            else:
+                return False
+        elif attr=='account_kit_id':
+            if AppAuthData.objects.all().filter(account_kit_id=value):
+                return AppAuthData.objects.all().get(account_kit_id=value)
+            else:
+                return False
+
     # def delete(self,request):
     #     appAuthData = AppAuthData(
     #         account_kit_id = self.account_kit_id,
@@ -35,6 +48,17 @@ class UserInfoModel:
         )
         userInfo.save()
         return userInfo
+
+
+    @staticmethod
+    def getObject(attr,value):
+        if attr=='app_auth_data_id':
+            if UserInfo.objects.all().filter(app_auth_data_id=value):
+                return UserInfo.objects.all().get(app_auth_data_id=value)
+            else:
+                return False
+        
+
 
     # def delete(self):
     #     userInfo = UserInfo(

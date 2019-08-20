@@ -11,4 +11,7 @@ urlpatterns = [
     path('notify', views.notify, name='notify'),
     path('updateEmail', views.updateEmail, name='updateEmail'),
     path('updatePhone', views.updatePhone, name='updatePhone'),
+    path('email-verify',views.emailVerification,name='emailVerification'),
+    
+    path('activate/<token>/',views.activate,name='activate'),
 ]

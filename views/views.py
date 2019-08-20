@@ -1,4 +1,5 @@
-from models.models import *
+# from models.models import *
+from .basic_functionality import *
 from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse,redirect
 from business import accountkit
@@ -7,6 +8,10 @@ from business.entities import *
 import random
 import string
 import requests
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.utils import timezone
+from django.utils.crypto import get_random_string
 
 # Create your views here.
 
@@ -15,39 +20,29 @@ def index(request):
 
 def home(request):
     if request.COOKIES.get('goalstar'):
-        import ast
-        cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
-        appAuthData=AppAuthData.objects.all().filter(phone_number=cookie_dict['accountkit_data'][1])[0]
-        userInfo=UserInfo.objects.all().filter(app_auth_data_id=appAuthData)[0]
+        phone_number=findPhoneNumber(request)
+        appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
+        userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
         context={'userInfo':userInfo}
         myResponse = render(request,'home.html',context=context)
         return myResponse 
     else:
         return redirect('login')
+        
 
 # logout using delete cookies
 def logout(request):
     # first check user is already logged in or not
     if request.COOKIES.get('goalstar'):
-        import ast
-        cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
-        appAuthData=AppAuthData.objects.all().filter(phone_number=cookie_dict['accountkit_data'][1])[0]
-        userInfo=UserInfo.objects.all().filter(app_auth_data_id=appAuthData)[0]
-        device=''
-        if request.user_agent.is_mobile:
-            device='mobile'
-
-        if request.user_agent.is_tablet :
-            device='tablet'
-        
-        if request.user_agent.is_pc:
-            device='pc'
-
+        phone_number=findPhoneNumber(request)
+        appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
+        userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
+       
         # log the user action
         userLog=UserLog()
         userLog.user_id=userInfo
         userLog.action='logout'
-        userLog.device_name=device
+        userLog.device_name=findDevice(request)
         userLog.save()
 
         myResponse = redirect('login')
@@ -60,24 +55,16 @@ def login(request):
     # This is when user submit login form and trying to login we will use this one
     if request.POST:
         accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST.get('login_accountkit_data')))
-        device=''
-        if request.user_agent.is_mobile:
-            device='mobile'
+        device=findDevice(request)
 
-        if request.user_agent.is_tablet :
-            device='tablet'
-        
-        if request.user_agent.is_pc:
-            device='pc'
+        appAuthData=AppAuthDataModel.getObject('phone_number',accountkit_data[1])
+        userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
 
-        appAuthData=AppAuthData.objects.all().filter(phone_number=accountkit_data[1])[0]
-        userInfo=UserInfo.objects.all().filter(app_auth_data_id=appAuthData)[0]
-        # context={'userInfo':userInfo}
-        # myResponse = render(request,'home.html',context=context)
-        
-
-        # phone number,device Info
-        userLog=UserLog(user_id=userInfo,action='login',device_name=device)
+        # log the user action
+        userLog=UserLog()
+        userLog.user_id=userInfo
+        userLog.action='login'
+        userLog.device_name=findDevice(request)
         userLog.save()
 
         myResponse = redirect('home')
@@ -98,6 +85,7 @@ def login(request):
                 'ACCOUNT_KIT_API_VERSION': 'v1.1'
             }
             return render(request, 'login.html', dic)
+
 
 
 # After Checking user is already regitered or not
@@ -139,14 +127,7 @@ def authCode(request):
         userLog=UserLog()
         userLog.user_id = ins
         userLog.action = 'registration'
-        if request.user_agent.is_mobile:
-            userLog.device_name='mobile'
-
-        if request.user_agent.is_tablet :
-            userLog.device_name='tablet'
-        
-        if request.user_agent.is_pc:
-            userLog.device_name='pc'
+        userLog.device_name=findDevice(request)
         userLog.save()
 
         myResponse = redirect('home')
@@ -178,37 +159,73 @@ def registerUser(request):
         phone_number=request.POST['phone_number']
         country_code=request.POST['country_code']
         data={}
-        if AppAuthData.objects.all().filter(phone_number=country_code+phone_number):
+        if AppAuthDataModel.getObject('phone_number',country_code+phone_number):
             data={'output':"yes"}
         else:            
            data={'output':"no"}
         return JsonResponse(data)
 
-def checkBuisness(request):
-    print(AppAuthData.objects.all())
-    return HttpResponse('done')
-
 
 def updateEmail(request):
     if request.method=="POST":
         if request.COOKIES.get('goalstar'):
-            import ast
-            cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
-            appAuthData=AppAuthData.objects.all().filter(phone_number=cookie_dict['accountkit_data'][1])[0]
-            userInfo=UserInfo.objects.all().filter(app_auth_data_id=appAuthData)[0]
+            phone_number=findPhoneNumber(request)
+            appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
+            userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
+    
             userInfo.email=request.POST['email']
+            userInfo.email_verified=False
             userInfo.save()
             data={'output':"successful"}
             return JsonResponse(data)
         else:
             return HttpResponse("Permission Denied!!!")
 
+
+def emailVerification(request):
+    if request.COOKIES.get('goalstar'):
+        phone_number=findPhoneNumber(request)
+        appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
+        userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
+
+        userInfo.email_token=get_random_string(length=32)
+        userInfo.token_expiry=timezone.now()+timezone.timedelta(hours=1)
+        userInfo.save()
+
+        current_site = get_current_site(request)
+        mail_subject = 'Activate your  account.'
+        message = 'Hi,Please click on the link to confirm your email address, http://'+str(current_site.domain)\
+                    +"/activate/"+userInfo.email_token+"/"
+        to_email = userInfo.email
+        email = EmailMessage(
+        mail_subject, message, to=[to_email]
+        )
+        email.send()
+        return HttpResponse('Please confirm your email address to complete the registration')
+    else:
+        return HttpResponse('Bad request')
+
+
+def activate(request, token):
+    if request.COOKIES.get('goalstar'):
+        phone_number=findPhoneNumber(request)
+        appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
+        userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
+        if userInfo.email_token==token and userInfo.token_expiry>=timezone.now():
+            userInfo.email_verified=True
+            userInfo.save()
+            return HttpResponse('Thank you for your email confirmation.')
+        else:
+            return HttpResponse('Activation link is invalid!')
+    else:
+        return HttpResponse('Bad request')
+
+
 def updatePhone(request):
     if request.method=="POST":
         if request.COOKIES.get('goalstar'):
-            import ast
-            cookie_dict=ast.literal_eval(request.COOKIES['goalstar'])
-            appAuthData=AppAuthData.objects.all().filter(phone_number=cookie_dict['accountkit_data'][1])[0]
+            phone_number=findPhoneNumber(request)
+            appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
             appAuthData.phone_number=request.POST['phone']
             appAuthData.save()
 

@@ -3,6 +3,8 @@ from django.utils.timezone import datetime
 from colorfield.fields import ColorField
 import datetime
 from django.utils.crypto import get_random_string
+from django.utils import timezone
+
 # Create your models here.
 
 # Model for storing authentication data
@@ -56,6 +58,7 @@ class UserInfo(models.Model):
     email = models.CharField(max_length = 65, unique = True)
     email_verified=models.BooleanField(default=False)
     email_token=models.CharField(max_length=32,default=get_random_string(length=32))
+    token_expiry=models.DateTimeField(default=timezone.now())
     date_of_birth = models.DateField()
     subscription_type_id = models.ForeignKey(
         SubscriptionType,
