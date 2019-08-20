@@ -19,6 +19,7 @@ class AppAuthDataModel:
                 return AppAuthData.objects.all().get(phone_number=value)
             else:
                 return False
+                
         elif attr=='account_kit_id':
             if AppAuthData.objects.all().filter(account_kit_id=value):
                 return AppAuthData.objects.all().get(account_kit_id=value)
