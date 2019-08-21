@@ -26,7 +26,8 @@
 	  display:flex;
 	  flex-direction: row;
 	  justify-content: space-between; 
-
+	  margin-bottom: 0px;
+	  padding-bottom: 0px;
 	  }
   
   .show{
@@ -156,6 +157,7 @@
   padding: 5px 0px 18.6px 10px;
   text-decoration: none;
   } 
+  
   .account:hover{
 	  color:#BAB7B7;
 	  text-decoration: none;
@@ -172,15 +174,22 @@
 
 .line input{
 	background-color: rgb(33,32,32);
-	border:rgb(33,32,32);
+	
 	font-size:18px;
 	color:rgb(245,245,245);
-	text-decoration: underline;
+	text-decoration: none;
 	-webkit-transition: 0.5s;
 	
 }
 .line input[type=text]:focus {
 	outline:none;
+	box-sizing: border-box;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+  	border-bottom: 1px solid rgb(245,245,245);
+  	border-radius: none;
+
 }
 .close:focus{
 	color:#BAB7B7;
@@ -226,7 +235,7 @@ select {
 							<div class="links">
 								<div style="background-color:rgb(34,34,34);">
 									<b><p href="#" id="account">{{userInfo.first_name}}</p></b>
-								<div class="plan">
+								<div class="plan" style="padding-bottom: 0px;">
 									<p href="#" id="plans" style="font-size:14px; margin-right:100px;">Standard Plan</p>
 									<a href="#" style="font-size:14px;" data-toggle="modal" data-target="#myModal"  id="sub"><i class="fas fa-cog"></i></a>
 								</div>
@@ -300,7 +309,8 @@ select {
 							<form action="" method="POST" id="eNameC">
 							{%csrf_token%}
 							<div class="line">
-								<p><input  id="eName" type="text" value="{{userInfo.first_name}} {{userInfo.last_name}}" autofocus></p>
+								<p><input  id="eName" type="text" value="{{userInfo.first_name}}" autofocus>
+								<input  id="eName" type="text" value="{{userInfo.last_name}}" autofocus></p>
 							<div class="bio">	
 								<button id="Cancel"type="button">Cancel</button>
 								<button  id="editChange">Save</button>
@@ -352,7 +362,7 @@ select {
 								
 									<p>
 											<select id="sel" size = "1">
-													<option></option>
+													
 													<option value="+91">India (+91)</option>
 													<option value="+44">United Kingdom (+44)</option>
 													<option value="+1">United States (+1)</option>
@@ -385,7 +395,7 @@ select {
 									<form action="" method="POST" id="eEmailC">
 										{%csrf_token%}
 										<div class="line">
-											<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus></p>
+											<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus size="35"></p>
 											<div class="bio">	
 												<button id="Cancel"type="button">Cancel</button>
 												<button  id="editChange" type="button" onclick="changeEmailAjax()">Save</button>
@@ -1253,21 +1263,123 @@ select {
  		});
 		});
 
-
+			
 				//code to add or remove modal views
 				$(".editName").click(function(){
 				$(".Name,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
 				$(".ChangesName,.Language,.Phone,.Email,.Account").show();
-				$("#eName").focus();		
-				$(".sub,.help").addClass("link_back");
-				$(".sub,.help").removeClass("link_active");
-				$(".account").addClass("link_active");
-				$(".account").removeClass("link_back");	
-			})	
+				jQuery.fn.putCursorAtEnd = function() {
+
+				return this.each(function() {
+  
+  				// Cache references
+  				var $el = $(this),
+	  			el = this;
+
+  				// Only focus if input isn't already
+  				if (!$el.is(":focus")) {
+   					$el.focus();
+  				}
+
+  				// If this function exists... (IE 9+)
+ 				 if (el.setSelectionRange) {
+
+				// Double the length because Opera is inconsistent about whether a carriage return is one character or two.
+				var len = $el.val().length * 2;
+	
+				// Timeout seems to be required for Blink
+				setTimeout(function() {
+	  			el.setSelectionRange(len, len);
+				}, 1);
+  
+  				} else {
+	
+				// As a fallback, replace the contents with itself
+				// Doesn't work in Chrome, but Chrome supports setSelectionRange
+				$el.val($el.val());
+	
+  				}
+
+  				// Scroll to the bottom, in case we're in a tall textarea
+  				// (Necessary for Firefox and Chrome)
+  				this.scrollTop = 999999;
+
+				});
+
+			};
+
+			(function() {
+
+			var searchInput = $("#eName");
+
+			searchInput
+  			.putCursorAtEnd() // should be chainable
+  			.on("click", function() { // could be on any event
+			searchInput.putCursorAtEnd()
+  			});
+
+			})();
+			$(".sub,.help").addClass("link_back");
+			$(".sub,.help").removeClass("link_active");
+			$(".account").addClass("link_active");
+			$(".account").removeClass("link_back");	
+			});	
 			$(".editPhone").click(function(){
 				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.Phone,.ChangesEmail").hide();
 				$(".Name,.Language,.ChangesPhone,.Email,.Account").show();
-				$("#eNumber").focus();		
+				$("#eNumber").focus();
+				jQuery.fn.putCursorAtEnd = function() {
+
+				return this.each(function() {
+
+  				// Cache references
+  				var $el = $(this),
+  				el = this;
+
+  				// Only focus if input isn't already
+  				if (!$el.is(":focus")) {
+	   			$el.focus();
+  				}
+
+ 				 // If this function exists... (IE 9+)
+  				if (el.setSelectionRange) {
+
+				// Double the length because Opera is inconsistent about whether a carriage return is one character or two.
+				var len = $el.val().length * 2;
+
+				// Timeout seems to be required for Blink
+				setTimeout(function() {
+ 				 el.setSelectionRange(len, len);
+				}, 1);
+
+				  } else {
+
+				// As a fallback, replace the contents with itself
+				// Doesn't work in Chrome, but Chrome supports setSelectionRange
+				$el.val($el.val());
+
+				  }
+
+				  // Scroll to the bottom, in case we're in a tall textarea
+				  // (Necessary for Firefox and Chrome)
+				  this.scrollTop = 999999;
+
+				});
+
+				};
+
+			(function() {
+
+			var searchInput = $("#eNumber");
+
+			searchInput
+			.putCursorAtEnd() // should be chainable
+			.on("click", function() { // could be on any event
+			searchInput.putCursorAtEnd()
+			});
+
+			})();
+
 				$(".sub,.help").addClass("link_back");
 				$(".sub,.help").removeClass("link_active");
 				$(".account").addClass("link_active");
@@ -1286,7 +1398,59 @@ select {
 			$(".editEmail").click(function(){
 				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.Email").hide();
 				$(".Name,.Language,.Phone,.ChangesEmail,.Account").show();
-				$("#eEmail").focus();	
+				$("#eEmail").focus();
+				jQuery.fn.putCursorAtEnd = function() {
+
+				return this.each(function() {
+
+  				// Cache references
+  				var $el = $(this),
+  				el = this;
+
+  				// Only focus if input isn't already
+  				if (!$el.is(":focus")) {
+	   			$el.focus();
+  				}
+
+  				// If this function exists... (IE 9+)
+  				if (el.setSelectionRange) {
+
+				// Double the length because Opera is inconsistent about whether a carriage return is one character or two.
+				var len = $el.val().length * 2;
+
+				// Timeout seems to be required for Blink
+				setTimeout(function() {
+				 el.setSelectionRange(len, len);
+				}, 1);
+
+				} else {
+
+				// As a fallback, replace the contents with itself
+				// Doesn't work in Chrome, but Chrome supports setSelectionRange
+				$el.val($el.val());
+
+  				}
+
+  				// Scroll to the bottom, in case we're in a tall textarea
+  				// (Necessary for Firefox and Chrome)
+  				this.scrollTop = 999999;
+
+				});
+
+				};
+
+				(function() {
+
+				var searchInput = $("#eEmail");
+
+				searchInput
+				.putCursorAtEnd() // should be chainable
+				.on("click", function() { // could be on any event
+				searchInput.putCursorAtEnd()
+				});
+
+				})();
+
 				$(".sub,.help").addClass("link_back");
 				$(".sub,.help").removeClass("link_active");
 				$(".account").addClass("link_active");
@@ -1633,27 +1797,27 @@ select {
 		   }
 		   document.querySelector('.click').addEventListener('click',myFunction);
 		   document.getElementById('sel').addEventListener('click', onClickHandler);
-document.getElementById('sel').addEventListener('mousedown', onMouseDownHandler);
+		   document.getElementById('sel').addEventListener('mousedown', onMouseDownHandler);
 
-function onMouseDownHandler(e){
-	var el = e.currentTarget;
+			function onMouseDownHandler(e){
+			var el = e.currentTarget;
 	
-    if(el.hasAttribute('size') && el.getAttribute('size') == '1'){
-    	e.preventDefault();    
-    }
-}
-function onClickHandler(e) {
- 	var el = e.currentTarget; 
+    		if(el.hasAttribute('size') && el.getAttribute('size') == '1'){
+    			e.preventDefault();    
+    		}
+			}
+			function onClickHandler(e) {
+ 			var el = e.currentTarget; 
 
-    if (el.getAttribute('size') == '1') {
-        el.className += " selectOpen";
-        el.setAttribute('size', '6');
-    }
-    else {
-        el.className = '';
-        el.setAttribute('size', '1');
-    }
-}
+    		if (el.getAttribute('size') == '1') {
+        	el.className += " selectOpen";
+        	el.setAttribute('size', '6');
+    		}
+    		else {
+        	el.className = '';
+        	el.setAttribute('size', '1');
+    		}
+			}
 
 	</script>
 
