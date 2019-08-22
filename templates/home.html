@@ -15,19 +15,16 @@
 	<link href="{% static 'css/styles.css' %}" rel="stylesheet">
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
 	<link href="{% static 'css/all.css' %}" rel="stylesheet">
+	<script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
 </head>
 
 <body class="home">
-	<style>
-			
-  
-  
-			.plan{
-	  display:flex;
-	  flex-direction: row;
-	  justify-content: space-between; 
-
-	  }
+	<style>  
+.plan{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between; 
+  }
   
   .show{
 	display:block;
@@ -346,31 +343,31 @@ select {
 							<div class="ChangesPhone" style="display:none;">
 								<div class="box">
 									<label>Phone Number</label>
-								<form action="" method="POST" id="ePhone">
+								<form action="{%url 'updatePhone'%}" method="POST" id="ePhone">
 								{%csrf_token%}
-								<div class="line">
-								
+								<div class="line">								
 									<p>
-											<select id="sel" size = "1">
-													<option></option>
-													<option value="+91">India (+91)</option>
-													<option value="+44">United Kingdom (+44)</option>
-													<option value="+1">United States (+1)</option>
-													<option value="+61">Australia (+61)</option>
-													<option value="+33">France (+33)</option>
-													<option value="+33">France (+33)</option>
-												</select></p><p>												  									  
-												<input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
+										<select id="sel" size = "1">
+											<option></option>
+											<option value="+91">India (+91)</option>
+											<option value="+44">United Kingdom (+44)</option>
+											<option value="+1">United States (+1)</option>
+											<option value="+61">Australia (+61)</option>
+											<option value="+33">France (+33)</option>
+											<option value="+33">France (+33)</option>
+										</select></p><p>				  									  
+									<input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
+
+									<input name="accountkit_data" type="hidden" id="accountkit_data">
 								<div class="bio">	
 									<button id="Cancel"type="button">Cancel</button>
-									<button  id="editChange" type="submit">Save</button>
+									<button  id="editChange" type="submit" onclick="changePhoneAjax(document.getElementById('sel').options[document.getElementById('sel').selectedIndex].value,document.getElementById('eNumber').value)">Save</button>
 								</div>
 								</div>
 								</form>
 								</div>
 							</div>
 			
-		
 							<div class="box Email">	
 								<label>Email Address</label>
 							<div class="line">
@@ -1673,20 +1670,69 @@ function onClickHandler(e) {
         xhttp.send(formData);
 	}
 	
-	function changePhoneAjax(){
-	   	var xhttp = new XMLHttpRequest();
-        var formData = new FormData();
-        // document.getElementById('emailWithoutEdit').innerHTML=document.getElementById('eEmail').value;
-        formData.append('phone',document.getElementById('eNumber').value);
-        formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
-        alert(document.getElementById('eNumber').value);
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText);
+
+	// initialize Account Kit with CSRF protection
+      AccountKit_OnInteractive = function(){
+        AccountKit.init(
+          {
+              appId:"{{FACEBOOK_APP_ID}}", 
+              state:"{{csrf}}", 
+              version:"{{ACCOUNT_KIT_API_VERSION}}",
+              fbAppEventsEnabled:true,
+              debug:true,
           }
-        };
-        xhttp.open("POST", "../updatePhone", true);
-        xhttp.send(formData);
+        );
+      };
+
+      
+	 function loginCallback(response) {
+        if (response.status === "PARTIALLY_AUTHENTICATED") {
+          var code = response.code;
+          var csrf = response.state;
+          // Send code to server to exchange for access token
+          // console.log(response);
+          // alert(JSON.stringify(response));
+          document.getElementById('accountkit_data').value=response.code
+          document.getElementById("ePhone").submit();
+        }
+        else if (response.status === "NOT_AUTHENTICATED") {
+          // handle authentication failure
+          alert("Not auhtenticated");
+          console.log(response);
+        }
+        else if (response.status === "BAD_PARAMS") {
+          // handle bad parameters
+          console.log(response);
+        }
+      }
+
+	function changePhoneAjax(country_code,phone_number){
+
+		//recieved new phone number for updating
+		alert(country_code);
+		alert(phone_number);
+
+		//send otp to that number
+		AccountKit.login(
+	        'PHONE',
+	        {countryCode: country_code, phoneNumber: phone_number},
+	        loginCallback
+	      );
+
+
+		// var xhttp = new XMLHttpRequest();
+  //       var formData = new FormData();
+  //       // document.getElementById('emailWithoutEdit').innerHTML=document.getElementById('eEmail').value;
+  //       formData.append('phone',document.getElementById('eNumber').value);
+  //       formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
+  //       alert(document.getElementById('eNumber').value);
+  //       xhttp.onreadystatechange = function() {
+  //         if (this.readyState == 4 && this.status == 200) {
+  //           data = JSON.parse(this.responseText);
+  //         }
+  //       };
+  //       xhttp.open("POST", "../updatePhone", true);
+  //       xhttp.send(formData);
 	}	   
 	</script>
 	
