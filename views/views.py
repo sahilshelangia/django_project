@@ -246,6 +246,8 @@ def updatePhone(request):
             appAuthData.account_kit_id=accountkit_data[0]
             appAuthData.phone_number=accountkit_data[1]
             appAuthData.save()
+
+            # update cookies 
             return HttpResponse("yup")
 
             # Create AppAuthData Object Using Buisness Logic
