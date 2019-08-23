@@ -271,8 +271,8 @@ select {
 					
 					<div class="modal-body">
 						<div style="border-width: 0px 0px 1px 0px; border-color: white; border-style: solid;">
-							<h4 class="modal-title" style="float:left;">{{userInfo.first_name}}</h4>
-							<h4 class="modal-title" style="float:left; padding-left:5px;"> {{userInfo.last_name}}</h4>
+							<h4 id="top_first_name"class="modal-title" style="float:left;">{{userInfo.first_name}}</h4>
+							<h4 id="top_last_name" class="modal-title" style="float:left; padding-left:5px;"> {{userInfo.last_name}}</h4>
 							  <button class="close"type="button" class="close" data-dismiss="modal" style="margin: 10px 0px 0px 10px;color:white;float:right;">&times;</button>  
 							<br>
 							<br>
@@ -309,7 +309,7 @@ select {
 							<div class="box Name">
 								<label>Name</label>
 							<div class="line">
-								<p>{{userInfo.first_name}} {{userInfo.last_name}}</p>
+								<p id="fullName">{{userInfo.first_name}} {{userInfo.last_name}}</p>
 								<button id="edit" class="editName">Edit Now</button>
 							</div>
 							</div>
@@ -319,11 +319,11 @@ select {
 							<form action="" method="POST" id="eNameC">
 							{%csrf_token%}
 							<div class="line">
-								<p><input  id="eName" type="text" value="{{userInfo.first_name}}" autofocus>
-								<input  id="eName" type="text" value="{{userInfo.last_name}}" autofocus></p>
+								<p><input  class="eName" id="eName1" type="text" value="{{userInfo.first_name}}" autofocus>
+								<input  class="eName" id="eName2" type="text" value="{{userInfo.last_name}}" autofocus></p>
 							<div class="bio">	
 								<button id="Cancel"type="button">Cancel</button>
-								<button  id="editChange">Save</button>
+								<button  id="editChange" onclick="changeName(document.getElementById('eName1').value,document.getElementById('eName2').value)">Save</button>
 							</div>
 							</div>
 							</form>
@@ -1321,7 +1321,7 @@ select {
 
 			(function() {
 
-			var searchInput = $("#eName");
+			var searchInput = $(".eName");
 
 			searchInput
   			.putCursorAtEnd() // should be chainable
@@ -1881,7 +1881,7 @@ select {
 			xhttp.open("POST", "../updatePhone", true);
 			xhttp.send(formData);
         }
-        
+
         else if (response.status === "NOT_AUTHENTICATED") {
           // handle authentication failure
           alert("Not auhtenticated");
@@ -1905,7 +1905,29 @@ select {
 	        {countryCode: country_code, phoneNumber: phone_number},
 	        loginCallback
 	      );
-	}	   
+	}	 
+
+	function changeName(first_name,last_name){
+		var xhttp = new XMLHttpRequest();
+		var formData = new FormData();
+		
+		formData.append('first_name',first_name);
+		formData.append('last_name',last_name);
+		formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
+
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				data = JSON.parse(this.responseText);
+				document.getElementById('account').innerHTML=first_name;
+				document.getElementById('fullName').innerHTML=first_name+" "+last_name;
+				document.getElementById('top_first_name').innerHTML=first_name;
+				document.getElementById('top_last_name').innerHTML=last_name;
+
+			}
+		};
+		xhttp.open("POST", "../updateName", true);
+		xhttp.send(formData);
+	}	    
 	</script>
 	
 </body>
