@@ -186,6 +186,7 @@ def updateEmail(request):
             return HttpResponse("Permission Denied!!!")
 
 
+
 def emailVerification(request):
     if request.COOKIES.get('goalstar'):
         phone_number=findPhoneNumber(request)
@@ -234,44 +235,52 @@ def updatePhone(request):
         if request.COOKIES.get('goalstar'):
             phone_number=findPhoneNumber(request)
             appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
-            # DELETE https://graph.accountkit.com/v1.3/<account_id>?access_token=AA|<facebook_app_id>|<app_secret>
-            url='https://graph.accountkit.com/v1.3/'+appAuthData.account_kit_id+'?access_token=AA|'+get_facebook_app_id()+get_accountkit_app_secret()
-            res=requests.delete(url)
-            print("response:",res)
+            res=delete_accountkit_user(appAuthData.account_kit_id)
 
-            print(appAuthData)
+            # save new accountkit_id and phone number as well
             accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['accountkit_data']))
-            print(accountkit_data[0])
-            print(accountkit_data[1])
             appAuthData.account_kit_id=accountkit_data[0]
             appAuthData.phone_number=accountkit_data[1]
             appAuthData.save()
-
-            # update cookies 
-            return HttpResponse("yup")
-
-            # Create AppAuthData Object Using Buisness Logic
-            # appAuthDataEntity=AppAuthDataEntity()
-            # appAuthDataEntity.account_kit_id=accountkit_data[0]
-            # appAuthDataEntity.phone_number=accountkit_data[1]
-
-            # appAuthDataModel=AppAuthDataModel()
-            # idd = appAuthDataModel.save(appAuthDataEntity)
-
-        # if request.COOKIES.get('goalstar'):
-        #     phone_number=findPhoneNumber(request)
-        #     appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
-        #     appAuthData.phone_number=request.POST['phone']
-        #     appAuthData.save()
-
-        #     # update cookie as well
-        #     data={'output':"successful"}
-        #     return JsonResponse(data)
-        # else:
-        #     return HttpResponse("Permission Denied!!!")
+            userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
 
 
+            userLog=UserLog()
+            userLog.user_id = userInfo
+            userLog.action = 'update phone number'
+            userLog.device_name=findDevice(request)
+            userLog.save()
+
+            data={'output':"yes"}
+            myResponse=JsonResponse(data)
+            cookieInfo={'accountkit_data':accountkit_data,'device':userLog.device_name}
+            myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
+            return myResponse
+
+def updateName(request):
+    if request.method == "POST":
+        if request.COOKIES.get('goalstar'):
+            phone_number=findPhoneNumber(request)
+            appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
+            userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
+
+            userInfo.first_name=request.POST['first_name']
+            userInfo.last_name=request.POST['last_name']
+            userInfo.save()
+
+            userLog=UserLog()
+            userLog.user_id = userInfo
+            userLog.action = 'update first and last name'
+            userLog.device_name=findDevice(request)
+            userLog.save()
+
+            data={'output':"yes"}
+            myResponse=JsonResponse(data)
+            return myResponse
+           
+           
 def delt(request):
-    response = requests.delete('https://graph.accountkit.com/v1.3/1400479300107770?access_token=AA|374722036360552|b5623e49377b054de9e1149a2513fda1')
-    print(response)
-    return HttpResponse(response)
+    data={'output':"no"}
+    res=JsonResponse(data)
+    res.set_cookie(key='sahil',value='sahil',httponly=True,max_age=31536000)
+    return res

@@ -38,3 +38,11 @@ def validate_accountkit_access_token(token):
     # phone = json.loads(json_data['phone']).number
 
     return [json_data['id'], json_data['phone']['number']]
+
+
+def delete_accountkit_user(account_kit_id):
+    # DELETE https://graph.accountkit.com/v1.3/<account_id>?access_token=AA|<facebook_app_id>|<app_secret>
+    url='https://graph.accountkit.com/v1.3/'+str(account_kit_id)+'?access_token=AA|'+get_facebook_app_id()+'|'+get_accountkit_app_secret()
+    res=requests.delete(url)
+    return res
+    

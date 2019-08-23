@@ -9,10 +9,10 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
     path('auth-code', views.authCode, name='authCode'),
     path('notify', views.notify, name='notify'),
+    path('updateName', views.updateName, name='updateName'),
     path('updateEmail', views.updateEmail, name='updateEmail'),
     path('updatePhone', views.updatePhone, name='updatePhone'),
     path('email-verify',views.emailVerification,name='emailVerification'),
-    
     path('activate/<token>/<account_kit_id>/',views.activate,name='activate'),
     path('del',views.delt,name='del'),
 ]
