@@ -163,7 +163,6 @@ def registerUser(request):
         phone_number=request.POST['phone_number']
         country_code=request.POST['country_code']
         email=request.POST['email']
-        email=''
 
         data={}
         Phone=False

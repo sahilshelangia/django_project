@@ -77,10 +77,12 @@
   									<div class="col-md-6 col-6">
   										<label class="text-uppercase">First Name</label>
   										<input name="first_name" id="register-first-name" type="text" class="form-control text-uppercase" placeholder="mohammad">
+                      <label id="register-fname-error" style="color: red;"></label>
   									</div>
   									<div class="col-md-6 col-6">
   										<label class="text-uppercase">Last Name</label>
   										<input name="last_name" id="register-last-name" type="text" class="form-control text-uppercase" placeholder="Salah">
+                      <label id="register-lname-error" style="color: red;"></label>
   									</div>
   								</div>
   								<div class="form-group mt-4 row">
@@ -99,6 +101,7 @@
 		    						<div class="col-md-6 col-6">
 		    							<label for="exampleInputEmail1" class="text-uppercase">Enter mobile number</label>
   										<input id="register-phone" type="text" class="let-spac form-control" placeholder="98765432210">
+                      <label id="register-phone-error" style="color: red;"></label>
                       <small id="registerPhoneError" class="form-text mt-4" style="color: red;"></small>
 		    						</div>
                     
@@ -106,6 +109,7 @@
   								<div class="form-group mt-4">
   									<label for="exampleInputEmail1" class="text-uppercase">Enter Your Email address</label>
   									<input name="email" type="text" id="register-email" class="form-control" placeholder="mpranav991@gmail.com">
+                    <label id="register-email-error" style="color: red;"></label>
                     <small id="registerEmailError" class="form-text mt-4" style="color: red;"></small>
   								</div>
   								<div class="form-group mt-4">
@@ -116,6 +120,7 @@
 										    <span class="input-group-text" id="basic-addon2" for="sof"><label for="sof" class="text-uppercase"><img src="{% static 'img/cal.png' %}"></label></span>
 										</div>
 									</div>
+                  <label id="register-dob-error" style="color: red;"></label>
   								</div>
   								<div class="form-group mt-4 ">
 									<label class="check_boxs bg_color_orang_c font-weight-500">Agree to User Terms and Agreement
@@ -126,7 +131,7 @@
                   <input name="accountkit_data" type="hidden" id="accountkit_data">
   								<div class="form-group mt-4">
 									  <input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="sign up" 
-									  	onclick="smsLogin(document.getElementById('register-code').options[document.getElementById('register-code').selectedIndex].value, document.getElementById('register-phone').value,document.getElementById('register-email').value)">
+									  	onclick="smsLogin(document.getElementById('register-code').options[document.getElementById('register-code').selectedIndex].value, document.getElementById('register-phone').value,document.getElementById('register-email').value,document.getElementById('register-first-name').value,document.getElementById('register-last-name').value,document.getElementById('sof').value)">
   								</div>
   							</form>
 					  </div>
@@ -305,7 +310,34 @@
         }
       }
 
-      function smsLogin(pc, pn,email) {
+      function smsLogin(pc, pn,email,fname,lname,dob) {
+        var validationError=false;
+        if(pn==''){
+          validationError=false;
+          document.getElementById('register-phone-error').innerHTML="phone number can't be empty."
+        }
+        if(email==''){
+          validationError=true;
+          document.getElementById('register-email-error').innerHTML="email can't be empty."
+        }
+        if(ValidateEmail(email)==false){
+          validationError=true;
+          document.getElementById('register-email-error').innerHTML="not a valid email."
+        }
+        if(fname==''){
+          document.getElementById('register-fname-error').innerHTML="first name can't be empty."
+          validationError=true;
+        }
+        if(lname==''){
+          document.getElementById('register-lname-error').innerHTML="last name can't be empty."
+          validationError=true;
+        }
+        if(dob==''){
+          document.getElementById('register-dob-error').innerHTML="dob can't be empty."
+          validationError=true;
+        }
+        if(validationError)
+          return ;
         var xhttp = new XMLHttpRequest();
         var formData = new FormData();
         formData.append('country_code',pc);
@@ -376,6 +408,18 @@
       }
 
     </script>
+
+    <script type="text/javascript">
+      function ValidateEmail(x)
+      {
+        var atpos = x.indexOf("@");
+        var dotpos = x.lastIndexOf(".");
+        if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
+          return false;
+        }
+        return true;
+      }
+  </script>
 </body>
 </html>
    

@@ -389,15 +389,24 @@ select {
 								</div>
 							</div>
 			
+							<script type="text/javascript">
+								var verifyButton=false;
+							</script>
+
 							<div class="box Email">	
 								<label>Email Address</label>
 							<div class="line">
 								<p id="emailWithoutEdit">{{userInfo.email}}</p>
 								{%if userInfo.email_verified%}
-
+								<div id="addVerifyButton"></div>
 								{%else%}
 									<button id="verifyEmail" onclick="verifyEmailAjax()">Verifiy</button>
+									<script type="text/javascript">
+										verifyButton=true;
+									</script>
+									
 								{%endif%}
+								<p id="emailSent"></p>
 								<button class="editEmail">Edit Now</button>
 							</div>
 							</div>
@@ -1836,6 +1845,19 @@ select {
 
 	<script type="text/javascript">
 	   function changeEmailAjax(){
+	   	if(verifyButton==false){
+   			// addVerifyButton
+			// <button id="verifyEmail" onclick="verifyEmailAjax()">Verifiy</button>
+
+			var btn = document.createElement("BUTTON");   // Create a <button> element
+			btn.innerHTML = "verify"; 
+			btn.id="verifyEmail" ;                 // Insert text
+			btn.setAttribute('onclick','verifyEmailAjax()');
+			document.getElementById('addVerifyButton').appendChild(btn);
+			verifyButton=true;
+	   	}
+	   	
+
 	   	var xhttp = new XMLHttpRequest();
         var formData = new FormData();
         document.getElementById('emailWithoutEdit').innerHTML=document.getElementById('eEmail').value;
@@ -1898,10 +1920,6 @@ select {
 
 	function changePhoneAjax(country_code,phone_number){
 
-		//recieved new phone number for updating
-		alert(country_code);
-		alert(phone_number);
-
 		//send otp to that number
 		AccountKit.login(
 	        'PHONE',
@@ -1934,18 +1952,32 @@ select {
 
 
 	function verifyEmailAjax(){
+		
+		document.getElementById('emailSent').innerHTML="Email sent, please verify!";
 		var xhttp = new XMLHttpRequest();
 		var formData = new FormData();
 		formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				data = JSON.parse(this.responseText);
-				alert("mail sent to you, please verify");
 			}
 		};
 		xhttp.open("POST", "../email-verify", true);
 		xhttp.send(formData);
 	}    
+	</script>
+
+	<script type="text/javascript">
+		function ValidateEmail(mail) 
+		{
+		 if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(myForm.emailAddr.value))
+		  {
+		    return (true)
+		  }
+		    alert("You have entered an invalid email address!")
+		    return (false)
+		}
+
 	</script>
 </body>
 </html>
