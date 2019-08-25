@@ -58,7 +58,16 @@ class UserInfoModel:
                 return UserInfo.objects.all().get(app_auth_data_id=value)
             else:
                 return False
-        
+
+        elif attr=='email':
+            if UserInfo.objects.all().filter(email=value):
+                return UserInfo.objects.all().get(email=value)
+            else:
+                return False
+
+        else:
+            return False
+                
 
 
     # def delete(self):

@@ -19,14 +19,12 @@
 </head>
 
 <body class="home">
-<<<<<<< HEAD
 	<style>  
 .plan{
   display:flex;
   flex-direction: row;
   justify-content: space-between; 
   }
-=======
 	<style>
 			
   
@@ -38,7 +36,6 @@
 	  margin-bottom: 0px;
 	  padding-bottom: 0px;
 	  }
->>>>>>> da30f12105ed4a0bfb0d09f9ff671f5f41b1a1f4
   
   .show{
 	display:block;
@@ -396,6 +393,11 @@ select {
 								<label>Email Address</label>
 							<div class="line">
 								<p id="emailWithoutEdit">{{userInfo.email}}</p>
+								{%if userInfo.email_verified%}
+
+								{%else%}
+									<button id="verifyEmail" onclick="verifyEmailAjax()">Verifiy</button>
+								{%endif%}
 								<button class="editEmail">Edit Now</button>
 							</div>
 							</div>
@@ -1842,6 +1844,7 @@ select {
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             data = JSON.parse(this.responseText);
+            document.getElementById('emailWithoutEdit').innerHTML=document.getElementById('eEmail').value;
           }
         };
         xhttp.open("POST", "../updateEmail", true);
@@ -1927,8 +1930,22 @@ select {
 		};
 		xhttp.open("POST", "../updateName", true);
 		xhttp.send(formData);
-	}	    
+	}	
+
+
+	function verifyEmailAjax(){
+		var xhttp = new XMLHttpRequest();
+		var formData = new FormData();
+		formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				data = JSON.parse(this.responseText);
+				alert("mail sent to you, please verify");
+			}
+		};
+		xhttp.open("POST", "../email-verify", true);
+		xhttp.send(formData);
+	}    
 	</script>
-	
 </body>
 </html>

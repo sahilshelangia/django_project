@@ -162,11 +162,27 @@ def registerUser(request):
     if request.method=="POST":
         phone_number=request.POST['phone_number']
         country_code=request.POST['country_code']
+        email=request.POST['email']
+        email=''
+
         data={}
+        Phone=False
+        Email=False
         if AppAuthDataModel.getObject('phone_number',country_code+phone_number):
-            data={'output':"yes"}
-        else:            
-           data={'output':"no"}
+            Phone=True
+        if UserInfoModel.getObject('email',email):
+            Email=True
+        if Phone==True and Email==True:
+            data={'phone':'yes','email':'yes'}
+        
+        if Phone==False and Email==True:
+            data={'phone':'no','email':'yes'}
+
+        if Phone==True and Email==False:
+            data={'phone':'yes','email':'no'}
+
+        if Phone==False and Email==False:
+            data={'phone':'no','email':'no'}
         return JsonResponse(data)
 
 
@@ -206,27 +222,22 @@ def emailVerification(request):
         mail_subject, message, to=[to_email]
         )
         email.send()
-        return HttpResponse('Please confirm your email address to complete the registration')
-    else:
-        return HttpResponse('Bad request')
+        data={'output':"Please confirm your email address to complete the registration"}
+        return JsonResponse(data)
 
 
 def activate(request, token,account_kit_id):
     appAuthData=AppAuthDataModel.getObject('account_kit_id',account_kit_id)
     userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
     if appAuthData and userInfo:
-        if userInfo.email_token==token:
-            if userInfo.token_expiry>=timezone.now():
-                userInfo.email_verified=True
-                userInfo.save()
-                return HttpResponse('Thank you for your email confirmation.')
-            else: 
-                return HttpResponse('Activation link expired.')
-        else:
-            return HttpResponse('Activation link is invalid!')
-
+        if userInfo.email_token==token and userInfo.token_expiry>=timezone.now():
+            userInfo.email_verified=True
+            userInfo.save()
+            return render(request,'email_verified.html',{})
+        else: 
+                return render(request,'email_not_verified.html',{})
     else:
-        return HttpResponse('Activation link is invalid!')
+        return render(request,'email_not_verified.html',{})
 
 
 
@@ -279,8 +290,25 @@ def updateName(request):
             return myResponse
            
            
-def delt(request):
-    data={'output':"no"}
-    res=JsonResponse(data)
-    res.set_cookie(key='sahil',value='sahil',httponly=True,max_age=31536000)
-    return res
+
+def phoneExist(request):
+    if request.method=="POST":
+        phone_number=request.POST['phone_number']
+        country_code=request.POST['country_code']
+        data={}
+        if AppAuthDataModel.getObject('phone_number',country_code+phone_number):
+            data={'output':"yes"}
+        else:            
+           data={'output':"no"}
+        return JsonResponse(data)
+
+
+def emailExist(request):
+    if request.method=="POST":
+        email=request.POST['email']
+        data={}
+        if UserInfoModel.getObject('email',email):
+            data={'output':"yes"}
+        else:            
+           data={'output':"no"}
+        return JsonResponse(data)

@@ -54,8 +54,9 @@
   								</div>
   								<div class="form-group mt-4">
   									<label for="exampleInputEmail1" class="text-uppercase">Enter mobile number</label>
-  									<input name="login-phone" id="login-phone" type="text" class="form-control" placeholder="Enter your mobile number">
+  									<input name="login-phone" id="login-phone" type="text" class="form-control" placeholder="Enter your mobile number" required="true">
   								</div>
+                  <small id="loginPhoneError" class="form-text mt-4" style="color: red;"></small>
   								<small id="passwordHelpBlock" class="form-text text-muted mt-4">Your subscription for the first 90 days is on us</small>
                   <input name="login_accountkit_data" type="hidden" id="login_accountkit_data">
   								<div class="form-group mt-4">
@@ -98,11 +99,14 @@
 		    						<div class="col-md-6 col-6">
 		    							<label for="exampleInputEmail1" class="text-uppercase">Enter mobile number</label>
   										<input id="register-phone" type="text" class="let-spac form-control" placeholder="98765432210">
+                      <small id="registerPhoneError" class="form-text mt-4" style="color: red;"></small>
 		    						</div>
+                    
   								</div>
   								<div class="form-group mt-4">
   									<label for="exampleInputEmail1" class="text-uppercase">Enter Your Email address</label>
   									<input name="email" type="text" id="register-email" class="form-control" placeholder="mpranav991@gmail.com">
+                    <small id="registerEmailError" class="form-text mt-4" style="color: red;"></small>
   								</div>
   								<div class="form-group mt-4">
   									<label for="sof" class="text-uppercase">Enter Your Date of Birth</label>
@@ -122,7 +126,7 @@
                   <input name="accountkit_data" type="hidden" id="accountkit_data">
   								<div class="form-group mt-4">
 									  <input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="sign up" 
-									  	onclick="smsLogin(document.getElementById('register-code').options[document.getElementById('register-code').selectedIndex].value, document.getElementById('register-phone').value,document.getElementById('register-first-name').value,document.getElementById('register-last-name').value,document.getElementById('register-email').value,document.getElementById('sof').value)">
+									  	onclick="smsLogin(document.getElementById('register-code').options[document.getElementById('register-code').selectedIndex].value, document.getElementById('register-phone').value,document.getElementById('register-email').value)">
   								</div>
   							</form>
 					  </div>
@@ -301,27 +305,36 @@
         }
       }
 
-      function smsLogin(pc, pn) {
+      function smsLogin(pc, pn,email) {
         var xhttp = new XMLHttpRequest();
         var formData = new FormData();
         formData.append('country_code',pc);
         formData.append('phone_number',pn);
+        formData.append('email',email);
         formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
         
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             data = JSON.parse(this.responseText);
-            console.log(data["output"]);
-            if(data['output']=="yes")
-                alert("User already exist!");
-            else
-                {
-                    AccountKit.login(
-                    'PHONE',
-                    {countryCode: pc, phoneNumber: pn},
-                    loginCallback
-                  );
-                }
+            console.log(data);
+            if(data['phone']=="yes"||data['email']=="yes"){
+              if(data['phone']=="yes"){
+                document.getElementById('registerPhoneError').innerHTML="User already exist with this Number!";
+              }  
+
+              if(data['email']=="yes"){
+                document.getElementById('registerEmailError').innerHTML="User already exist with this Email!";
+              }
+            }
+             
+
+            else{
+                AccountKit.login(
+                'PHONE',
+                {countryCode: pc, phoneNumber: pn},
+                loginCallback
+              );
+            }
           }
         };
         xhttp.open("POST", "../register", true);
@@ -329,18 +342,25 @@
       }
 
       function smsLogin1(pc, pn) {
+          if(pn==''){
+            document.getElementById('loginPhoneError').innerHTML="Field can't be blank";
+            return ;
+          }
           var xhttp = new XMLHttpRequest();
           var formData = new FormData();
           formData.append('country_code',pc);
           formData.append('phone_number',pn);
+          formData.append('email','a');
           formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
           
           xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
               data = JSON.parse(this.responseText);
-              console.log(data["output"]);
-              if(data['output']=="no")
-                  alert("User doesnot exist! Please register first.");
+              console.log(data);
+              if(data['phone']=="no"){
+                document.getElementById('loginPhoneError').innerHTML="User doesnot exist! Please register first.";
+              }
+                  
               else
                   {
                       AccountKit.login(

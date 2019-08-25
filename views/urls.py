@@ -14,5 +14,6 @@ urlpatterns = [
     path('updatePhone', views.updatePhone, name='updatePhone'),
     path('email-verify',views.emailVerification,name='emailVerification'),
     path('activate/<token>/<account_kit_id>/',views.activate,name='activate'),
-    path('del',views.delt,name='del'),
+    path('phoneExist',views.phoneExist,name='phoneExist'),
+    path('emailExist',views.emailExist,name='emailExist'),
 ]
