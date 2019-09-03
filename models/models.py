@@ -4,6 +4,7 @@ from colorfield.fields import ColorField
 import datetime
 from django.utils.crypto import get_random_string
 from django.utils import timezone
+from rest_framework import serializers
 
 # Create your models here.
 
@@ -143,8 +144,14 @@ class tournament(models.Model):
     name=models.CharField(max_length=64)
     intro=models.TextField()
     tournament_detail_image=models.ImageField(upload_to='tournament_image',blank=True)
+    # thumnail image
     color=ColorField(default='#FF0000')
     organiser=models.ForeignKey(organiser,on_delete=models.CASCADE)
+    cnt_match=models.IntegerField(default=0)
+    start_date=models.DateTimeField(default=datetime.datetime.now)
+    end_date=models.DateTimeField(default=datetime.datetime.now)
+    venue=models.CharField(max_length=256,default="")
+
     class Meta:
         db_table = "tournament"
 
@@ -164,19 +171,21 @@ class match(models.Model):
     team_home=models.ForeignKey(team,related_name='team_home',on_delete=models.CASCADE)
     team_away=models.ForeignKey(team,related_name='team_away',on_delete=models.CASCADE)
     tournament=models.ForeignKey(tournament,related_name='tournament',on_delete=models.CASCADE)
-    date=models.DateField()
-    time=models.TimeField()
-    venue=models.CharField(max_length=256)
+    start_time=models.DateTimeField(default=datetime.datetime.now)
     image=models.ImageField(upload_to='match_images')
     winner=models.ForeignKey(team,related_name='team_winner',on_delete=models.CASCADE,default="Not Declared")
-    home_score=models.CharField(max_length=4)
-    away_score=models.CharField(max_length=4)
-
+    home_score=models.CharField(max_length=4,blank=True,null=True)
+    away_score=models.CharField(max_length=4,blank=True,null=True)
     class Meta:
         db_table = "match"
 
     def __str__(self):
         return '{} vs {}'.format(self.team_home,self.team_away)
+
+class MatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = match
+        fields='__all__'
 
 #Model for User Log
 class UserLog(models.Model):

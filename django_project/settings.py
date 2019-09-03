@@ -79,16 +79,26 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'django_projects',
+#         'HOST': 'goalstar.tv',
+#         'PORT': '3306',
+#         'USER': 'goalstar',
+#         'PASSWORD': 'g0alSt@r',
+#     }
+# }
+
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_projects',
-        'HOST': 'goalstar.tv',
-        'PORT': '3306',
-        'USER': 'goalstar',
-        'PASSWORD': 'g0alSt@r',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 
 # Password validation
@@ -131,6 +141,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[ 
     BASE_DIR + '/static/',
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 
 USER_AGENTS_CACHE = 'default'

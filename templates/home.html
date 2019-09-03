@@ -562,6 +562,7 @@ select {
 			</div>
 		</div>
 	</section>
+
 	<section id="toun_dtl" class="s_150">
 		<div class="container">
 			<h2>TOURNAMENT <span class="me_orang_text font-weight-bold">DETAILS</span></h2>
@@ -569,106 +570,26 @@ select {
 		<div class="container ">
 			<div class="container-slider"></div>
 			<div class="slider">
+			{%for tournament in trn%}
 			  <div class="slick-slideshow__slide">
 			  	<div class="overlays">
-			   		<img src="{% static 'img/player1.png' %}">
-	            	<div class="toum_del">
+			   		<!-- <img src="{% static 'img/player1.png' %}"> -->
+			   		<img src="media/{{tournament.tournament_detail_image}}">
+	            	<div class="toum_del {% cycle '' 'bor-top-red' 'bor-top-blue' %}">
 	            		<div class="toum_info">
-	                		<h5>Koyapa Sevens</h5>
+	                		<h5>{{tournament.name}}</h5>
 	                		<h5>Football Tournament</h5>
-	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+	                		<span class="more_btn" id="tournament-{{tournament.id}}" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
 	                	</div>
 	            	</div>
             	</div>
 			  </div>
-			  <div class="slick-slideshow__slide">
-			  	<div class="overlays">
-			   		<img src="{% static 'img/player1.png' %}">
-	            	<div class="toum_del bor-top-red">
-	            		<div class="toum_info">
-	                		<h5>Koyapa Sevens</h5>
-	                		<h5>Football Tournament</h5>
-	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
-	                	</div>
-	            	</div>
-            	</div>
-			  </div>
-			  <div class="slick-slideshow__slide">
-			  	<div class="overlays">
-			   		<img src="{% static 'img/player1.png' %}">
-	            	<div class="toum_del bor-top-blue">
-	            		<div class="toum_info">
-	                		<h5>Koyapa Sevens</h5>
-	                		<h5>Football Tournament</h5>
-	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
-	                	</div>
-	            	</div>
-            	</div>
-			  </div>
-			  <div class="slick-slideshow__slide">
-			  	<div class="overlays">
-			   		<img src="{% static 'img/player1.png' %}">
-	            	<div class="toum_del">
-	            		<div class="toum_info ">
-	                		<h5>Koyapa Sevens</h5>
-	                		<h5>Football Tournament</h5>
-	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
-	                	</div>
-	            	</div>
-            	</div>
-			  </div>
-			  <div class="slick-slideshow__slide">
-			  	<div class="overlays">
-			   		<img src="{% static 'img/player1.png' %}">
-	            	<div class="toum_del bor-top-red">
-	            		<div class="toum_info">
-	                		<h5>Koyapa Sevens</h5>
-	                		<h5>Football Tournament</h5>
-	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
-	                	</div>
-	            	</div>
-            	</div>
-			  </div>
-			  <div class="slick-slideshow__slide">
-			  	<div class="overlays">
-			   		<img src="{% static 'img/player1.png' %}">
-	            	<div class="toum_del bor-top-blue">
-	            		<div class="toum_info">
-	                		<h5>Koyapa Sevens</h5>
-	                		<h5>Football Tournament</h5>
-	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
-	                	</div>
-	            	</div>
-            	</div>
-			  </div>
-			  <div class="slick-slideshow__slide">
-			  	<div class="overlays">
-			   		<img src="{% static 'img/player1.png' %}">
-	            	<div class="toum_del">
-	            		<div class="toum_info ">
-	                		<h5>Koyapa Sevens</h5>
-	                		<h5>Football Tournament</h5>
-	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
-	                	</div>
-	            	</div>
-            	</div>
-			  </div>
-			  <div class="slick-slideshow__slide">
-			  	<div class="overlays">
-			   		<img src="{% static 'img/player1.png' %}">
-	            	<div class="toum_del bor-top-red">
-	            		<div class="toum_info">
-	                		<h5>Koyapa Sevens</h5>
-	                		<h5>Football Tournament</h5>
-	                		<span class="more_btn" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
-	                	</div>
-	            	</div>
-            	</div>
-			  </div>
+			{%endfor%}
 			</div>
 		</div>
-		<div class="container">
 
+
+		<div class="container">
 			<div class="oversss"></div>
 	        <div class="more_info_tab">
 	        	<div class="incre_d">
@@ -683,10 +604,10 @@ select {
 					  <div class="tab-pane fade show active" id="nav-home-h" role="tabpanel" aria-labelledby="nav-home-h-tab">
 					  	<div class="row">
 					  		<div class="col-md-5">
-					  			<h3 class="text-uppercase">Koyappa Sevens <br>Football Tournament</h3>
-					  			<h6 class="me_orang_text">16 Matches | Feb 2020-April 2020</h6>
-					  			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.</p>
-					  			<h4>Venue: Kadalundi Ground</h4>
+					  			<h3 class="text-uppercase" id="tournament_name">Koyappa Sevens <br>Football Tournament</h3>
+					  			<h6 class="me_orang_text" id="tournament_matches_and_date">16 Matches | Feb 2020-April 2020</h6>
+					  			<p id="tournament_introduction">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.</p>
+					  			<h4 id="tournament_venue">Venue: Kadalundi Ground</h4>
 					  		</div>
 					  		<div class="col-md-1"></div>
 					  		<div class="col-md-5" style="background-color: rgba(0,0,0,0.4);padding: 4%;">
@@ -712,9 +633,22 @@ select {
 					  		</div>
 					  	</div>
 					  </div>
+
+
+					  <!-- match grid -->
 					  <div class="tab-pane fade" id="nav-profile-p" role="tabpanel" aria-labelledby="nav-profile-p-tab">
-					  	<div class="slider_4">
+					  	<div class="slider_4" id="match_grid">
 					  		<div class="slick-slideshow__slide_4">
+			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
+			                	<div class="slid_4">
+			                    	<h6>Gokolam Kerala FC</h6>
+			                    	<small>VS</small>
+			                    	<h6>Kerala Evergreen FC</h6>
+			                    	<p><span class="live">LIVE</span> on</p>
+			                	</div>
+			                </div>
+
+					  		<!-- <div class="slick-slideshow__slide_4">
 			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
 			                	<div class="slid_4">
 			                    	<h6>Gokolam Kerala FC</h6>
@@ -758,16 +692,7 @@ select {
 			                    	<h6>Kerala Evergreen FC</h6>
 			                    	<p><span class="live">LIVE</span> on</p>
 			                	</div>
-			                </div>
-					  		<div class="slick-slideshow__slide_4">
-			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
-			                	<div class="slid_4">
-			                    	<h6>Gokolam Kerala FC</h6>
-			                    	<small>VS</small>
-			                    	<h6>Kerala Evergreen FC</h6>
-			                    	<p><span class="live">LIVE</span> on</p>
-			                	</div>
-			                </div>
+			                </div> -->
 			            </div>
 					  </div>
 					  <div class="tab-pane fade" id="nav-profile-y" role="tabpanel" aria-labelledby="nav-profile-y-tab">
@@ -1417,6 +1342,7 @@ select {
 				$(".account").removeClass("link_back");		
 				
 			})
+
 			$(".editEmail").click(function(){
 				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.Email").hide();
 				$(".Name,.Language,.Phone,.ChangesEmail,.Account").show();
@@ -1666,8 +1592,23 @@ select {
     				$(".fa-bell").removeClass('active');
     			},5000)
     		});
+    		
+
+
     		$("#toun_dtl .more_btn").click(function () {
+    			var idd=this.id;
+    			var len=idd.length;
+    			idd=idd.substr(11,len-11);
+    			// send a ajax request to get all info
+
+
+
+
+
+
     			/*alert($(document).width()+' X '+$(document).height())*/
+
+    			// setting of border of tabs and top border
     			if($(document).width()<=600)
 				{
 	    			var bbc=$(this).parent().parent().css('border-top-color');
@@ -1686,6 +1627,8 @@ select {
 	    			newco=newco.replace(')',',0.3)');
 	    			$(".slid_4").css('background-color',newco);
 	    		}
+
+
     			if($(this).hasClass('btnActive') && chect==1)
     			{
     				$(this).parent().parent().parent().removeClass('at-iver');
@@ -1709,16 +1652,79 @@ select {
     				$("#toun_dtl .more_btn").find('i').removeClass('acv');
     				chect=0;
     			}
+
+
+    			// apun ke kaam ka yahi hai
     			if(chect==0)
     			{
+
+    				// content bhi change karna hai
     				$(this).parent().parent().parent().addClass('at-iver');
     				$(this).find('i').addClass('acv');
     				$(".more_info_tab").addClass('t_show');
     				$(this).addClass('btnActive');
     				chect=1;
+    				
+    				// send ajax request to get all info for that tournamen like
+					var xhttp = new XMLHttpRequest();
+					var formData = new FormData();
+					formData.append('trn_id',idd);
+					formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
+			          
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							data = JSON.parse(this.responseText);
+							data=JSON.parse(data['trn']);
+							data=data[0];
+							data=data.fields;
+							document.getElementById("tournament_name").innerHTML=data.name;
+							document.getElementById("tournament_matches_and_date").innerHTML=data.cnt_match+" | Feb 2020-April 2020";
+							document.getElementById("tournament_introduction").innerHTML=data.intro;
+							document.getElementById("tournament_venue").innerHTML=data.venue;
+				          }			              
+			          };
+			          xhttp.open("POST", "../detail_tournament", true);
+			          xhttp.send(formData);
+
+
+			        // now make a ajax request to get match information
+			        var xhttp = new XMLHttpRequest();
+					var formData = new FormData();
+					formData.append('trn_id',idd);
+					formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
+			          
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							data = JSON.parse(this.responseText);
+							data=data.matches;
+							for(i=0;i<data.length;i=i+1){
+								console.log(data[i]);
+								match=data[i];
+								// DOM for macth grid
+
+								// <div class="slick-slideshow__slide_4">
+				    //             	<img src="{% static 'img/1554700132_Football.jpg' %}">
+				    //             	<div class="slid_4">
+				    //                 	<h6>Gokolam Kerala FC</h6>
+				    //                 	<small>VS</small>
+				    //                 	<h6>Kerala Evergreen FC</h6>
+				    //                 	<p><span class="live">LIVE</span> on</p>
+				    //             	</div>
+				    //             </div>
+
+
+							}					
+							
+				          }			              
+			          };
+			          xhttp.open("POST", "../match_in_tournament", true);
+			          xhttp.send(formData);
+
     			}
+
     			else
     			{
+    				// ye band karne ke hetu
     				$(this).parent().parent().parent().removeClass('at-iver');
     				$(this).find('i').removeClass('acv');
     				$(".more_info_tab").removeClass('t_show');
@@ -1965,19 +1971,6 @@ select {
 		xhttp.open("POST", "../email-verify", true);
 		xhttp.send(formData);
 	}    
-	</script>
-
-	<script type="text/javascript">
-		function ValidateEmail(mail) 
-		{
-		 if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(myForm.emailAddr.value))
-		  {
-		    return (true)
-		  }
-		    alert("You have entered an invalid email address!")
-		    return (false)
-		}
-
 	</script>
 </body>
 </html>

@@ -13,6 +13,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.utils.crypto import get_random_string
+from django.core import serializers
+from django.forms.models import model_to_dict
 
 # Create your views here.
 
@@ -23,8 +25,10 @@ def home(request):
     if request.COOKIES.get('goalstar'):
         phone_number=findPhoneNumber(request)
         appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
-        userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)  
+        userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData) 
+        trn= tournament.objects.all()
         context={'userInfo':userInfo,
+                 'trn':trn,
                 'FACEBOOK_APP_ID': '374722036360552',
                 'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
                 'ACCOUNT_KIT_API_VERSION': 'v1.1'}
@@ -310,4 +314,21 @@ def emailExist(request):
             data={'output':"yes"}
         else:            
            data={'output':"no"}
+        return JsonResponse(data)
+
+def detail_tournament(request):
+    if request.method=="POST":
+        trn=tournament.objects.get(id=request.POST['trn_id'])
+        data={}
+        serialized_obj = serializers.serialize('json', [ trn, ])
+        data={'trn':serialized_obj}
+        return JsonResponse(data)
+
+def match_in_tournament(request):
+    if request.method=="POST":
+        print(request.POST['trn_id'])
+        trn=tournament.objects.get(id=request.POST['trn_id'])
+        matches=match.objects.all().filter(tournament=trn)
+        serializer = MatchSerializer(matches, many=True)
+        data={'matches':serializer.data}
         return JsonResponse(data)

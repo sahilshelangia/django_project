@@ -1,0 +1,6 @@
+Notification types
+	=>email,whatsapp,sms
+
+Subscription types
+	=>seasonal,monthly,free
+
