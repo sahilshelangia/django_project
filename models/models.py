@@ -182,6 +182,8 @@ class match(models.Model):
     def __str__(self):
         return '{} vs {}'.format(self.team_home,self.team_away)
 
+
+# work on buisness logic also
 class MatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = match

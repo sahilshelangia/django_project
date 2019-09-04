@@ -596,7 +596,7 @@ select {
 	        		<nav>
 					  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 					    <a class="nav-item nav-link active" id="nav-home-h-tab" data-toggle="tab" href="#nav-home-h" role="tab" aria-controls="nav-home-h" aria-selected="true">Introduction</a>
-					    <a class="nav-item nav-link" id="nav-profile-p-tab" data-toggle="tab" href="#nav-profile-p" role="tab" aria-controls="nav-profile-p" aria-selected="false">Matches</a>
+					    <a class="nav-item nav-link" id="nav-profile-p-tab" data-toggle="tab" href="#nav-profile-p" role="tab" aria-controls="nav-profile-p" aria-selected="false" >Matches</a>
 					    <a class="nav-item nav-link" id="nav-profile-y-tab" data-toggle="tab" href="#nav-profile-y" role="tab" aria-controls="nav-profile-y" aria-selected="false">Organizors</a>
 					  </div>
 					</nav>
@@ -637,16 +637,7 @@ select {
 
 					  <!-- match grid -->
 					  <div class="tab-pane fade" id="nav-profile-p" role="tabpanel" aria-labelledby="nav-profile-p-tab">
-					  	<div class="slider_4" id="match_grid">
-					  		<div class="slick-slideshow__slide_4">
-			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
-			                	<div class="slid_4">
-			                    	<h6>Gokolam Kerala FC</h6>
-			                    	<small>VS</small>
-			                    	<h6>Kerala Evergreen FC</h6>
-			                    	<p><span class="live">LIVE</span> on</p>
-			                	</div>
-			                </div>
+					  	<div class="slider_4" id="match_griddd">
 
 					  		<!-- <div class="slick-slideshow__slide_4">
 			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
@@ -657,42 +648,7 @@ select {
 			                    	<p><span class="live">LIVE</span> on</p>
 			                	</div>
 			                </div>
-					  		<div class="slick-slideshow__slide_4">
-			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
-			                	<div class="slid_4">
-			                    	<h6>Gokolam Kerala FC</h6>
-			                    	<small>VS</small>
-			                    	<h6>Kerala Evergreen FC</h6>
-			                    	<p><span class="live">LIVE</span> on</p>
-			                	</div>
-			                </div>
-					  		<div class="slick-slideshow__slide_4">
-			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
-			                	<div class="slid_4">
-			                    	<h6>Gokolam Kerala FC</h6>
-			                    	<small>VS</small>
-			                    	<h6>Kerala Evergreen FC</h6>
-			                    	<p><span class="live">LIVE</span> on</p>
-			                	</div>
-			                </div>
-					  		<div class="slick-slideshow__slide_4">
-			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
-			                	<div class="slid_4">
-			                    	<h6>Gokolam Kerala FC</h6>
-			                    	<small>VS</small>
-			                    	<h6>Kerala Evergreen FC</h6>
-			                    	<p><span class="live">LIVE</span> on</p>
-			                	</div>
-			                </div>
-					  		<div class="slick-slideshow__slide_4">
-			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
-			                	<div class="slid_4">
-			                    	<h6>Gokolam Kerala FC</h6>
-			                    	<small>VS</small>
-			                    	<h6>Kerala Evergreen FC</h6>
-			                    	<p><span class="live">LIVE</span> on</p>
-			                	</div>
-			                </div> -->
+			               	 -->
 			            </div>
 					  </div>
 					  <div class="tab-pane fade" id="nav-profile-y" role="tabpanel" aria-labelledby="nav-profile-y-tab">
@@ -1095,6 +1051,7 @@ select {
 		      }
 		    },
 		    {
+		    	// change kiya
 		      breakpoint: 1024,
 		      settings: {
 		      	centerPadding: '30px',
@@ -1594,18 +1551,11 @@ select {
     		});
     		
 
-
     		$("#toun_dtl .more_btn").click(function () {
     			var idd=this.id;
     			var len=idd.length;
     			idd=idd.substr(11,len-11);
-    			// send a ajax request to get all info
-
-
-
-
-
-
+    			var req_color='';
     			/*alert($(document).width()+' X '+$(document).height())*/
 
     			// setting of border of tabs and top border
@@ -1625,6 +1575,7 @@ select {
 	    			$('.more_info_tab .incre_d .nav-tabs .nav-link').css('border-bottom-color',bbc)
 	    			var newco=bbc.replace('rgb','rgba');
 	    			newco=newco.replace(')',',0.3)');
+	    			req_color=newco;
 	    			$(".slid_4").css('background-color',newco);
 	    		}
 
@@ -1653,18 +1604,8 @@ select {
     				chect=0;
     			}
 
-
-    			// apun ke kaam ka yahi hai
     			if(chect==0)
     			{
-
-    				// content bhi change karna hai
-    				$(this).parent().parent().parent().addClass('at-iver');
-    				$(this).find('i').addClass('acv');
-    				$(".more_info_tab").addClass('t_show');
-    				$(this).addClass('btnActive');
-    				chect=1;
-    				
     				// send ajax request to get all info for that tournamen like
 					var xhttp = new XMLHttpRequest();
 					var formData = new FormData();
@@ -1697,21 +1638,50 @@ select {
 						if (this.readyState == 4 && this.status == 200) {
 							data = JSON.parse(this.responseText);
 							data=data.matches;
+
+                            $('.slider_4').slick('removeSlide', null, null, true);                 
+
+							
 							for(i=0;i<data.length;i=i+1){
+
+
 								console.log(data[i]);
 								match=data[i];
+
 								// DOM for macth grid
+								var match_div=document.createElement("DIV");
+								match_div.className = "slick-slideshow__slide_4";	
 
-								// <div class="slick-slideshow__slide_4">
-				    //             	<img src="{% static 'img/1554700132_Football.jpg' %}">
-				    //             	<div class="slid_4">
-				    //                 	<h6>Gokolam Kerala FC</h6>
-				    //                 	<small>VS</small>
-				    //                 	<h6>Kerala Evergreen FC</h6>
-				    //                 	<p><span class="live">LIVE</span> on</p>
-				    //             	</div>
-				    //             </div>
+								var images=document.createElement("IMG");
+								images.src="{% static 'img/1554700132_Football.jpg' %}";
+								match_div.append(images);
 
+								var bottom=document.createElement("DIV");
+								bottom.className="slid_4";
+								var team1=document.createElement("H6");
+								team1.innerHTML="Gokolam Kerala FC";
+								bottom.appendChild(team1);
+
+								var vs=document.createElement("SMALL");
+								vs.innerHTML="VS";
+								bottom.appendChild(vs);
+
+								var team2=document.createElement("H6");
+								team2.innerHTML="Kerala Evergreen FC";
+								bottom.appendChild(team2);
+
+								var para=document.createElement("P");
+								var spn=document.createElement("SPAN");
+								spn.innerHTML="LIVE";
+								spn.className="live";
+
+								para.appendChild(spn);
+								bottom.appendChild(para);
+								var bbc=$('.slider_4').parent().css('border-bottom-color');
+								bottom.style.backgroundColor= req_color;
+								match_div.append(bottom);
+								
+								$('.slider_4').slick('slickAdd', match_div);
 
 							}					
 							
@@ -1720,6 +1690,14 @@ select {
 			          xhttp.open("POST", "../match_in_tournament", true);
 			          xhttp.send(formData);
 
+    				// content bhi change karna hai
+    				$(this).parent().parent().parent().addClass('at-iver');
+    				$(this).find('i').addClass('acv');
+    				$(".more_info_tab").addClass('t_show');
+    				$(this).addClass('btnActive');
+    				chect=1;
+    				
+    				
     			}
 
     			else
@@ -1971,6 +1949,5 @@ select {
 		xhttp.open("POST", "../email-verify", true);
 		xhttp.send(formData);
 	}    
-	</script>
 </body>
 </html>
