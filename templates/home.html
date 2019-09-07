@@ -1618,6 +1618,8 @@ select {
 							data=JSON.parse(data['trn']);
 							data=data[0];
 							data=data.fields;
+							console.log("=====");
+							console.log(data);
 							document.getElementById("tournament_name").innerHTML=data.name;
 							document.getElementById("tournament_matches_and_date").innerHTML=data.cnt_match+" | Feb 2020-April 2020";
 							document.getElementById("tournament_introduction").innerHTML=data.intro;
@@ -1637,14 +1639,14 @@ select {
 					xhttp.onreadystatechange = function() {
 						if (this.readyState == 4 && this.status == 200) {
 							data = JSON.parse(this.responseText);
+							team_home=data.team_home;
+							team_away=data.team_away;
+							// match_thumnail=data.match_thumnail;
+							// console.log(match_thumnail)
 							data=data.matches;
 
-                            $('.slider_4').slick('removeSlide', null, null, true);                 
-
-							
+                            $('.slider_4').slick('removeSlide', null, null, true);						
 							for(i=0;i<data.length;i=i+1){
-
-
 								console.log(data[i]);
 								match=data[i];
 
@@ -1653,13 +1655,15 @@ select {
 								match_div.className = "slick-slideshow__slide_4";	
 
 								var images=document.createElement("IMG");
-								images.src="{% static 'img/1554700132_Football.jpg' %}";
+								images.src=match.image;
+								// {% static 'img/1554700132_Football.jpg' %};
 								match_div.append(images);
 
 								var bottom=document.createElement("DIV");
 								bottom.className="slid_4";
+
 								var team1=document.createElement("H6");
-								team1.innerHTML="Gokolam Kerala FC";
+								team1.innerHTML=team_home[i];
 								bottom.appendChild(team1);
 
 								var vs=document.createElement("SMALL");
@@ -1667,8 +1671,8 @@ select {
 								bottom.appendChild(vs);
 
 								var team2=document.createElement("H6");
-								team2.innerHTML="Kerala Evergreen FC";
-								bottom.appendChild(team2);
+								team2.innerHTML=team_away[i];
+								bottom.appendChild(team2);						
 
 								var para=document.createElement("P");
 								var spn=document.createElement("SPAN");
@@ -1679,12 +1683,9 @@ select {
 								bottom.appendChild(para);
 								var bbc=$('.slider_4').parent().css('border-bottom-color');
 								bottom.style.backgroundColor= req_color;
-								match_div.append(bottom);
-								
+								match_div.append(bottom);								
 								$('.slider_4').slick('slickAdd', match_div);
-
-							}					
-							
+							}							
 				          }			              
 			          };
 			          xhttp.open("POST", "../match_in_tournament", true);

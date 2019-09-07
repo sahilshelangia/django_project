@@ -324,11 +324,21 @@ def detail_tournament(request):
         data={'trn':serialized_obj}
         return JsonResponse(data)
 
+# ajax request for sending back all match info regarding particular tournament
+# import array
 def match_in_tournament(request):
     if request.method=="POST":
         print(request.POST['trn_id'])
         trn=tournament.objects.get(id=request.POST['trn_id'])
         matches=match.objects.all().filter(tournament=trn)
+
+        team_home = []
+        team_away = []
+        match_thumbnail=[]
+        for mat in matches:
+            team_home.append(mat.team_home.name)
+            team_away.append(mat.team_away.name)
+           
         serializer = MatchSerializer(matches, many=True)
-        data={'matches':serializer.data}
+        data={'matches':serializer.data,'team_home':team_home,'team_away':team_away}
         return JsonResponse(data)
