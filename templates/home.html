@@ -20,16 +20,19 @@
 
 <body class="home">
 	<style>  
-.plan{
-  display:flex;
-  flex-direction: row;
-  justify-content: space-between; 
-  }
-	<style>
 			
+#myModal2{
+   position: absolute;
+   top: 80px;
+   right: 100px;
+   bottom: 0;
+   left: 0;
+   z-index: 10040;
+   overflow: auto;
+   overflow-y: auto;
+}
   
-  
-			.plan{
+.plan{
 	  display:flex;
 	  flex-direction: row;
 	  justify-content: space-between; 
@@ -116,7 +119,7 @@
 .modal-open .container-fluid, .modal-open  .container {
     -webkit-filter: blur(5px) grayscale(90%);
 }
-.modal-dialog {
+.fields {
 
 	max-width: 90% ;
 	max-height: 80% !important;
@@ -141,6 +144,11 @@
 }
 .link_back{
 	font-family: 'Montserrat-Regular',sans-serif;
+	color: rgb(116,116,116);
+	font-size:18px;
+}
+.subcribe{
+	font-family:'Montserrat-Medium',sans-serif;
 	color: rgb(116,116,116);
 	font-size:18px;
 }
@@ -181,13 +189,15 @@
 
 .line input{
 	background-color: rgb(33,32,32);
-	
+	border:none;
+	outline:none;
 	font-size:18px;
 	color:rgb(245,245,245);
 	text-decoration: none;
 	-webkit-transition: 0.5s;
 	
 }
+
 .line input[type=text]:focus {
 	outline:none;
 	box-sizing: border-box;
@@ -198,6 +208,7 @@
   	border-radius: none;
 
 }
+
 .close:focus{
 	color:#BAB7B7;
 	outline: none;
@@ -210,13 +221,79 @@
 select {
 	background-color: #212529;
     position: absolute;
-    z-index: 0;
+	z-index: 0;
 }
 .selectOpen {
     
     
 	background-color: #212529;
 	color:rgb(245,245,245);
+}
+.payment{
+	background-color: rgb(208,84,43);
+	font-family: "Montserrat-SemiBold",sans-serif;
+	color:rgb(255,255,255);
+	font-size: 19px;
+	text-align: center;
+	text-decoration: none;
+    display: inline-block;
+    font-size: 19px;
+	padding:15px 90px 15px 90px;
+	border:none;
+
+
+}
+.payment-position{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 37px;
+
+}
+#eEmail,#viewEmail{
+	width: 300px;
+}
+.payment-plans{
+	border-bottom: 1px rgb(245,245,245) solid;
+	text-align: center;
+	padding-bottom: 12px;
+	padding-top: 58px;
+}
+
+.payment-selection{
+	height: 303px;
+}
+@media only screen and (max-width: 991px){
+	.line_mobile{
+	display:flex;
+	 flex-direction: column;
+	 justify-content: space-between; 
+
+ }
+button{
+	margin-right: 25px;
+}
+#eEmail{
+	width:200px;
+}
+ #viewEmail{
+	width:100px;
+ }
+ .drop{
+	 
+	 padding-bottom: 20px;
+ }
+ .editName,.editLanguage,#Cancel,#editChange,.editPhone,.editEmail{
+	 margin-bottom: 10px;
+ }
+
+#search{
+	width:87%;
+	margin-right:3%;
+}
+.modal-title,.link_active,.link_back{
+	font-size:15px;
+}
+
 }
 </style>
 	<!-- Navigation -->
@@ -227,7 +304,7 @@ select {
             <ul class="navbar-nav">
 				<li class="nav-item">
 						<form class="form-inline my-2 my-lg-0" style="display:none;">
-								<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+								<input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
 								<a class="nav-link search1" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;display:block;"></a>
 							</form>
 			
@@ -261,21 +338,23 @@ select {
 			</div>
 		</nav>
 		<div id="myModal" class="modal fade" role="dialog">
-				<div class="modal-dialog">
+				<div class="modal-dialog fields">
 			  
 				  <!-- Modal content-->
-				  <div class="modal-content" style="background-color:rgb( 28, 28, 28);">
+				  <div class="modal-content">
 					
-					<div class="modal-body">
+					<div class="modal-body"  style="background-color:rgb( 28, 28, 28);">
 						<div style="border-width: 0px 0px 1px 0px; border-color: white; border-style: solid;">
-							<h4 id="top_first_name"class="modal-title" style="float:left;">{{userInfo.first_name}}</h4>
-							<h4 id="top_last_name" class="modal-title" style="float:left; padding-left:5px;"> {{userInfo.last_name}}</h4>
-							  <button class="close"type="button" class="close" data-dismiss="modal" style="margin: 10px 0px 0px 10px;color:white;float:right;">&times;</button>  
+							<h4 class="modal-title" style="float:left;">{{userInfo.first_name}}</h4>
+							<h4 class="modal-title" style="float:left; padding-left:5px;"> {{userInfo.last_name}}</h4>
+							<button class="close"type="button" class="close" data-dismiss="modal" style="margin: 10px 0px 0px 10px;color:white;float:right;">&times;</button>  
 							<br>
 							<br>
+							<div class="len">
 							<a href="#" style="margin-left:15px;" class="account col-xs-4">Account</a>
 							<a href="#" style="margin-left:15px;" class="sub col-xs-4">Manage Subscriptions</a>
-							<a href="#" style="margin-left:10px;" class="help col-xs-4">Help</a>
+							<a href="#" style="margin-left:15px;" class="help col-xs-4">Help</a>
+							</div>
 						</div>
 						<br>
 						<div class="Changes_Plan" style="display:none;">
@@ -306,7 +385,7 @@ select {
 							<div class="box Name">
 								<label>Name</label>
 							<div class="line">
-								<p id="fullName">{{userInfo.first_name}} {{userInfo.last_name}}</p>
+								<p>{{userInfo.first_name}} {{userInfo.last_name}}</p>
 								<button id="edit" class="editName">Edit Now</button>
 							</div>
 							</div>
@@ -315,12 +394,12 @@ select {
 								<label>Name</label>
 							<form action="" method="POST" id="eNameC">
 							{%csrf_token%}
-							<div class="line">
-								<p><input  class="eName" id="eName1" type="text" value="{{userInfo.first_name}}" autofocus>
-								<input  class="eName" id="eName2" type="text" value="{{userInfo.last_name}}" autofocus></p>
+							<div class="line line_mobile">
+								<p><input  id="eName" type="text" value="{{userInfo.first_name}}" autofocus>
+								<input  id="eName" type="text" value="{{userInfo.last_name}}" autofocus></p>
 							<div class="bio">	
 								<button id="Cancel"type="button">Cancel</button>
-								<button  id="editChange" onclick="changeName(document.getElementById('eName1').value,document.getElementById('eName2').value)">Save</button>
+								<button  id="editChange">Save</button>
 							</div>
 							</div>
 							</form>
@@ -339,7 +418,7 @@ select {
 									<label>Language(Check to add and uncheck to remove languages)</label>
 								<form action="" method="POST" id="eLanguage">
 								{%csrf_token%}
-								<div class="line">	
+								<div class="line line_mobile">	
 									<p><input type="radio" type="radio" name="language" value="english"  checked>English</p>
 									<p><input type="radio" name="language" value="malayalam" >മലയാളം</p>
 								<div class="bio">
@@ -356,7 +435,7 @@ select {
 							<div class="box Phone">
 								<label>Phone Number</label>
 							<div class="line">	
-								<p id="oldPhone">{{userInfo.app_auth_data_id.phone_number}}</p>
+								<p>{{userInfo.app_auth_data_id.phone_number}}</p>
 								<button class="editPhone">Edit Now</button>
 							</div>
 							</div>
@@ -365,48 +444,35 @@ select {
 									<label>Phone Number</label>
 								<form action="{%url 'updatePhone'%}" method="POST" id="ePhone">
 								{%csrf_token%}
-								<div class="line">								
-									<p>
-										<select id="sel" size = "1">
-											<option></option>
-											<option value="+91">India (+91)</option>
-											<option value="+44">United Kingdom (+44)</option>
-											<option value="+1">United States (+1)</option>
-											<option value="+61">Australia (+61)</option>
-											<option value="+33">France (+33)</option>
-										</select></p><p>				  									  
-									<input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
-
-									<input name="accountkit_data" type="hidden" id="accountkit_data">
-
-										
+								<div class="line line_mobile">
+								
+									<p  class="drop" >
+									
+											<select id="sel" size = "1">
+													
+													<option value="+91">India (+91)</option>
+													<option value="+44">United Kingdom (+44)</option>
+													<option value="+1">United States (+1)</option>
+													<option value="+61">Australia (+61)</option>
+													<option value="+33">France (+33)</option>
+													
+												</select></p><p id="pos">												  									  
+												<input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
 								<div class="bio">	
 									<button id="Cancel"type="button">Cancel</button>
-									<button  id="editChange" type="submit" onclick="changePhoneAjax(document.getElementById('sel').options[document.getElementById('sel').selectedIndex].value,document.getElementById('eNumber').value)">Save</button>
+									<button  id="editChange" type="submit">Save</button>
 								</div>
 								</div>
 								</form>
 								</div>
 							</div>
 			
-							<script type="text/javascript">
-								var verifyButton=false;
-							</script>
-
+		
 							<div class="box Email">	
 								<label>Email Address</label>
 							<div class="line">
-								<p id="emailWithoutEdit">{{userInfo.email}}</p>
-								{%if userInfo.email_verified%}
-								<div id="addVerifyButton"></div>
-								{%else%}
-									<button id="verifyEmail" onclick="verifyEmailAjax()">Verifiy</button>
-									<script type="text/javascript">
-										verifyButton=true;
-									</script>
 									
-								{%endif%}
-								<p id="emailSent"></p>
+								<p id="emailWithoutEdit"><input type="text" id="viewEmail" name="country" value="{{userInfo.email}}" readonly></p>
 								<button class="editEmail">Edit Now</button>
 							</div>
 							</div>
@@ -416,8 +482,8 @@ select {
 									<label>Email Address</label>
 									<form action="" method="POST" id="eEmailC">
 										{%csrf_token%}
-										<div class="line">
-											<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus size="35"></p>
+										<div class="line line_mobile">
+											<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus></p>
 											<div class="bio">	
 												<button id="Cancel"type="button">Cancel</button>
 												<button  id="editChange" type="button" onclick="changeEmailAjax()">Save</button>
@@ -430,29 +496,30 @@ select {
 						</div>
 						<div class="Subscriptions">
 							<div class="box">
-								<label>Your Subscriptions</label>
+								<label>Next Payment Date</label>
+							<div class="line">
+								<p>25 December,2019</p>
+								<button><a href="#" data-toggle="modal" data-target="#myModal2" style="text-decoration: none;color:rgb(203,203,203);">Renew</a></button>
+							</div>
+							</div>
+							<div class="box">
+								<label>Update your Subscriptions</label>
 							<div class="line">
 								<p>Monthly Pro</p>
-								<button>Upgrade</button>
+								<p class="subcribe">Yearly Subcriptions</p>
+								<button>Update</button>
 							</div>
-							</div>
-							<div class="box">
-								<label>Payment Method</label>
-							<div class="line">
-								<p>Paytm</p>
-								<button>Change</button>
-							</div>
-							</div>
-							<div class="box">
-								<label>New Payment Date</label>
-								<p>25th December 2019</p>
 							</div>
 							<div class="box">
 								<label>Cancel Subscriptions</label>
+							<form action="{%url 'cancel'%}" method="POST">
+							{% csrf_token %}
 							<div class="line">
 								<p>If you wish to cancel click cancel</p>
-								<button>Cancel</button>
+								<input type="hidden" name="mobile" value="{{userInfo.app_auth_data_id.phone_number}}">
+								<button  type="submit">Cancel</button>
 							</div>
+							</form>
 							</div>
 						</div>
 						<div class="Help">
@@ -473,12 +540,41 @@ select {
 						</div>
 						
 						</div>
-						</div>
+					</div>	
 					
 				  </div>
 			  
 				</div>
-		
+		<div id="myModal2" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				  
+			<!-- Modal content-->
+			<div class="modal-content payment-modal" style="background-color: #212529;">
+				<div class="modal-body">
+					<form action="{%url 'checkout'%}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="name" value="{{userInfo.first_name}} {{userInfo.last_name}}">
+					<input type="hidden" name="mobile" value="{{userInfo.app_auth_data_id.phone_number}}">
+					<input type="hidden" name="email" value="{{userInfo.email}}">
+
+					<div class="row">					
+							
+							<div class="col-md-6 payment-selection"><a href=""><p class="payment-plans">Monthly Plan</p></a>
+							</div>
+							
+							<div class="col-md-6 payment-selection"><a href=""><p class="payment-plans">Yearly Plan</p></a>
+							</div>
+					</div>
+					
+						<div class="payment-position">
+								<input type="submit" class="button payment" value="Select and Pay">
+						</div>
+					</form>
+					  </div>
+				  
+				</div>
+			</div>
+			</div>
 		
 		<header>
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">

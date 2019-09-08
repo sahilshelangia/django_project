@@ -15,6 +15,16 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.core import serializers
 from django.forms.models import model_to_dict
+from PayTm import Checksum
+import json
+from django.views.decorators.csrf import csrf_exempt
+import random
+import datetime
+import time
+
+MERCHANT_KEY="XXX"
+merchantID="XXX"
+
 
 # Create your views here.
 
@@ -342,3 +352,93 @@ def match_in_tournament(request):
         serializer = MatchSerializer(matches, many=True)
         data={'matches':serializer.data,'team_home':team_home,'team_away':team_away}
         return JsonResponse(data)
+#checking out the amount for payment
+def checkout(request):
+    if request.method=="POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        phone = request.POST['mobile']
+        currentTime=datetime.datetime.now()
+        randomValue = str(random.randint(11111,99999))
+        randomOrderId=randomValue+str(currentTime.hour)
+        merchantID="XXX"
+        date=str(currentTime.year)+"-"+str(currentTime.month)+"-"+str(currentTime.day)
+
+
+        
+        appAuthData=AppAuthDataModel.getObject('phone_number',phone)
+        userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
+        #userInfo.subscription_type_id=SubscriptionType()
+        userInfo.expiry_date=datetime.date.today() + datetime.timedelta(days=30)
+        userInfo.save()
+
+        order=Order()
+        order.order_id=randomOrderId
+        order.customer_id=userInfo
+        order.transaction_status=False
+        order.transaction_id="1"
+        order.save()
+        userLog=UserLog()
+        userLog.user_id = userInfo
+        userLog.action = 'payment for the next month'
+        userLog.device_name=findDevice(request)
+        userLog.save()
+        
+        param_dict = {
+            
+            'MID': merchantID,
+            'ORDER_ID': randomOrderId,
+            'CUST_ID': str(appAuthData.id),
+            'TXN_AMOUNT':'2.00',
+            'CHANNEL_ID':"WEB",
+            'WEBSITE':'WEBSTAGING',
+            'INDUSTRY_TYPE_ID':"Retail",
+            'CALLBACK_URL':'http://localhost:8000/response',
+            
+            'MOBILE_NO':phone,
+            'EMAIL':"abc@xyz.com",
+            }
+        param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+        return render(request, 'paytm.html', {'param_dict': param_dict})
+
+    return render("Done", 'home.html')
+
+
+#cancelling subscription of the user
+def cancel(request):
+    phone = request.POST['mobile']
+    appAuthData=AppAuthDataModel.getObject('phone_number',phone)
+    userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
+    #userInfo.subscription_type_id=SubscriptionType()
+    userInfo.expiry_date=datetime.date.today() + datetime.timedelta(days=30)
+    userInfo.save()
+
+    userLog=UserLog()
+    userLog.user_id = userInfo
+    userLog.action = 'canceled subscription'
+    userLog.device_name=findDevice(request)
+    userLog.save()
+
+    return HttpResponse("done")
+
+@csrf_exempt
+def response(request):
+    # paytm will send you post request here
+    form = request.POST
+    response_dict = {}
+    order_details=OrderModel.getObject('order_id',form['ORDERID'])
+    order_details.transaction_id=form['TXNID']
+    if(form['RESPCODE']=='01'):
+        order_details.transaction_status=True
+    for i in form.keys():
+        response_dict[i] = form[i]
+        if i == 'CHECKSUMHASH':
+            checksum = form[i]
+    order_details.save()
+    verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+
+    if verify:
+        response_dict['verify']="No tinkering happened"
+        return render(request, 'paymentstatus.html', {'response': response_dict})
+    return render(request, 'paymentstatus.html',  {'response': response_dict})
+   

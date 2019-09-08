@@ -147,3 +147,27 @@ class UserLogModel:
             device_name = self.device_name
         )
         userLog.save()
+
+class OrderModel:
+
+    def __init__(self):
+        self.customer_id = 0
+        self.order_id = ''
+        self.transaction_id=''
+        self.transaction_status=False
+
+
+    def save(self):
+        Order = Order(
+            customer_id = self.customer_id,
+            order_id = self.order_id,
+            transaction_id=self.transaction_id,
+            transaction_status=self.transaction_status
+        )
+        userLog.save()
+    
+    @staticmethod
+    def getObject(attr,value):
+        if Order.objects.all().filter(order_id=value):
+            return Order.objects.all().get(order_id=value)
+        return False

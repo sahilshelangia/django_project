@@ -200,3 +200,15 @@ class UserLog(models.Model):
 
     def __str__(self):
         return '{} done {} with {} at {}'.format(self.user_id,self.action,self.device_name,self.date_time)
+
+#Model for Payment Order Holder
+class Order(models.Model):
+    customer_id = models.ForeignKey(UserInfo,on_delete = models.CASCADE)
+    order_id=models.CharField(max_length=10)
+    transaction_id=models.CharField(max_length=100)
+    transaction_status=models.BooleanField(default=False)
+    class Meta:
+        db_table = "order_details"
+
+    def __str__(self):
+        return '{} by {}'.format(self.order_id,self.customer_id)

@@ -20,6 +20,10 @@ urlpatterns = [
     path('emailExist',views.emailExist,name='emailExist'),
     path('detail_tournament',views.detail_tournament,name='detail_tournament'),
     path('match_in_tournament',views.match_in_tournament,name='match_in_tournament'),
+	path('cancel',views.cancel,name='cancel'),
+	path('checkout',views.checkout,name='checkout'),
+	path('response',views.response,name='response'),
+
 ]
 
 if settings.DEBUG:
