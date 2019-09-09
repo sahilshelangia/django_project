@@ -19,256 +19,14 @@
 </head>
 
 <body class="home">
-	<style>  
-			
-#myModal2{
-   position: absolute;
-   top: 80px;
-   right: 100px;
-   bottom: 0;
-   left: 0;
-   z-index: 10040;
-   overflow: auto;
-   overflow-y: auto;
-}
-  
-.plan{
-	  display:flex;
-	  flex-direction: row;
-	  justify-content: space-between; 
-	  margin-bottom: 0px;
-	  padding-bottom: 0px;
-	  }
-  
-  .show{
-	display:block;
-	}
-
- .box{
-	 padding-top: 20px;
-	 padding-left:15px;
-	 margin:10px;
-	 background-color:rgb( 33, 32, 32);
- }
- .modal{
-	 font-family: 'Montserrat-Medium',sans-serif;
- }
- .modal-lg{
-	 width:90%;
- }
- .mode.a{
-	 padding: 20px;
- }
- .weight{
-	 font-weight: bold;
- }
- label{
-	 font-size: 15px;
-	 font-family: 'Montserrat-Regular',sans-serif;
-	 color:rgb(245,245,245);
-	 
- }
- p{
-	 font-size:18px;
-	 font-family: 'Montserrat-Medium',sans-serif;
-	 color:rgb(245,245,245);
- }
- .line{
-	display:flex;
-	 flex-direction: row;
-	 justify-content: space-between; 
-
- }
- button{
-	 background-color:inherit;
-	 height: 20px;
-	 color:rgb(245,245,245);
-	 width: 80px;
-	 font-size: 10px;
-	 font-family: 'Montserrat-Light',sans-serif;
-	 border:0.1px solid white;
-	 margin-right: 53px;
- }
- #Cancel{
-	 margin-right: 17px;
- }
- #account{
-	 font-family: 'Montserrat-SemiBold',sans-serif;
-	 font-size: 19px;
-	 color:rgb(203,203,203);
-	 margin-bottom: 5px;
-	padding-bottom: 0px;
-	 
- }
- 
-
-#plans{
-	font-family: 'Montserrat-Light',sans-serif;
-	font-size: 14px;
-	color:rgb(213,213,213);
-}
-.fa-cog{
-	padding: 10px;
-	color: rgb(93,93,93);
-}
-#myaccount,#sub,#help,#sign{
-	font-family: 'Montserrat-Light',sans-serif;
-	color: rgb(213,213,213,213);
-	font-size: 19px;
-}
-.modal-open .container-fluid, .modal-open  .container {
-    -webkit-filter: blur(5px) grayscale(90%);
-}
-.fields {
-
-	max-width: 90% ;
-	max-height: 80% !important;
-
-}
-
-.modal-title{
-	font-family: 'Montserrat-Medium',sans-serif;
-	font-size:15px;
-	padding-left:10px;
-	color: rgb(227,227,227);
-}
-#editChange{
-	font-family: 'Montserrat-Medium',sans-serif;
-	background-color: rgb(255,255,255);
-	color:rgb(51,51,51);
-}
-.link_active{
-	font-family: 'Montserrat-Medium',sans-serif;
-	color: rgb(217,217,217);
-	font-size:18px;
-}
-.link_back{
-	font-family: 'Montserrat-Regular',sans-serif;
-	color: rgb(116,116,116);
-	font-size:18px;
-}
-.subcribe{
-	font-family:'Montserrat-Medium',sans-serif;
-	color: rgb(116,116,116);
-	font-size:18px;
-}
-.dropdown {
-	position: relative;
-	display: inline-block;
-  }
-  .dropdown-content {
-	display:none;
-	position: absolute;
-	 size: 15%;
-	 right: 0;
-	 background-color:rgb(26,26,26);
-	 color: rgb(203,203,203);
-	 width: 260px;
-	 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	 z-index: 1;
-	 }
-	 .dropdown-content a,.dropdown-content p {
-	display: block;
-  padding: 5px 0px 18.6px 10px;
-  text-decoration: none;
-  } 
-  
-  .account:hover{
-	  color:#BAB7B7;
-	  text-decoration: none;
-  }
-  .sub:hover{
-	  color:#BAB7B7;
-	  text-decoration: none;
-  }
-  .help:hover{
-	  color:#BAB7B7;
-	  text-decoration: none;
-  }
-  
-
-.line input{
-	background-color: rgb(33,32,32);
-	border:none;
-	outline:none;
-	font-size:18px;
-	color:rgb(245,245,245);
-	text-decoration: none;
-	-webkit-transition: 0.5s;
-	
-}
-
-.line input[type=text]:focus {
-	outline:none;
-	box-sizing: border-box;
-	border-top: none;
-	border-left: none;
-	border-right: none;
-  	border-bottom: 1px solid rgb(245,245,245);
-  	border-radius: none;
-
-}
-
-.close:focus{
-	color:#BAB7B7;
-	outline: none;
-}
-.navbar-nav{
-	display:flex;
-	flex-direction: row;
-	justify-content: flex-end;
-}
-select {
-	background-color: #212529;
-    position: absolute;
-	z-index: 0;
-}
-.selectOpen {
-    
-    
-	background-color: #212529;
-	color:rgb(245,245,245);
-}
-.payment{
-	background-color: rgb(208,84,43);
-	font-family: "Montserrat-SemiBold",sans-serif;
-	color:rgb(255,255,255);
-	font-size: 19px;
-	text-align: center;
-	text-decoration: none;
-    display: inline-block;
-    font-size: 19px;
-	padding:15px 90px 15px 90px;
-	border:none;
-
-
-}
-.payment-position{
-	display: flex;
-	justify-content: center;
-	margin-bottom: 37px;
-
-}
-#eEmail,#viewEmail{
-	width: 300px;
-}
-.payment-plans{
-	border-bottom: 1px rgb(245,245,245) solid;
-	text-align: center;
-	padding-bottom: 12px;
-	padding-top: 58px;
-}
-
-.payment-selection{
-	height: 303px;
-}
+<style>  
 @media only screen and (max-width: 991px){
-	.line_mobile{
+.line_mobile{
 	display:flex;
-	 flex-direction: column;
-	 justify-content: space-between; 
+	flex-direction: column;
+	justify-content: space-between; 
 
- }
+}
 button{
 	margin-right: 25px;
 }
@@ -280,10 +38,10 @@ button{
  }
  .drop{
 	 
-	 padding-bottom: 20px;
+	padding-bottom: 20px;
  }
  .editName,.editLanguage,#Cancel,#editChange,.editPhone,.editEmail{
-	 margin-bottom: 10px;
+	margin-bottom: 10px;
  }
 
 #search{
@@ -306,7 +64,7 @@ button{
 						<form class="form-inline my-2 my-lg-0" style="display:none;">
 								<input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
 								<a class="nav-link search1" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;display:block;"></a>
-							</form>
+						</form>
 			
 							<a class="nav-link search" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;margin-right:23px;"></a>
 				</li>
@@ -333,10 +91,11 @@ button{
 							</div>
 					</div>
 				</li>
-				</ul>
+			</ul>
 			  
 			</div>
-		</nav>
+	</nav>
+	<!--Modal for account,manage subscriptions and help-->
 		<div id="myModal" class="modal fade" role="dialog">
 				<div class="modal-dialog fields">
 			  
@@ -456,7 +215,7 @@ button{
 													<option value="+61">Australia (+61)</option>
 													<option value="+33">France (+33)</option>
 													
-												</select></p><p id="pos">												  									  
+											</select></p><p id="pos">												  									  
 												<input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
 								<div class="bio">	
 									<button id="Cancel"type="button">Cancel</button>
@@ -539,12 +298,12 @@ button{
 							</div>
 						</div>
 						
-						</div>
-					</div>	
+					</div>
+				  </div>	
 					
-				  </div>
-			  
-				</div>
+				</div>	  
+		</div>
+<!--Modal for the choices of payment-->
 		<div id="myModal2" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				  
@@ -570,12 +329,12 @@ button{
 								<input type="submit" class="button payment" value="Select and Pay">
 						</div>
 					</form>
-					  </div>
-				  
 				</div>
+				  
 			</div>
 			</div>
-		
+		</div>
+<!--Header for the slider behind the dropdown and all-->		
 		<header>
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		  <ol class="carousel-indicators">
@@ -2045,6 +1804,7 @@ button{
 		};
 		xhttp.open("POST", "../email-verify", true);
 		xhttp.send(formData);
-	}    
+	}
+	</script>    
 </body>
 </html>

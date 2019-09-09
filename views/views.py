@@ -352,6 +352,8 @@ def match_in_tournament(request):
         serializer = MatchSerializer(matches, many=True)
         data={'matches':serializer.data,'team_home':team_home,'team_away':team_away}
         return JsonResponse(data)
+
+
 #checking out the amount for payment
 def checkout(request):
     if request.method=="POST":
