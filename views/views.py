@@ -443,4 +443,7 @@ def response(request):
         response_dict['verify']="No tinkering happened"
         return render(request, 'paymentstatus.html', {'response': response_dict})
     return render(request, 'paymentstatus.html',  {'response': response_dict})
-   
+
+#changing the mobile number
+def change(request):
+    return render(request,'ChangeNumber.html')

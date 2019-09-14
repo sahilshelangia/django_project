@@ -970,120 +970,73 @@ button{
 		$("#eLanguage").submit(function(e) {
 		$(".Name,.Language,.Phone,.Email,.Account").show();
 		$(".ChangesLanguage").hide();
-		e.preventDefault(); // avoid to execute the actual submit of the form.
-
-		var form = $(this);
-		var url = form.attr('action');
-
-		$.ajax({
-		type: "POST",
-		url: url,
-		data: $(this).serialize(),
-		success: function(data)
-		{
-			console.log("Success");
-		}
- 		});
 		});
 		$("#ePhone").submit(function(e) {
 		$(".Name,.Language,.Phone,.Email,.Account").show();
 		$(".ChangesPhone").hide();
-		e.preventDefault(); // avoid to execute the actual submit of the form.
-
-		var form = $(this);
-		var url = form.attr('action');
-
-		$.ajax({
-		type: "POST",
-		url: url,
-		data: $(this).serialize(),// serializes the form's elements.
-		success: function(data)
-		{
-			console.log("Success");
-		}
- 		});
 		});
 		$("#eEmailC").submit(function(e) {
 		$(".Name,.Language,.Phone,.Email,.Account").show();
 		$(".ChangesEmail").hide();
-		e.preventDefault(); // avoid to execute the actual submit of the form.
-
-		var form = $(this);
-		var url = form.attr('action');
-
-		$.ajax({
-		type: "POST",
-		url: url,
-		data: $(this).serialize(),// serializes the form's elements.
-		success: function()
-		{
-		console.log("Success");
-		}
- 		});
 		});
 
 			
-				//code to add or remove modal views
-				$(".editName").click(function(){
-				$(".Name,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
-				$(".ChangesName,.Language,.Phone,.Email,.Account").show();
-				jQuery.fn.putCursorAtEnd = function() {
-
+		//code to add or remove modal views
+		$(".editName").click(function(){
+		$(".Name,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
+		$(".ChangesName,.Language,.Phone,.Email,.Account").show();
+		jQuery.fn.putCursorAtEnd = function() {
 				return this.each(function() {
+		// Cache references
+		var $el = $(this),
+		el = this;
+
+		// Only focus if input isn't already
+		if (!$el.is(":focus")) {
+			$el.focus();
+		}
+
+		// If this function exists... (IE 9+)
+		if (el.setSelectionRange) {
+
+		// Double the length because Opera is inconsistent about whether a carriage return is one character or two.
+		var len = $el.val().length * 2;
+	
+		// Timeout seems to be required for Blink
+		setTimeout(function() {
+		el.setSelectionRange(len, len);
+		}, 1);
   
-  				// Cache references
-  				var $el = $(this),
-	  			el = this;
-
-  				// Only focus if input isn't already
-  				if (!$el.is(":focus")) {
-   					$el.focus();
-  				}
-
-  				// If this function exists... (IE 9+)
- 				 if (el.setSelectionRange) {
-
-				// Double the length because Opera is inconsistent about whether a carriage return is one character or two.
-				var len = $el.val().length * 2;
+		} else {
 	
-				// Timeout seems to be required for Blink
-				setTimeout(function() {
-	  			el.setSelectionRange(len, len);
-				}, 1);
-  
-  				} else {
+		// As a fallback, replace the contents with itself
+		// Doesn't work in Chrome, but Chrome supports setSelectionRange
+		$el.val($el.val());
 	
-				// As a fallback, replace the contents with itself
-				// Doesn't work in Chrome, but Chrome supports setSelectionRange
-				$el.val($el.val());
-	
-  				}
+		}
 
-  				// Scroll to the bottom, in case we're in a tall textarea
-  				// (Necessary for Firefox and Chrome)
-  				this.scrollTop = 999999;
+		// Scroll to the bottom, in case we're in a tall textarea
+		// (Necessary for Firefox and Chrome)
+		this.scrollTop = 999999;
+		});
+		};
 
-				});
+		(function() {
+		var searchInput = $(".eName");
 
-			};
+		searchInput
+		.putCursorAtEnd() // should be chainable
+		.on("click", function() { // could be on any event
+		searchInput.putCursorAtEnd()
+		});
 
-			(function() {
-
-			var searchInput = $(".eName");
-
-			searchInput
-  			.putCursorAtEnd() // should be chainable
-  			.on("click", function() { // could be on any event
-			searchInput.putCursorAtEnd()
-  			});
-
-			})();
-			$(".sub,.help").addClass("link_back");
-			$(".sub,.help").removeClass("link_active");
-			$(".account").addClass("link_active");
-			$(".account").removeClass("link_back");	
-			});	
-			$(".editPhone").click(function(){
+		})();
+		$(".sub,.help").addClass("link_back");
+		$(".sub,.help").removeClass("link_active");
+		$(".account").addClass("link_active");
+		$(".account").removeClass("link_back");	
+		});	
+		$(".editPhone").click(function(){
 				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.Phone,.ChangesEmail").hide();
 				$(".Name,.Language,.ChangesPhone,.Email,.Account").show();
 				$("#eNumber").focus();

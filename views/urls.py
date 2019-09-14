@@ -23,6 +23,7 @@ urlpatterns = [
 	path('cancel',views.cancel,name='cancel'),
 	path('checkout',views.checkout,name='checkout'),
 	path('response',views.response,name='response'),
+    path('change',views.change,name='change')
 
 ]
 

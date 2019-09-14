@@ -125,7 +125,7 @@ class CatchEmailTempModel:
 
 class UserNotificationTypeModel:
 
-    def save(self, userNotificationTypeEntitiy):
+    def save(self, userNotificationTypeEntity):
         userNotificationType = UserNotificationType(
             app_auth_data = userNotificationTypeEntitiy.app_auth_data,
             notification_type_id = userNotificationTypeEntitiy.notification_type_id
@@ -150,24 +150,28 @@ class UserLogModel:
 
 class OrderModel:
 
-    def __init__(self):
-        self.customer_id = 0
-        self.order_id = ''
-        self.transaction_id=''
-        self.transaction_status=False
-
-
-    def save(self):
+    def save(self,OrderEntity):
         Order = Order(
-            customer_id = self.customer_id,
-            order_id = self.order_id,
-            transaction_id=self.transaction_id,
-            transaction_status=self.transaction_status
+            customer_id = OrderEntity.customer_id,
+            order_id = OrderEntity.order_id,
+            transaction_id=OrderEntity.transaction_id,
+            transaction_status=OrderEntity.transaction_status
         )
-        userLog.save()
+        Order.save()
     
     @staticmethod
     def getObject(attr,value):
         if Order.objects.all().filter(order_id=value):
             return Order.objects.all().get(order_id=value)
         return False
+
+class UserLogModel:
+
+    def save(self,UserLogEntity):
+        UserLog=UserLog(
+            user_id = UserLogEntity.user_id,
+            action = UserLogEntity.action,
+            device_name = UserLog.device_name,
+            date_time=UserLog.date_time,
+        )
+        UserLog.save()

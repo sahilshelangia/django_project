@@ -1,4 +1,5 @@
 # This file contains entities for all the models
+from django.utils.timezone import datetime
 
 class AppAuthDataEntity:
 
@@ -32,3 +33,20 @@ class UserNotificationTypeEntity:
         self.id = 0
         self.app_auth_data = None
         self.notification_type_id = None
+
+class OrderEntity:
+
+    def __init__(self):
+        self.customer_id = 0
+        self.order_id = ''
+        self.transaction_id=''
+        self.transaction_status=False
+
+class UserLogEntity:
+
+    def __init(self):
+        self.id=0
+        self.user_id = 0
+        self.action = ''
+        self.device_name = ''
+        self.date_time=datetime.now
