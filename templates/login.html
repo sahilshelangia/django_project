@@ -21,11 +21,12 @@
 
 <body class="bg-old">
 <style>
-@media only screen and (max-width: 425px){
-/*.right_part_l{
-  display: none;
-}*/
-} 
+#Names{
+    display:block;
+    font-size:13px;
+    color:rgb(51,51,51);
+    font-family: 'Montserrat-Regular',sans-serif;
+}
 </style>
 
 	<section id="login">
@@ -48,7 +49,7 @@
 					  		<form id="login-form" method="POST" action="{%url 'login'%}">
                   {%csrf_token%}
   								<div class="form-group mt-4">
-  									<label for="exampleInputEmail1" class="text-uppercase">select country</label>
+  									<label for="exampleInputEmail1" class="text-uppercase" id="Names">select country</label>
   									<div class="sws-custom-select">
 	    								<select name="login-code" id="login-code" class="form-control text-uppercase">
 	    									<option value="+91">India (+91)</option>
@@ -61,7 +62,7 @@
 	    							</div>
   								</div>
   								<div class="form-group mt-4">
-  									<label for="exampleInputEmail1" class="text-uppercase">Enter mobile number</label>
+  									<label for="exampleInputEmail1" class="text-uppercase"id="Names">Enter mobile number</label>
   									<input name="login-phone" id="login-phone" type="text" class="form-control" placeholder="Enter your mobile number" required="true">
   								</div>
                   <small id="loginPhoneError" class="form-text mt-4" style="color: red;"></small>
@@ -83,17 +84,17 @@
                   {%csrf_token%}
   								<div class="form-group mt-4 row">
   									<div class="col-md-6 col-6" id="register-fname-error">
-  										<label class="text-uppercase">First Name</label>
+  										<label class="text-uppercase"id="Names">First Name</label>
   										<input name="first_name" id="register-first-name" type="text" class="form-control text-uppercase" placeholder="mohammad">
   									</div>
   									<div class="col-md-6 col-6" id="register-lname-error">
-  										<label class="text-uppercase">Last Name</label>
+  										<label class="text-uppercase"id="Names">Last Name</label>
   										<input name="last_name" id="register-last-name" type="text" class="form-control text-uppercase" placeholder="Salah">
   									</div>
   								</div>
   								<div class="form-group mt-4 row">
   									<div class="col-md-6 col-6">
-	  									<label for="exampleInputEmail1" class="text-uppercase">select country</label>
+	  									<label for="exampleInputEmail1" class="text-uppercase"id="Names">select country</label>
 	  									<div class="sws-custom-select new_a">
 		    								<select id="register-code" class="form-control text-uppercase">
 		    									<option value="+91">India (+91)</option>
@@ -105,17 +106,17 @@
 		    							</div>
 		    						</div>
 		    						<div class="col-md-6 col-6" id="register-phone-error">
-		    							<label for="exampleInputEmail1" class="text-uppercase">Enter mobile number</label>
+		    							<label for="exampleInputEmail1" class="text-uppercase"id="Names">Enter mobile number</label>
   										<input id="register-phone" type="text" class="let-spac form-control" placeholder="98765432210">
 		    						</div>
                     
   								</div>
   								<div class="form-group mt-4" id="register-email-error">
-  									<label for="exampleInputEmail1" class="text-uppercase">Enter Your Email address</label>
+  									<label for="exampleInputEmail1" class="text-uppercase"id="Names">Enter Your Email address</label>
   									<input name="email" type="text" id="register-email" class="form-control" placeholder="mpranav991@gmail.com">
   								</div>
   								<div class="form-group mt-4" id="register-dob-error">
-  									<label for="sof" class="text-uppercase">Enter Your Date of Birth</label>
+  									<label for="sof" class="text-uppercase"id="Names">Enter Your Date of Birth</label>
   									<div class="input-group mb-3">
 	  									<input name ="dob" type="text" id="sof" class="form-control" placeholder="DD/MM/YYYY" value="" onclick="getdates();" onfocus="getdates();" >
 	  									<div class="input-group-append">

@@ -3,6 +3,7 @@ body
     font-family: 'Montserrat', sans-serif;
 	background-color: #000;
 }
+
 #myModal2{
 	position: absolute;
 	top: 80px;
@@ -1336,7 +1337,7 @@ section#login .right_part_l::after {
 	height: 10px;
 	border: unset;
 	background-image: url('../img/list.png');
-	background-size: cover;
+	background-size:cover;
 	transition: 0.5s;
 }
 .new_a .select-selected::after
