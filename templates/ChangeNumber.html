@@ -43,7 +43,7 @@
 					</nav>
 					<div class="tab-content mt-3" id="nav-tabContent">
 					  <div class="tab-pane fade show active" id="nav-home-h" role="tabpanel" aria-labelledby="nav-home-h-tab">
-					  		<p class="text-uppercase sws_p d-block d-sm-none">Easy Login In <span class="me_orang_text">one</span> step</p>
+					  		<p class="text-uppercase sws_p d-block d-sm-none">Change Your <span class="me_orang_text">Mobile</span>Number</p>
 					  		<p class="text-uppercase sws_p d-none d-sm-block">Change Your</p>
 					  		<h5 class="text-uppercase sws_h5 d-none d-sm-block"><span class="me_orang_text">Mobile</span> number</h4>
 					  		<form id="login-form" method="POST" action="{%url 'login'%}">
@@ -78,7 +78,7 @@
   								
                   
   								<div class="form-group mt-4">
-  									<input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="submit" onclick="smsLogin1(document.getElementById('login-code').options[document.getElementById('login-code').selectedIndex].value, document.getElementById('login-phone').value)">
+  									<input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="submit" >
   								</div>
   								
   							</form>
@@ -211,154 +211,8 @@
 
     
 
-      function loginCallback1(response) {
-        if (response.status === "PARTIALLY_AUTHENTICATED") {
-           document.getElementById('login_accountkit_data').value=response.code
-          document.getElementById("login-form").submit();
-        }
-        else if (response.status === "NOT_AUTHENTICATED") {
-          // handle authentication failure
-          console.log(response);
-        }
-        else if (response.status === "BAD_PARAMS") {
-          // handle bad parameters
-          console.log(response);
-        }
-      }
 
-      function smsLogin(pc, pn,email,fname,lname,dob) {
-        var validationError=false;
 
-        var paras = document.getElementsByClassName('errors');
-        while(paras[0])
-            paras[0].parentNode.removeChild(paras[0]);
-        if(pn==''){
-          var x = document.createElement("LABEL");
-          x.style.color = 'red';
-          x.innerHTML="phone number can't be empty.";
-          x.className='errors';
-          document.getElementById('register-phone-error').appendChild(x);
-          validationError=true;
-        }
-        if(email==''){
-          var x = document.createElement("LABEL");
-          x.style.color = 'red';
-          x.className='errors';
-          x.innerHTML="email can't be empty.";
-          document.getElementById('register-email-error').appendChild(x);
-          validationError=true;
-
-        }
-        if(ValidateEmail(email)==false){
-          var x = document.createElement("LABEL");
-          x.style.color = 'red';
-          x.className='errors';
-          x.innerHTML="not a valid email.";
-          document.getElementById('register-email-error').appendChild(x);
-          validationError=true;
-        }
-        if(fname==''){
-          var x = document.createElement("LABEL");
-          x.style.color = 'red';
-          x.className='errors';
-          x.innerHTML="first name can't be empty.";
-          document.getElementById('register-fname-error').appendChild(x);
-          validationError=true;
-        }
-        if(lname==''){
-          var x = document.createElement("LABEL");
-          x.style.color = 'red';
-          x.className='errors';
-          x.innerHTML="last name can't be empty.";
-          document.getElementById('register-lname-error').appendChild(x);
-          validationError=true;
-        }
-        if(dob==''){
-          var x = document.createElement("LABEL");
-          x.style.color = 'red';
-          x.className='errors';
-          x.innerHTML="dob can't be empty.";
-          document.getElementById('register-dob-error').appendChild(x);
-          validationError=true;
-        }
-        if(document.getElementById("checkbox1").checked==false){
-          var x = document.createElement("LABEL");
-          x.style.color = 'red';
-          x.className='errors';
-          x.innerHTML="Mark this first .";
-          document.getElementById('register-checkbox-error').appendChild(x);
-          validationError=true;
-        }
-        if(validationError)
-          return ;
-        var xhttp = new XMLHttpRequest();
-        var formData = new FormData();
-        formData.append('country_code',pc);
-        formData.append('phone_number',pn);
-        formData.append('email',email);
-        formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
-        
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText);
-            console.log(data);
-            if(data['phone']=="yes"||data['email']=="yes"){
-              if(data['phone']=="yes"){
-                document.getElementById('registerPhoneError').innerHTML="User already exist with this Number!";
-              }  
-
-              if(data['email']=="yes"){
-                document.getElementById('registerEmailError').innerHTML="User already exist with this Email!";
-              }
-            }
-             
-
-            else{
-                AccountKit.login(
-                'PHONE',
-                {countryCode: pc, phoneNumber: pn},
-                loginCallback
-              );
-            }
-          }
-        };
-        xhttp.open("POST", "../register", true);
-        xhttp.send(formData);
-      }
-
-      function smsLogin1(pc, pn) {
-          if(pn==''){
-            document.getElementById('loginPhoneError').innerHTML="Field can't be blank";
-            return ;
-          }
-          var xhttp = new XMLHttpRequest();
-          var formData = new FormData();
-          formData.append('country_code',pc);
-          formData.append('phone_number',pn);
-          formData.append('email','a');
-          formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
-          
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              data = JSON.parse(this.responseText);
-              console.log(data);
-              if(data['phone']=="no"){
-                document.getElementById('loginPhoneError').innerHTML="User doesnot exist! Please register first.";
-              }
-                  
-              else
-                  {
-                      AccountKit.login(
-                      'PHONE',
-                      {countryCode: pc, phoneNumber: pn},
-                      loginCallback1
-                    );
-                  }
-            }
-          };
-          xhttp.open("POST", "../register", true);
-          xhttp.send(formData);
-      }
 
     </script>
 
