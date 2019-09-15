@@ -25,13 +25,6 @@ class AppAuthDataModel:
                 return AppAuthData.objects.all().get(account_kit_id=value)
             else:
                 return False
-
-    # def delete(self,request):
-    #     appAuthData = AppAuthData(
-    #         account_kit_id = self.account_kit_id,
-    #         phone_number = self.phone_number
-    #     )  
-    #     appAuthData.delete() 
          
 
 class UserInfoModel:
@@ -52,6 +45,27 @@ class UserInfoModel:
 
 
     @staticmethod
+    def changeEmail(id,email):
+        userInfo=UserInfo.objects.get(id=id)
+        userInfo.email=email
+        userInfo.email_verified=False
+        userInfo.save()
+
+    @staticmethod
+    def changeName(id,first_name,last_name):
+        userInfo=UserInfo.objects.get(id=id)
+        userInfo.first_name=first_name
+        userInfo.last_name=last_name
+        userInfo.save()
+
+    @staticmethod
+    def updateEmailToken(id):
+        userInfo=UserInfo.objects.get(id=id)
+        userInfo.email_token=get_random_string(length=32)
+        userInfo.token_expiry=timezone.now()+timezone.timedelta(hours=1)
+        userInfo.save()
+
+    @staticmethod
     def getObject(attr,value):
         if attr=='app_auth_data_id':
             if UserInfo.objects.all().filter(app_auth_data_id=value):
@@ -67,19 +81,8 @@ class UserInfoModel:
 
         else:
             return False
-                
 
 
-    # def delete(self):
-    #     userInfo = UserInfo(
-    #         first_name = self.first_name,
-    #         last_name = self.last_name,
-    #         email = self.email,
-    #         date_of_birth = self.date_of_birth,
-    #         expiry_date = self.expiry_date,
-    #         is_active = self.is_active
-    #     )
-    #     userInfo.delete()
 
 class NotificationTypeModel:
     
@@ -165,13 +168,64 @@ class OrderModel:
             return Order.objects.all().get(order_id=value)
         return False
 
-class UserLogModel:
-
-    def save(self,UserLogEntity):
-        UserLog=UserLog(
-            user_id = UserLogEntity.user_id,
-            action = UserLogEntity.action,
-            device_name = UserLog.device_name,
-            date_time=UserLog.date_time,
+class TournamentModel:
+    def save(self, TournamentEntity):
+        tournament = Tournament(
+            name=TournamentEntity.name,
+            intro=TournamentEntity.intro,
+            tournament_detail_image=TournamentEntity.tournament_detail_image,
+            color=TournamentEntity.color,
+            cnt_match=TournamentEntity.cnt_match,
+            start_date=TournamentEntity.start_date,
+            end_date=TournamentEntity.end_date,
+            venue=TournamentEntity.venue
         )
-        UserLog.save()
+        tournament.save()
+        return userInfo
+
+    @staticmethod
+    def getAllObject():
+        return Tournament.objects.all()
+
+    @staticmethod
+    def getObject(attr,value):
+        if attr=='id':
+            if Tournament.objects.all().filter(id=value):
+                return Tournament.objects.all().get(id=value)
+            else:
+                return False
+
+
+class MatchModel:
+    def save(self, MatchEntity):
+        match = Match(
+            team_home=MatchEntity.team_home,
+            team_away=MatchEntity.team_away,
+            tournament=MatchEntity.tournament,
+            start_time=MatchEntity.start_time,
+            end_time=MatchEntity.end_time,
+            image=MatchEntity.image,
+            winner=MatchEntity.winner,
+            home_score=MatchEntity.home_score,
+            away_score=MatchEntity.away_score,
+            boxcastLink=MatchEntity.boxcastLink
+        )
+        match.save()
+        return match
+
+    @staticmethod
+    def getAllObject():
+        return Match.objects.all()
+
+    @staticmethod
+    def getObject(attr,value):
+        if attr=='tournament':
+            if Match.objects.all().filter(tournament=value):
+                return Match.objects.all().filter(tournament=value)
+            else:
+                return False
+
+class MatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Match
+        fields='__all__'

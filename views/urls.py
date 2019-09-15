@@ -6,10 +6,10 @@ from django.conf import settings
 urlpatterns = [
     path('', views.index, name='index'),
     path('home', views.home, name='home'),
-    path('register',views.registerUser,name='registerUser'),
+    path('check-registered',views.checkUserAlreadyRegistered,name='checkUserAlreadyRegistered'),
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
-    path('auth-code', views.authCode, name='authCode'),
+    path('registerUser', views.registerUser, name='registerUser'),
     path('notify', views.notify, name='notify'),
     path('updateName', views.updateName, name='updateName'),
     path('updateEmail', views.updateEmail, name='updateEmail'),
@@ -23,7 +23,8 @@ urlpatterns = [
 	path('cancel',views.cancel,name='cancel'),
 	path('checkout',views.checkout,name='checkout'),
 	path('response',views.response,name='response'),
-    path('change',views.change,name='change')
+    path('change',views.change,name='change'),
+    path('video/<id>',views.boxcastVideo,name='boxcastVideo'),
 
 ]
 

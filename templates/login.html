@@ -79,7 +79,7 @@
 					  		<h5 class="text-uppercase sws_h5 d-none d-sm-block"><span class="me_orang_text">Four</span> Steps</h4>
 
 
-					  		<form action="{%url 'authCode'%}" method="POST" id="register-form">
+					  		<form action="{%url 'registerUser'%}" method="POST" id="register-form">
                   {%csrf_token%}
   								<div class="form-group mt-4 row">
   									<div class="col-md-6 col-6" id="register-fname-error">
@@ -132,7 +132,7 @@
                   <input name="accountkit_data" type="hidden" id="accountkit_data">
   								<div class="form-group mt-4">
 									  <input type="button" class="text-uppercase btn btn-block bg_color_orang_bgc login-btn text-white" value="sign up" 
-									  	onclick="smsLogin(document.getElementById('register-code').options[document.getElementById('register-code').selectedIndex].value, document.getElementById('register-phone').value,document.getElementById('register-email').value,document.getElementById('register-first-name').value,document.getElementById('register-last-name').value,document.getElementById('sof').value)">
+									  	onclick="smsRegister(document.getElementById('register-code').options[document.getElementById('register-code').selectedIndex].value, document.getElementById('register-phone').value,document.getElementById('register-email').value,document.getElementById('register-first-name').value,document.getElementById('register-last-name').value,document.getElementById('sof').value)">
   								</div>
   							</form>
 					  </div>
@@ -319,9 +319,8 @@
         }
       }
 
-      function smsLogin(pc, pn,email,fname,lname,dob) {
+      function smsRegister(pc, pn,email,fname,lname,dob) {
         var validationError=false;
-
         var paras = document.getElementsByClassName('errors');
         while(paras[0])
             paras[0].parentNode.removeChild(paras[0]);
@@ -397,11 +396,19 @@
             console.log(data);
             if(data['phone']=="yes"||data['email']=="yes"){
               if(data['phone']=="yes"){
-                document.getElementById('registerPhoneError').innerHTML="User already exist with this Number!";
+                var x = document.createElement("LABEL");
+                x.style.color = 'red';
+                x.innerHTML="User already exist with this Number!";
+                x.className='errors';
+                document.getElementById('register-phone-error').appendChild(x);
               }  
 
               if(data['email']=="yes"){
-                document.getElementById('registerEmailError').innerHTML="User already exist with this Email!";
+                var x = document.createElement("LABEL");
+                x.style.color = 'red';
+                x.className='errors';
+                x.innerHTML="User already exist with this Email!";
+                document.getElementById('register-email-error').appendChild(x);
               }
             }
              
@@ -415,7 +422,7 @@
             }
           }
         };
-        xhttp.open("POST", "../register", true);
+        xhttp.open("POST", "../check-registered", true);
         xhttp.send(formData);
       }
 
@@ -449,7 +456,7 @@
                   }
             }
           };
-          xhttp.open("POST", "../register", true);
+          xhttp.open("POST", "../check-registered", true);
           xhttp.send(formData);
       }
 

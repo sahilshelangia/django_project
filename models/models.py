@@ -59,7 +59,7 @@ class UserInfo(models.Model):
     email = models.CharField(max_length = 65, unique = True)
     email_verified=models.BooleanField(default=False)
     email_token=models.CharField(max_length=32,default=get_random_string(length=32))
-    token_expiry=models.DateTimeField(default=timezone.now())
+    token_expiry=models.DateTimeField(default=timezone.now)
     date_of_birth = models.DateField()
     subscription_type_id = models.ForeignKey(
         SubscriptionType,
@@ -103,12 +103,12 @@ class catch_email_temp(models.Model):
 
 
 
-class organiser(models.Model):
+class Organiser(models.Model):
     name= models.CharField(max_length=128)
     role=models.CharField(max_length=128)
     company=models.CharField(max_length=128)
     phone=models.CharField(max_length=16)
-    organiser_email=models.EmailField()
+    organiserEmail=models.EmailField()
 
     class Meta:
         db_table = "organiser"
@@ -117,7 +117,7 @@ class organiser(models.Model):
         return self.name
 
 
-class team(models.Model):
+class Team(models.Model):
     name=models.CharField(max_length=128)
     logo=models.ImageField(upload_to='team_logo')
     owner=models.CharField(max_length=128)
@@ -129,24 +129,24 @@ class team(models.Model):
     def __str__(self):
         return self.name
 
-class player(models.Model):
+class Player(models.Model):
     name=models.CharField(max_length=64)
     position=models.CharField(max_length=64)
     jersey_number=models.CharField(max_length=16)
-    team=models.ForeignKey(team,on_delete=models.CASCADE)
+    team=models.ForeignKey(Team,on_delete=models.CASCADE)
     class Meta:
         db_table = "player"
 
     def __str__(self):
         return self.name 
 
-class tournament(models.Model):
+class Tournament(models.Model):
     name=models.CharField(max_length=64)
     intro=models.TextField()
     tournament_detail_image=models.ImageField(upload_to='tournament_image',blank=True)
     # thumnail image
     color=ColorField(default='#FF0000')
-    organiser=models.ForeignKey(organiser,on_delete=models.CASCADE)
+    organiser=models.ForeignKey(Organiser,on_delete=models.CASCADE)
     cnt_match=models.IntegerField(default=0)
     start_date=models.DateTimeField(default=datetime.datetime.now)
     end_date=models.DateTimeField(default=datetime.datetime.now)
@@ -158,24 +158,26 @@ class tournament(models.Model):
     def __str__(self):
         return self.name 
 
-class tournament_team_relationship(models.Model):
-    tournament=models.ForeignKey(tournament,on_delete=models.CASCADE)
-    team=models.ForeignKey(team,on_delete=models.CASCADE)
+class TournamentTeamRelationship(models.Model):
+    tournament=models.ForeignKey(Tournament,on_delete=models.CASCADE)
+    team=models.ForeignKey(Team,on_delete=models.CASCADE)
 
     class Meta:
         db_table='tournament_team_relationship'
         unique_together = (('tournament', 'team'),)
 
 
-class match(models.Model):
-    team_home=models.ForeignKey(team,related_name='team_home',on_delete=models.CASCADE)
-    team_away=models.ForeignKey(team,related_name='team_away',on_delete=models.CASCADE)
-    tournament=models.ForeignKey(tournament,related_name='tournament',on_delete=models.CASCADE)
+class Match(models.Model):
+    team_home=models.ForeignKey(Team,related_name='team_home',on_delete=models.CASCADE)
+    team_away=models.ForeignKey(Team,related_name='team_away',on_delete=models.CASCADE)
+    tournament=models.ForeignKey(Tournament,related_name='tournament',on_delete=models.CASCADE)
     start_time=models.DateTimeField(default=datetime.datetime.now)
+    end_time=models.DateTimeField(default=datetime.datetime.now)
     image=models.ImageField(upload_to='match_images')
-    winner=models.ForeignKey(team,related_name='team_winner',on_delete=models.CASCADE,default="Not Declared")
+    winner=models.ForeignKey(Team,related_name='team_winner',on_delete=models.CASCADE,default="Not Declared")
     home_score=models.CharField(max_length=4,blank=True,null=True)
     away_score=models.CharField(max_length=4,blank=True,null=True)
+    boxcastLink=models.CharField(max_length=10000,blank=True,null=True)
     class Meta:
         db_table = "match"
 
@@ -183,11 +185,6 @@ class match(models.Model):
         return '{} vs {}'.format(self.team_home,self.team_away)
 
 
-# work on buisness logic also
-class MatchSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = match
-        fields='__all__'
 
 #Model for User Log
 class UserLog(models.Model):

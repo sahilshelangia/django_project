@@ -1,4 +1,4 @@
-from models.models import *
+# from models.models import *
 from .basic_functionality import *
 from business.accountkit import *
 from django.http import JsonResponse
@@ -6,9 +6,7 @@ from django.shortcuts import render, HttpResponse,redirect
 from business import accountkit
 from business.models import *
 from business.entities import *
-import random
-import string
-import requests
+import random,string,requests,json,random,datetime,time
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.utils import timezone
@@ -16,11 +14,7 @@ from django.utils.crypto import get_random_string
 from django.core import serializers
 from django.forms.models import model_to_dict
 from PayTm import Checksum
-import json
 from django.views.decorators.csrf import csrf_exempt
-import random
-import datetime
-import time
 
 MERCHANT_KEY="XXX"
 merchantID="XXX"
@@ -31,12 +25,13 @@ merchantID="XXX"
 def index(request):
     return render(request, 'index.html')
 
+# view for home page
 def home(request):
     if request.COOKIES.get('goalstar'):
         phone_number=findPhoneNumber(request)
         appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
         userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData) 
-        trn= tournament.objects.all()
+        trn=TournamentModel.getAllObject()
         context={'userInfo':userInfo,
                  'trn':trn,
                 'FACEBOOK_APP_ID': '374722036360552',
@@ -57,7 +52,7 @@ def logout(request):
         userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
        
         # log the user action
-        userLog=UserLog()
+        userLog=UserLogModel()
         userLog.user_id=userInfo
         userLog.action='logout'
         userLog.device_name=findDevice(request)
@@ -79,7 +74,7 @@ def login(request):
         userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
 
         # log the user action
-        userLog=UserLog()
+        userLog=UserLogModel()
         userLog.user_id=userInfo
         userLog.action='login'
         userLog.device_name=findDevice(request)
@@ -108,7 +103,7 @@ def login(request):
 
 # After Checking user is already regitered or not
 # call this view to register new user
-def authCode(request):
+def registerUser(request):
     if request.method == "POST":
         accountkit_data = accountkit.validate_accountkit_access_token(accountkit.get_accountkit_access_token(request.POST['accountkit_data']))
         
@@ -142,7 +137,7 @@ def authCode(request):
             userNotificationTypeModel.save(userNotificationTypeEntity)
 
         # Save this action in user log table
-        userLog=UserLog()
+        userLog=UserLogModel()
         userLog.user_id = ins
         userLog.action = 'registration'
         userLog.device_name=findDevice(request)
@@ -171,8 +166,9 @@ def notify(request):
         notify_me.save()
 
 
-# check user is already registered or not using AJAX
-def registerUser(request):
+# check user is already registered with that
+# mail or phone number or not 
+def checkUserAlreadyRegistered(request):
     if request.method=="POST":
         phone_number=request.POST['phone_number']
         country_code=request.POST['country_code']
@@ -206,25 +202,19 @@ def updateEmail(request):
             appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
             userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
     
-            userInfo.email=request.POST['email']
-            userInfo.email_verified=False
-            userInfo.save()
+            UserInfoModel.changeEmail(userInfo.id,request.POST['email'])
             data={'output':"successful"}
             return JsonResponse(data)
         else:
             return HttpResponse("Permission Denied!!!")
 
-
-
+# convert html mail
 def emailVerification(request):
     if request.COOKIES.get('goalstar'):
         phone_number=findPhoneNumber(request)
         appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
         userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
-
-        userInfo.email_token=get_random_string(length=32)
-        userInfo.token_expiry=timezone.now()+timezone.timedelta(hours=1)
-        userInfo.save()
+        UserInfoModel.updateEmailToken(userInfo.id)
 
         current_site = get_current_site(request)
         mail_subject = 'Activate your  account.'
@@ -269,7 +259,7 @@ def updatePhone(request):
             userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
 
 
-            userLog=UserLog()
+            userLog=UserLogModel()
             userLog.user_id = userInfo
             userLog.action = 'update phone number'
             userLog.device_name=findDevice(request)
@@ -281,18 +271,16 @@ def updatePhone(request):
             myResponse.set_cookie(key='goalstar',value=cookieInfo,httponly=True,max_age=31536000)
             return myResponse
 
+
 def updateName(request):
     if request.method == "POST":
         if request.COOKIES.get('goalstar'):
             phone_number=findPhoneNumber(request)
             appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
             userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
+            UserInfoModel.changeName(userInfo.id,request.POST['first_name'],request.POST['last_name'])
 
-            userInfo.first_name=request.POST['first_name']
-            userInfo.last_name=request.POST['last_name']
-            userInfo.save()
-
-            userLog=UserLog()
+            userLog=UserLogModel()
             userLog.user_id = userInfo
             userLog.action = 'update first and last name'
             userLog.device_name=findDevice(request)
@@ -326,21 +314,21 @@ def emailExist(request):
            data={'output':"no"}
         return JsonResponse(data)
 
+
 def detail_tournament(request):
     if request.method=="POST":
-        trn=tournament.objects.get(id=request.POST['trn_id'])
-        data={}
+        trn=TournamentModel.getObject('id',request.POST['trn_id'])
         serialized_obj = serializers.serialize('json', [ trn, ])
         data={'trn':serialized_obj}
         return JsonResponse(data)
 
-# ajax request for sending back all match info regarding particular tournament
-# import array
+
+# ajax request for sending back all match info
+# regarding particular tournament
 def match_in_tournament(request):
     if request.method=="POST":
-        print(request.POST['trn_id'])
-        trn=tournament.objects.get(id=request.POST['trn_id'])
-        matches=match.objects.all().filter(tournament=trn)
+        trn=TournamentModel.getObject('id',request.POST['trn_id'])
+        matches=MatchModel.getObject('tournament',trn)
 
         team_home = []
         team_away = []
@@ -380,7 +368,8 @@ def checkout(request):
         order.transaction_status=False
         order.transaction_id="1"
         order.save()
-        userLog=UserLog()
+
+        userLog=UserLogModel()
         userLog.user_id = userInfo
         userLog.action = 'payment for the next month'
         userLog.device_name=findDevice(request)
@@ -415,7 +404,7 @@ def cancel(request):
     userInfo.expiry_date=datetime.date.today() + datetime.timedelta(days=30)
     userInfo.save()
 
-    userLog=UserLog()
+    userLog=UserLogModel()
     userLog.user_id = userInfo
     userLog.action = 'canceled subscription'
     userLog.device_name=findDevice(request)
@@ -447,3 +436,9 @@ def response(request):
 #changing the mobile number
 def change(request):
     return render(request,'ChangeNumber.html')
+
+
+def boxcastVideo(request,id):
+    par_match=Match.objects.get(id=id)
+    boxcastEmbedCode=par_match.boxcastLink;
+    return render(request,'boxcast_video.html',{'boxcastEmbedCode':boxcastEmbedCode})

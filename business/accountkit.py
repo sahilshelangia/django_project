@@ -21,12 +21,9 @@ def get_accountkit_app_secret():
 
 # Function to retrieve access token using Graph API
 def get_accountkit_access_token(data):
-
     response = requests.get('https://graph.accountkit.com/v1.3/access_token?grant_type=authorization_code' \
         '&code=' + data + '&access_token=AA|'+ get_facebook_app_id() + '|' + get_accountkit_app_secret())
     access_code = json.loads(response.text)['access_token']
-    print(access_code)
-
     return access_code
 
 

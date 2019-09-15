@@ -16,6 +16,8 @@
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
 	<link href="{% static 'css/all.css' %}" rel="stylesheet">
 	<script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
+	<script src="{% static 'js/update_profile_functionality.js' %}"></script>
+	<script src="{% static 'js/dynamic_tournament_matches.js' %}"></script>
 </head>
 
 <body class="home">
@@ -143,106 +145,120 @@ button{
 						<div class="Account">
 							<div class="box Name">
 								<label>Name</label>
-							<div class="line">
-								<p>{{userInfo.first_name}} {{userInfo.last_name}}</p>
-								<button id="edit" class="editName">Edit Now</button>
+								<div class="line">
+									<p id="fullName">{{userInfo.first_name}} {{userInfo.last_name}}</p>
+									<button id="edit" class="editName">Edit Now</button>
+								</div>
 							</div>
-							</div>
+
+							<!-- to send the data to our edit_profile_functionality.js -->
+							<script>
+						    var CSRF_TOKEN_GLOBAL = '{{ csrf_token }}';
+						    var FACEBOOK_APP_ID_GLOBAL='{{FACEBOOK_APP_ID}}';
+				        var ACCOUNT_KIT_API_VERSION_GLOBAL='{{ACCOUNT_KIT_API_VERSION}}';
+							</script>
+
 							<div class="ChangesName" style="display: none;">
-							<div class="box">
-								<label>Name</label>
-							<form action="" method="POST" id="eNameC">
-							{%csrf_token%}
-							<div class="line line_mobile">
-								<p><input  id="eName" type="text" value="{{userInfo.first_name}}" autofocus>
-								<input  id="eName" type="text" value="{{userInfo.last_name}}" autofocus></p>
-							<div class="bio">	
-								<button id="Cancel"type="button">Cancel</button>
-								<button  id="editChange">Save</button>
-							</div>
-							</div>
-							</form>
-							</div>
+								<div class="box">
+									<label>Name</label>
+									<form id="eNameC">
+										<div class="line line_mobile">
+											<p><input  id="eName1" type="text" value="{{userInfo.first_name}}" autofocus>
+											<input  id="eName2" type="text" value="{{userInfo.last_name}}" autofocus></p>
+											<div class="bio">	
+												<button id="Cancel"type="button">Cancel</button>
+												<button  id="editChange" onclick="changeNameAjax(document.getElementById('eName1').value,document.getElementById('eName2').value)">Save</button>
+											</div>
+										</div>
+									</form>
+								</div>
 							</div>
 		
 							<div class="box Language">
 								<label>Language</label>
-							<div class="line">
-								<p>English</p>
-								<button id="edit" class="editLanguage">Edit Now</button>
-							</div>	
+								<div class="line">
+									<p>English</p>
+									<button id="edit" class="editLanguage">Edit Now</button>
+								</div>	
 							</div>
 							<div class="ChangesLanguage" style="display:none;">
 								<div class="box">
 									<label>Language(Check to add and uncheck to remove languages)</label>
-								<form action="" method="POST" id="eLanguage">
-								{%csrf_token%}
-								<div class="line line_mobile">	
-									<p><input type="radio" type="radio" name="language" value="english"  checked>English</p>
-									<p><input type="radio" name="language" value="malayalam" >മലയാളം</p>
-								<div class="bio">
-									<button id="Cancel"type="button">Cancel</button>
-									<button id="editChange" type="submit">Save</button>
-								</div>
-								</div>
-								</form>
-								</div>
-								
+									<form id="eLanguage">
+										<div class="line line_mobile">	
+											<p><input type="radio" type="radio" name="language" value="english"  checked>English</p>
+											<p><input type="radio" name="language" value="malayalam" >മലയാളം</p>
+											<div class="bio">
+												<button id="Cancel"type="button">Cancel</button>
+												<button id="editChange" type="submit">Save</button>
+											</div>
+										</div>
+									</form>
+								</div>								
 							</div>
 			
 		
 							<div class="box Phone">
 								<label>Phone Number</label>
-							<div class="line">	
-								<p>{{userInfo.app_auth_data_id.phone_number}}</p>
-								<button class="editPhone">Edit Now</button>
-							</div>
+								<div class="line">	
+									<p id="oldPhone">{{userInfo.app_auth_data_id.phone_number}}</p>
+									<button class="editPhone">Edit Now</button>
+								</div>
 							</div>
 							<div class="ChangesPhone" style="display:none;">
 								<div class="box">
 									<label>Phone Number</label>
-								<form action="{%url 'updatePhone'%}" method="POST" id="ePhone">
-								{%csrf_token%}
-								<div class="line line_mobile">
-								
-									<p  class="drop" >
-									
-											<select id="sel" size = "1">
-													
+									<form id="ePhone">
+										<div class="line">								
+											<p>
+												<select id="sel" size = "1">
+													<option></option>
 													<option value="+91">India (+91)</option>
 													<option value="+44">United Kingdom (+44)</option>
 													<option value="+1">United States (+1)</option>
 													<option value="+61">Australia (+61)</option>
 													<option value="+33">France (+33)</option>
-													
-											</select></p><p id="pos">												  									  
-												<input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus></p>
-								<div class="bio">	
-									<button id="Cancel"type="button">Cancel</button>
-									<button  id="editChange" type="submit">Save</button>
-								</div>
-								</div>
-								</form>
+												</select>
+											</p>
+											<p>
+												<input id="eNumber" type="text" value="{{userInfo.app_auth_data_id.phone_number}}" autofocus>
+											</p>
+											<input name="accountkit_data" type="hidden" id="accountkit_data">										
+											<div class="bio">	
+												<button id="Cancel"type="button">Cancel</button>
+												<button  id="editChange" type="button" onclick="changePhoneAjax(document.getElementById('sel').options[document.getElementById('sel').selectedIndex].value,document.getElementById('eNumber').value)">Save</button>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
 			
-		
+							<script type="text/javascript">
+									var verifyButton=false;
+							</script>
 							<div class="box Email">	
 								<label>Email Address</label>
-							<div class="line">
-									
-								<p id="emailWithoutEdit"><input type="text" id="viewEmail" name="country" value="{{userInfo.email}}" readonly></p>
-								<button class="editEmail">Edit Now</button>
-							</div>
+								<div class="line">
+									<p id="emailWithoutEdit">{{userInfo.email}}</p>
+									{%if userInfo.email_verified%}
+										<div id="addVerifyButton"></div>
+									{%else%}
+										<button id="verifyEmail" onclick="verifyEmailAjax()">Verifiy</button>
+										<script type="text/javascript">
+											verifyButton=true;
+										</script>										
+									{%endif%}
+									<p id="emailSent"></p>
+									<button class="editEmail">Edit Now</button>
+								</div>
 							</div>
 
 							<div class="ChangesEmail" style="display:none;">
 								<div class="box">
 									<label>Email Address</label>
-									<form action="" method="POST" id="eEmailC">
-										{%csrf_token%}
-										<div class="line line_mobile">
-											<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus></p>
+									<form id="eEmailC">
+										<div class="line">
+											<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus size="35"></p>
 											<div class="bio">	
 												<button id="Cancel"type="button">Cancel</button>
 												<button  id="editChange" type="button" onclick="changeEmailAjax()">Save</button>
@@ -250,58 +266,57 @@ button{
 										</div>
 									</form>
 								</div>
-							</div>
-		
+							</div>		
 						</div>
+
 						<div class="Subscriptions">
 							<div class="box">
 								<label>Next Payment Date</label>
-							<div class="line">
-								<p>25 December,2019</p>
-								<button><a href="#" data-toggle="modal" data-target="#myModal2" style="text-decoration: none;color:rgb(203,203,203);">Renew</a></button>
-							</div>
+								<div class="line">
+									<p>25 December,2019</p>
+									<button><a href="#" data-toggle="modal" data-target="#myModal2" style="text-decoration: none;color:rgb(203,203,203);">Renew</a></button>
+								</div>
 							</div>
 							<div class="box">
 								<label>Update your Subscriptions</label>
-							<div class="line">
-								<p>Monthly Pro</p>
-								<p class="subcribe">Yearly Subcriptions</p>
-								<button>Update</button>
-							</div>
+								<div class="line">
+									<p>Monthly Pro</p>
+									<p class="subcribe">Yearly Subcriptions</p>
+									<button>Update</button>
+								</div>
 							</div>
 							<div class="box">
 								<label>Cancel Subscriptions</label>
-							<form action="{%url 'cancel'%}" method="POST">
-							{% csrf_token %}
-							<div class="line">
-								<p>If you wish to cancel click cancel</p>
-								<input type="hidden" name="mobile" value="{{userInfo.app_auth_data_id.phone_number}}">
-								<button  type="submit">Cancel</button>
-							</div>
-							</form>
+								<form action="{%url 'cancel'%}" method="POST">
+								{% csrf_token %}
+								<div class="line">
+									<p>If you wish to cancel click cancel</p>
+									<input type="hidden" name="mobile" value="{{userInfo.app_auth_data_id.phone_number}}">
+									<button  type="submit">Cancel</button>
+								</div>
+								</form>
 							</div>
 						</div>
+
 						<div class="Help">
 							<div class="box">
 								<label>Drop Us a mail At</label>
-							<div class="line">
-								<p>support@goalstar.com</p>
-								<button><a href="mailto:goalstar%40support%2ecom?subject=Help&body=Type your query" style="text-decoration: none;color:rgb(203,203,203);">Email Now</a></button>
-							</div>
+								<div class="line">
+									<p>support@goalstar.com</p>
+									<button><a href="mailto:goalstar%40support%2ecom?subject=Help&body=Type your query" style="text-decoration: none;color:rgb(203,203,203);">Email Now</a></button>
+								</div>
 							</div>
 							<div class="box">
 								<label>Chat with us</label>
-							<div class="line">
-								<p>Click on 'Chat Now' to enable chat</p>
-								<button>Chat Now</button>
+								<div class="line">
+									<p>Click on 'Chat Now' to enable chat</p>
+									<button>Chat Now</button>
+								</div>
 							</div>
-							</div>
-						</div>
-						
+						</div>						
 					</div>
-				  </div>	
-					
-				</div>	  
+			  </div>		
+			</div>	  
 		</div>
 <!--Modal for the choices of payment-->
 		<div id="myModal2" class="modal fade" role="dialog">
@@ -316,11 +331,9 @@ button{
 					<input type="hidden" name="mobile" value="{{userInfo.app_auth_data_id.phone_number}}">
 					<input type="hidden" name="email" value="{{userInfo.email}}">
 
-					<div class="row">					
-							
+					<div class="row">							
 							<div class="col-md-6 payment-selection"><a href=""><p class="payment-plans">Monthly Plan</p></a>
-							</div>
-							
+							</div>							
 							<div class="col-md-6 payment-selection"><a href=""><p class="payment-plans">Yearly Plan</p></a>
 							</div>
 					</div>
@@ -418,6 +431,7 @@ button{
 		</div>
 	</section>
 
+	<!-- tournament details -->
 	<section id="toun_dtl" class="s_150">
 		<div class="container">
 			<h2>TOURNAMENT <span class="me_orang_text font-weight-bold">DETAILS</span></h2>
@@ -425,75 +439,75 @@ button{
 		<div class="container ">
 			<div class="container-slider"></div>
 			<div class="slider">
-			{%for tournament in trn%}
-			  <div class="slick-slideshow__slide">
-			  	<div class="overlays">
-			   		<!-- <img src="{% static 'img/player1.png' %}"> -->
-			   		<img src="media/{{tournament.tournament_detail_image}}">
-	            	<div class="toum_del {% cycle '' 'bor-top-red' 'bor-top-blue' %}">
-	            		<div class="toum_info">
-	                		<h5>{{tournament.name}}</h5>
-	                		<h5>Football Tournament</h5>
-	                		<span class="more_btn" id="tournament-{{tournament.id}}" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
-	                	</div>
+				<!-- use trn as context object to receive all tournament details -->
+				{%for tournament in trn%}
+				  <div class="slick-slideshow__slide">
+				  	<div class="overlays">
+				   		<!-- getting image for each tournament -->
+				   		<img src="media/{{tournament.tournament_detail_image}}">
+		            	<div class="toum_del {% cycle '' 'bor-top-red' 'bor-top-blue' %}">
+		            		<div class="toum_info">
+		            				<!-- getting name of each tournament -->
+		                		<h5>{{tournament.name}}</h5>
+		                		<h5>Football Tournament</h5>
+		                		<span class="more_btn" id="tournament-{{tournament.id}}" href="javascript:void(0);"><i class="fa fa-chevron-down sws-none"></i><span class="text-uppercase sws-block">Know More</span></span>
+		                	</div>
+		            	</div>
 	            	</div>
-            	</div>
-			  </div>
-			{%endfor%}
+				  </div>
+				{%endfor%}
 			</div>
 		</div>
-
-
+		<!-- container store intro,match,organizor of particular tournament -->
 		<div class="container">
 			<div class="oversss"></div>
 	        <div class="more_info_tab">
 	        	<div class="incre_d">
 	        		<nav>
-					  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-					    <a class="nav-item nav-link active" id="nav-home-h-tab" data-toggle="tab" href="#nav-home-h" role="tab" aria-controls="nav-home-h" aria-selected="true">Introduction</a>
-					    <a class="nav-item nav-link" id="nav-profile-p-tab" data-toggle="tab" href="#nav-profile-p" role="tab" aria-controls="nav-profile-p" aria-selected="false" >Matches</a>
-					    <a class="nav-item nav-link" id="nav-profile-y-tab" data-toggle="tab" href="#nav-profile-y" role="tab" aria-controls="nav-profile-y" aria-selected="false">Organizors</a>
+							  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+							    <a class="nav-item nav-link active" id="nav-home-h-tab" data-toggle="tab" href="#nav-home-h" role="tab" aria-controls="nav-home-h" aria-selected="true">Introduction</a>
+							    <a class="nav-item nav-link" id="nav-profile-p-tab" data-toggle="tab" href="#nav-profile-p" role="tab" aria-controls="nav-profile-p" aria-selected="false" >Matches</a>
+							    <a class="nav-item nav-link" id="nav-profile-y-tab" data-toggle="tab" href="#nav-profile-y" role="tab" aria-controls="nav-profile-y" aria-selected="false">Organizors</a>
+							  </div>
+						</nav>
+						<div class="tab-content mt-5" id="nav-tabContent">
+						  <div class="tab-pane fade show active" id="nav-home-h" role="tabpanel" aria-labelledby="nav-home-h-tab">
+						  	<div class="row">
+						  		<div class="col-md-5">
+						  			<h3 class="text-uppercase" id="tournament_name">Koyappa Sevens <br>Football Tournament</h3>
+						  			<h6 class="me_orang_text" id="tournament_matches_and_date">16 Matches | Feb 2020-April 2020</h6>
+						  			<p id="tournament_introduction">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.</p>
+						  			<h4 id="tournament_venue">Venue: Kadalundi Ground</h4>
+						  		</div>
+						  		<div class="col-md-1"></div>
+						  		<div class="col-md-5" style="background-color: rgba(0,0,0,0.4);padding: 4%;">
+						  			<h4 class="font-weight-nomal sws-none mb-4">Next Match</h4>
+						  			<h4 class="font-weight-nomal sws-block text-uppercase">upcomming Match</h4>
+						  			<div class="row text-center up_tms">
+								  		<div class="col-md-4 col-3">
+								  			<img src="{% static 'img/ukfc.png' %}">
+								  		</div>
+								  		<div class="col-md-4 col-2">
+								  			<span class="tms_vs">VS</span>
+								  			<p class=" sws-none"><span class="live">LIVE</span> on</p>
+								  			<p class="sws-none">17 May at 14:05 PM</p>
+								  		</div>
+								  		<div class="col-md-4 col-3">
+								  			<img src="{% static 'img/muvat.png' %}">
+								  		</div>
+								  		<div class="col-md-4 col-4 sws-block">
+								  			<p><span class="live">LIVE</span> on</p>
+								  			<p>17 May at 14:05 PM</p>
+								  		</div>
+								  	</div>
+						  		</div>
+						  	</div>
 					  </div>
-					</nav>
-					<div class="tab-content mt-5" id="nav-tabContent">
-					  <div class="tab-pane fade show active" id="nav-home-h" role="tabpanel" aria-labelledby="nav-home-h-tab">
-					  	<div class="row">
-					  		<div class="col-md-5">
-					  			<h3 class="text-uppercase" id="tournament_name">Koyappa Sevens <br>Football Tournament</h3>
-					  			<h6 class="me_orang_text" id="tournament_matches_and_date">16 Matches | Feb 2020-April 2020</h6>
-					  			<p id="tournament_introduction">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.</p>
-					  			<h4 id="tournament_venue">Venue: Kadalundi Ground</h4>
-					  		</div>
-					  		<div class="col-md-1"></div>
-					  		<div class="col-md-5" style="background-color: rgba(0,0,0,0.4);padding: 4%;">
-					  			<h4 class="font-weight-nomal sws-none mb-4">Next Match</h4>
-					  			<h4 class="font-weight-nomal sws-block text-uppercase">upcomming Match</h4>
-					  			<div class="row text-center up_tms">
-							  		<div class="col-md-4 col-3">
-							  			<img src="{% static 'img/ukfc.png' %}">
-							  		</div>
-							  		<div class="col-md-4 col-2">
-							  			<span class="tms_vs">VS</span>
-							  			<p class=" sws-none"><span class="live">LIVE</span> on</p>
-							  			<p class="sws-none">17 May at 14:05 PM</p>
-							  		</div>
-							  		<div class="col-md-4 col-3">
-							  			<img src="{% static 'img/muvat.png' %}">
-							  		</div>
-							  		<div class="col-md-4 col-4 sws-block">
-							  			<p><span class="live">LIVE</span> on</p>
-							  			<p>17 May at 14:05 PM</p>
-							  		</div>
-							  	</div>
-					  		</div>
-					  	</div>
-					  </div>
-
 
 					  <!-- match grid -->
 					  <div class="tab-pane fade" id="nav-profile-p" role="tabpanel" aria-labelledby="nav-profile-p-tab">
 					  	<div class="slider_4" id="match_griddd">
-
+								<!-- create slide usind DOM manipulation -->
 					  		<!-- <div class="slick-slideshow__slide_4">
 			                	<img src="{% static 'img/1554700132_Football.jpg' %}">
 			                	<div class="slid_4">
@@ -504,7 +518,7 @@ button{
 			                	</div>
 			                </div>
 			               	 -->
-			            </div>
+	            </div>
 					  </div>
 					  <div class="tab-pane fade" id="nav-profile-y" role="tabpanel" aria-labelledby="nav-profile-y-tab">
 					  	<div class="row">
@@ -1363,7 +1377,7 @@ button{
     			var idd=this.id;
     			var len=idd.length;
     			idd=idd.substr(11,len-11);
-    			var req_color='';
+    			
     			/*alert($(document).width()+' X '+$(document).height())*/
 
     			// setting of border of tabs and top border
@@ -1414,104 +1428,19 @@ button{
 
     			if(chect==0)
     			{
-    				// send ajax request to get all info for that tournamen like
-					var xhttp = new XMLHttpRequest();
-					var formData = new FormData();
-					formData.append('trn_id',idd);
-					formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
-			          
-					xhttp.onreadystatechange = function() {
-						if (this.readyState == 4 && this.status == 200) {
-							data = JSON.parse(this.responseText);
-							data=JSON.parse(data['trn']);
-							data=data[0];
-							data=data.fields;
-							console.log("=====");
-							console.log(data);
-							document.getElementById("tournament_name").innerHTML=data.name;
-							document.getElementById("tournament_matches_and_date").innerHTML=data.cnt_match+" | Feb 2020-April 2020";
-							document.getElementById("tournament_introduction").innerHTML=data.intro;
-							document.getElementById("tournament_venue").innerHTML=data.venue;
-				          }			              
-			          };
-			          xhttp.open("POST", "../detail_tournament", true);
-			          xhttp.send(formData);
-
-
-			        // now make a ajax request to get match information
-			        var xhttp = new XMLHttpRequest();
-					var formData = new FormData();
-					formData.append('trn_id',idd);
-					formData.append('csrfmiddlewaretoken','{{ csrf_token }}')
-			          
-					xhttp.onreadystatechange = function() {
-						if (this.readyState == 4 && this.status == 200) {
-							data = JSON.parse(this.responseText);
-							team_home=data.team_home;
-							team_away=data.team_away;
-							// match_thumnail=data.match_thumnail;
-							// console.log(match_thumnail)
-							data=data.matches;
-
-                            $('.slider_4').slick('removeSlide', null, null, true);						
-							for(i=0;i<data.length;i=i+1){
-								console.log(data[i]);
-								match=data[i];
-
-								// DOM for macth grid
-								var match_div=document.createElement("DIV");
-								match_div.className = "slick-slideshow__slide_4";	
-
-								var images=document.createElement("IMG");
-								images.src=match.image;
-								// {% static 'img/1554700132_Football.jpg' %};
-								match_div.append(images);
-
-								var bottom=document.createElement("DIV");
-								bottom.className="slid_4";
-
-								var team1=document.createElement("H6");
-								team1.innerHTML=team_home[i];
-								bottom.appendChild(team1);
-
-								var vs=document.createElement("SMALL");
-								vs.innerHTML="VS";
-								bottom.appendChild(vs);
-
-								var team2=document.createElement("H6");
-								team2.innerHTML=team_away[i];
-								bottom.appendChild(team2);						
-
-								var para=document.createElement("P");
-								var spn=document.createElement("SPAN");
-								spn.innerHTML="LIVE";
-								spn.className="live";
-
-								para.appendChild(spn);
-								bottom.appendChild(para);
-								var bbc=$('.slider_4').parent().css('border-bottom-color');
-								bottom.style.backgroundColor= req_color;
-								match_div.append(bottom);								
-								$('.slider_4').slick('slickAdd', match_div);
-							}							
-				          }			              
-			          };
-			          xhttp.open("POST", "../match_in_tournament", true);
-			          xhttp.send(formData);
-
-    				// content bhi change karna hai
+    				var idd=this.id;
+	    			var len=idd.length;
+	    			idd=idd.substr(11,len-11);
+    				dynamicTrournamentMatches(idd,req_color);
     				$(this).parent().parent().parent().addClass('at-iver');
     				$(this).find('i').addClass('acv');
     				$(".more_info_tab").addClass('t_show');
     				$(this).addClass('btnActive');
-    				chect=1;
-    				
-    				
+    				chect=1;    				
     			}
 
     			else
     			{
-    				// ye band karne ke hetu
     				$(this).parent().parent().parent().removeClass('at-iver');
     				$(this).find('i').removeClass('acv');
     				$(".more_info_tab").removeClass('t_show');
@@ -1634,130 +1563,6 @@ button{
     		}
 			}
 
-	</script>
-
-	<script type="text/javascript">
-	   function changeEmailAjax(){
-	   	if(verifyButton==false){
-   			// addVerifyButton
-			// <button id="verifyEmail" onclick="verifyEmailAjax()">Verifiy</button>
-
-			var btn = document.createElement("BUTTON");   // Create a <button> element
-			btn.innerHTML = "verify"; 
-			btn.id="verifyEmail" ;                 // Insert text
-			btn.setAttribute('onclick','verifyEmailAjax()');
-			document.getElementById('addVerifyButton').appendChild(btn);
-			verifyButton=true;
-	   	}
-	   	
-
-	   	var xhttp = new XMLHttpRequest();
-        var formData = new FormData();
-        document.getElementById('emailWithoutEdit').innerHTML=document.getElementById('eEmail').value;
-        formData.append('email',document.getElementById('eEmail').value);
-        formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            data = JSON.parse(this.responseText);
-            document.getElementById('emailWithoutEdit').innerHTML=document.getElementById('eEmail').value;
-          }
-        };
-        xhttp.open("POST", "../updateEmail", true);
-        xhttp.send(formData);
-	}
-	
-
-	// initialize Account Kit with CSRF protection
-      AccountKit_OnInteractive = function(){
-        AccountKit.init(
-          {
-              appId:"{{FACEBOOK_APP_ID}}", 
-              state:"{{csrf}}", 
-              version:"{{ACCOUNT_KIT_API_VERSION}}",
-              fbAppEventsEnabled:true,
-              debug:true,
-          }
-        );
-      };
-
-      
-	 function loginCallback(response) {
-        if (response.status === "PARTIALLY_AUTHENTICATED") {
-			var code = response.code;
-			var csrf = response.state;
-			var xhttp = new XMLHttpRequest();
-			var formData = new FormData();
-			formData.append('accountkit_data',code);
-			formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
-
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					data = JSON.parse(this.responseText);
-					document.getElementById('oldPhone').innerHTML=document.getElementById('sel').options[document.getElementById('sel').selectedIndex].value+document.getElementById('eNumber').value;
-				}
-			};
-			xhttp.open("POST", "../updatePhone", true);
-			xhttp.send(formData);
-        }
-
-        else if (response.status === "NOT_AUTHENTICATED") {
-          // handle authentication failure
-          alert("Not auhtenticated");
-          console.log(response);
-        }
-        else if (response.status === "BAD_PARAMS") {
-          // handle bad parameters
-          console.log(response);
-        }
-      }
-
-	function changePhoneAjax(country_code,phone_number){
-
-		//send otp to that number
-		AccountKit.login(
-	        'PHONE',
-	        {countryCode: country_code, phoneNumber: phone_number},
-	        loginCallback
-	      );
-	}	 
-
-	function changeName(first_name,last_name){
-		var xhttp = new XMLHttpRequest();
-		var formData = new FormData();
-		
-		formData.append('first_name',first_name);
-		formData.append('last_name',last_name);
-		formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
-
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				data = JSON.parse(this.responseText);
-				document.getElementById('account').innerHTML=first_name;
-				document.getElementById('fullName').innerHTML=first_name+" "+last_name;
-				document.getElementById('top_first_name').innerHTML=first_name;
-				document.getElementById('top_last_name').innerHTML=last_name;
-
-			}
-		};
-		xhttp.open("POST", "../updateName", true);
-		xhttp.send(formData);
-	}	
-
-
-	function verifyEmailAjax(){
-		
-		document.getElementById('emailSent').innerHTML="Email sent, please verify!";
-		var xhttp = new XMLHttpRequest();
-		var formData = new FormData();
-		formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
-		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				data = JSON.parse(this.responseText);
-			}
-		};
-		xhttp.open("POST", "../email-verify", true);
-		xhttp.send(formData);
-	}
-	</script>    
+	</script>   
 </body>
 </html>
