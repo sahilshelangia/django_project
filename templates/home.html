@@ -36,7 +36,7 @@ button{
 	width:200px;
 }
  #viewEmail{
-	width:100px;
+	width:200px;
  }
  .drop{
 	 
@@ -53,6 +53,15 @@ button{
 .modal-title,.link_active,.link_back{
 	font-size:15px;
 }
+.emailColumn{
+	display:flex;
+	flex-direction: row;
+	justify-content: space-between; 
+
+}
+#spacing{
+	margin-bottom: 30px;
+}
 
 }
 </style>
@@ -65,7 +74,7 @@ button{
 				<li class="nav-item">
 						<form class="form-inline my-2 my-lg-0" style="display:none;">
 								<input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
-								<a class="nav-link search1" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;display:block;"></a>
+								<a class="nav-link search-form" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;display:block;"></a>
 						</form>
 			
 							<a class="nav-link search" href="#"><img src="{% static 'img/search-iocn.png' %}"style="height: 23.2px;width:24.3px;margin-right:23px;"></a>
@@ -174,7 +183,7 @@ button{
 								</div>
 							</div>
 		
-							<div class="box Language">
+							<!--<div class="box Language">
 								<label>Language</label>
 								<div class="line">
 									<p>English</p>
@@ -195,7 +204,7 @@ button{
 										</div>
 									</form>
 								</div>								
-							</div>
+							</div>-->
 			
 		
 							<div class="box Phone">
@@ -209,8 +218,8 @@ button{
 								<div class="box">
 									<label>Phone Number</label>
 									<form id="ePhone">
-										<div class="line">								
-											<p>
+										<div class="line line_mobile">								
+											<p id="spacing">
 												<select id="sel" size = "1">
 													<option></option>
 													<option value="+91">India (+91)</option>
@@ -238,18 +247,20 @@ button{
 							</script>
 							<div class="box Email">	
 								<label>Email Address</label>
-								<div class="line">
-									<p id="emailWithoutEdit">{{userInfo.email}}</p>
+								<div class="line line_mobile">
+									<p id="emailWithoutEdit"><input id="viewEmail" type="text" value="{{userInfo.email}}" readonly size="35"></p>
+									
 									{%if userInfo.email_verified%}
 										<div id="addVerifyButton"></div>
 									{%else%}
-										<button id="verifyEmail" onclick="verifyEmailAjax()">Verifiy</button>
+										<button id="verifyEmail" onclick="return verifyEmailAjax();" href="">Verifiy</button>
 										<script type="text/javascript">
 											verifyButton=true;
 										</script>										
 									{%endif%}
 									<p id="emailSent"></p>
 									<button class="editEmail">Edit Now</button>
+								
 								</div>
 							</div>
 
@@ -257,8 +268,8 @@ button{
 								<div class="box">
 									<label>Email Address</label>
 									<form id="eEmailC">
-										<div class="line">
-											<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus size="35"></p>
+										<div class="line line_mobile">
+											<p><input id="eEmail" type="text" value="{{userInfo.email}}" autofocus></p>
 											<div class="bio">	
 												<button id="Cancel"type="button">Cancel</button>
 												<button  id="editChange" type="button" onclick="changeEmailAjax()">Save</button>
@@ -285,7 +296,8 @@ button{
 									<button>Update</button>
 								</div>
 							</div>
-							<div class="box">
+				
+							<!--<div class="box">
 								<label>Cancel Subscriptions</label>
 								<form action="{%url 'cancel'%}" method="POST">
 								{% csrf_token %}
@@ -295,20 +307,20 @@ button{
 									<button  type="submit">Cancel</button>
 								</div>
 								</form>
-							</div>
+							</div>-->
 						</div>
 
 						<div class="Help">
 							<div class="box">
 								<label>Drop Us a mail At</label>
-								<div class="line">
+								<div class="line line_mobile">
 									<p>support@goalstar.com</p>
 									<button><a href="mailto:goalstar%40support%2ecom?subject=Help&body=Type your query" style="text-decoration: none;color:rgb(203,203,203);">Email Now</a></button>
 								</div>
 							</div>
 							<div class="box">
 								<label>Chat with us</label>
-								<div class="line">
+								<div class="line line_mobile">
 									<p>Click on 'Chat Now' to enable chat</p>
 									<button>Chat Now</button>
 								</div>
@@ -356,27 +368,27 @@ button{
 		    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 		  </ol>
 		  <div class="carousel-inner">
+			{% for item1,item2,item3,item4,item5,item6 in all_objects %}
+			{% if item5 == True %}
 		    <div class="carousel-item active">
-		    <div class="cou_bles"></div>
-		      <img class="d-block w-100 sws-none" src="{% static 'img/b1.png' %}" alt="Third slide">
-		      <img class="d-block w-100 sws-block" src="{% static 'img/m1.png' %}" alt="First slide">
-		      	<div class="carousel-caption  d-block">
-				    <div class="row text-left ">
-				      	<div class="col-md-6">
-				      		<h3 class="text-uppercase font-weight-bold">Eagles Fc <br><span class="me_orang_text">vs</span><br>Malabar United fc</h3>
-				      	</div>
-				   	</div>
-				</div>
-		    </div>
-		    <div class="carousel-item">
-		    	<div class="cou_bles"></div>
-		      <img class="d-block w-100 sws-none" src="{% static 'img/b1.png' %}" alt="Third slide">
-		      <img class="d-block w-100 sws-block" src="{% static 'img/m1.png' %}" alt="First slide">
-		    </div>
-		    <div class="carousel-item">
-		    	<div class="cou_bles"></div>
-		      <img class="d-block w-100 sws-none" src="{% static 'img/b1.png' %}" alt="Third slide">
-		      <img class="d-block w-100 sws-block" src="{% static 'img/m1.png' %}" alt="First slide">
+			{% else%}
+			<div class="carousel-item">
+			{% endif %}
+			<a href="https://www.w3schools.com"><div class="cou_bles"></div></a>
+
+			  <img class="d-block w-100 sws-none" src="media/{{item1}}" alt="Third slide">
+			  <img class="d-block w-100 sws-block" src="media/{{item6}}" alt="First slide">
+			  <div class="carousel-caption  d-block">
+				<div class="row text-left ">
+					  <div class="col-md-6">
+						  <h3 class="text-uppercase font-weight-bold">{{item3}} <br><span class="me_orang_text">vs</span><br>{{item4}}</h3>
+					  </div>
+				   </div>
+			    </div>
+
+			</div>
+			{% endfor %}
+
 		    </div>
 		  </div>
 		  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -951,54 +963,38 @@ button{
 		  ]
 		};
 		$carousel.slick(settings);
+		//the search bar functionality comes up
 		$(".search").click(function(){
 			$(".search").hide();
-			$(".search1").show();
-			$(".form-inline").show();
-
+			$(".search-form,.form-inline").show();
 		})
-		$(".search1").click(function(){
-			$(".search1").hide();			
+		//the search bar functionality hides
+		$(".search-form").click(function(){
+			$(".search-form,.form-inline").hide();			
 			$(".search").show();
-			$(".form-inline").hide();
-
 		})
 		$("#eNameC").submit(function(e) {
-		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".Name,.Phone,.Email,.Account").show();
 		$(".ChangesName").hide();
-		e.preventDefault(); // avoid to execute the actual submit of the form.
-		
-		var form = $(this);
-		var url = form.attr('action');
-
-		$.ajax({
-	   type: "POST",
-	   url: url,
-	   data: $(this).serialize(),
-	   success: function(data)
-	   {
-		   console.log("Success");
-	   }
-	 	});
 		});
-		$("#eLanguage").submit(function(e) {
+		/*$("#eLanguage").submit(function(e) {
 		$(".Name,.Language,.Phone,.Email,.Account").show();
 		$(".ChangesLanguage").hide();
-		});
+		});*/
 		$("#ePhone").submit(function(e) {
-		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".Name,.Phone,.Email,.Account").show();
 		$(".ChangesPhone").hide();
 		});
 		$("#eEmailC").submit(function(e) {
-		$(".Name,.Language,.Phone,.Email,.Account").show();
+		$(".Name,.Phone,.Email,.Account").show();
 		$(".ChangesEmail").hide();
 		});
 
 			
 		//code to add or remove modal views
 		$(".editName").click(function(){
-		$(".Name,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
-		$(".ChangesName,.Language,.Phone,.Email,.Account").show();
+		$(".Name,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
+		$(".ChangesName,.Phone,.Email,.Account").show();
 		jQuery.fn.putCursorAtEnd = function() {
 				return this.each(function() {
 		// Cache references
@@ -1051,8 +1047,8 @@ button{
 		$(".account").removeClass("link_back");	
 		});	
 		$(".editPhone").click(function(){
-				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.Phone,.ChangesEmail").hide();
-				$(".Name,.Language,.ChangesPhone,.Email,.Account").show();
+				$(".ChangesName,.Help,.Subscriptions,.Phone,.ChangesEmail").hide();
+				$(".Name,.ChangesPhone,.Email,.Account").show();
 				$("#eNumber").focus();
 				jQuery.fn.putCursorAtEnd = function() {
 
@@ -1111,10 +1107,10 @@ button{
 				$(".account").addClass("link_active");
 				$(".account").removeClass("link_back");		
 				
-			})
+		})
 			$(".editLanguage").click(function(){
-				$(".ChangesName,.Language,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
-				$(".Name,.ChangesLanguage,.Phone,.Email,.Account").show();
+				$(".ChangesName,.Help,.Subscriptions,.ChangesPhone,.ChangesEmail").hide();
+				$(".Name,.Phone,.Email,.Account").show();
 				$(".sub,.help").addClass("link_back");
 				$(".sub,.help").removeClass("link_active");
 				$(".account").addClass("link_active");
@@ -1123,8 +1119,8 @@ button{
 			})
 
 			$(".editEmail").click(function(){
-				$(".ChangesName,.ChangesLanguage,.Help,.Subscriptions,.ChangesPhone,.Email").hide();
-				$(".Name,.Language,.Phone,.ChangesEmail,.Account").show();
+				$(".ChangesName,.Help,.Subscriptions,.ChangesPhone,.Email").hide();
+				$(".Name,.Phone,.ChangesEmail,.Account").show();
 				$("#eEmail").focus();
 				jQuery.fn.putCursorAtEnd = function() {
 
@@ -1185,8 +1181,8 @@ button{
 				
 			})
 			$("#myaccount,.account, #Cancel, #editChange").click(function(){
-				$(".ChangesName,.ChangesLanguage,.ChangesPhone,.ChangesEmail,.Subscriptions,.Help,.dropdown-content").hide();
-				$(".Name,.Language,.Phone,.Email,.Account").show();
+				$(".ChangesName,.ChangesPhone,.ChangesEmail,.Subscriptions,.Help,.dropdown-content").hide();
+				$(".Name,.Phone,.Email,.Account").show();
 				$(".sub,.help").addClass("link_back");
 				$(".sub,.help").removeClass("link_active");
 				$(".account").addClass("link_active");

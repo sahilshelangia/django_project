@@ -77,3 +77,14 @@ class UserLogEntity:
         self.action = ''
         self.device_name = ''
         self.date_time=datetime.now
+
+class CarouselEntity:
+
+    def __init__(self):
+        self.id=0
+        self.carousel_image = ''
+        self.carousel_image_mobile = ''
+        self.video_link = ''
+        self.match_opponent1 = ''
+        self.match_opponent2 = ''
+        self.active_option = False 

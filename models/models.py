@@ -209,3 +209,17 @@ class Order(models.Model):
 
     def __str__(self):
         return '{} by {}'.format(self.order_id,self.customer_id)
+
+#Model for adding video links and the background image in the carousel
+class Carousel(models.Model):
+    carousel_image = models.ImageField(upload_to='carousel_images',blank=True)
+    carousel_image_mobile = models.ImageField(upload_to='carousel_images_mobile',blank=True)
+    video_link = models.CharField(max_length=255,default=None)
+    match_opponent1 = models.CharField(max_length=20)
+    match_opponent2 = models.CharField(max_length=20)
+    active_option = models.BooleanField(default=False)
+    class Meta:
+        db_table = "carousel_details"
+    
+    def __str__(self):
+        return '{} vs {}'.format(self.match_opponent1,self.match_opponent2)

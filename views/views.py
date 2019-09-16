@@ -16,8 +16,7 @@ from django.forms.models import model_to_dict
 from PayTm import Checksum
 from django.views.decorators.csrf import csrf_exempt
 
-MERCHANT_KEY="XXX"
-merchantID="XXX"
+MERCHANT_KEY="pYfTZc@jUH7Q6GOk"
 
 
 # Create your views here.
@@ -32,11 +31,28 @@ def home(request):
         appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
         userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData) 
         trn=TournamentModel.getAllObject()
+        all_objects = CarouselModel.getAllObject()
+        carousel_image_list=[]
+        carousel_image_mobile_list=[]
+        video_link_list=[]
+        match_opponent1_list=[]
+        match_opponent2_list=[]
+        active_status_list=[]
+        for items in all_objects:
+            carousel_image_list.append(items.carousel_image)
+            carousel_image_mobile_list.append(items.carousel_image_mobile)
+            video_link_list.append(items.video_link)
+            match_opponent1_list.append(items.match_opponent1)
+            match_opponent2_list.append(items.match_opponent2)
+            active_status_list.append(items.active_option)
+        list_complete=zip(carousel_image_list,video_link_list,match_opponent1_list,match_opponent2_list,active_status_list,carousel_image_mobile_list)
         context={'userInfo':userInfo,
                  'trn':trn,
                 'FACEBOOK_APP_ID': '374722036360552',
                 'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
-                'ACCOUNT_KIT_API_VERSION': 'v1.1'}
+                'ACCOUNT_KIT_API_VERSION': 'v1.1',
+                'all_objects':list_complete
+                }
         myResponse = render(request,'home.html',context=context)
         return myResponse 
     else:
@@ -351,7 +367,7 @@ def checkout(request):
         currentTime=datetime.datetime.now()
         randomValue = str(random.randint(11111,99999))
         randomOrderId=randomValue+str(currentTime.hour)
-        merchantID="XXX"
+        merchantID="FAbkXY19010791724155"
         date=str(currentTime.year)+"-"+str(currentTime.month)+"-"+str(currentTime.day)
 
 
@@ -400,10 +416,9 @@ def cancel(request):
     phone = request.POST['mobile']
     appAuthData=AppAuthDataModel.getObject('phone_number',phone)
     userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
-    #userInfo.subscription_type_id=SubscriptionType()
     userInfo.expiry_date=datetime.date.today() + datetime.timedelta(days=30)
     userInfo.save()
-
+#logging the user
     userLog=UserLogModel()
     userLog.user_id = userInfo
     userLog.action = 'canceled subscription'

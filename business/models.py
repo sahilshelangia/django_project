@@ -229,3 +229,20 @@ class MatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Match
         fields='__all__'
+
+class CarouselModel:
+    def save(self, CarouselEntity):
+        carousel=Carousel(
+            carousel_image = CarouselEntity.carousel_image,
+            carousel_image_mobile = CarouselEntity.carousel_image_mobile,
+            video_link = CarouselEntity.video_link,
+            match_opponent1 = CarouselEntity.match_opponent1,
+            match_opponent2 = CarouselEntity.match_opponent2,
+            active_option = CarouselEntity.active_option
+        )
+        carousel.save()
+        return carousel
+
+    @staticmethod
+    def getAllObject():
+        return Carousel.objects.all()
