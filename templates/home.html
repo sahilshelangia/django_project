@@ -363,9 +363,14 @@ button{
 		<header>
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		  <ol class="carousel-indicators">
-		    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-		    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-		    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+		{% for item in length %}
+		{% if item5 == True %}
+		<li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter}}" class="active"></li>
+		{% else%}
+		<li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter}}"></li>
+		{% endif %}
+		{% endfor %}
+
 		  </ol>
 		  <div class="carousel-inner">
 			{% for item1,item2,item3,item4,item5,item6 in all_objects %}

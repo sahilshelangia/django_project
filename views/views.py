@@ -31,7 +31,9 @@ def home(request):
         appAuthData=AppAuthDataModel.getObject('phone_number',phone_number)
         userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData) 
         trn=TournamentModel.getAllObject()
+        #changing the carousel
         all_objects = CarouselModel.getAllObject()
+        #lists for various parts of the carousel
         carousel_image_list=[]
         carousel_image_mobile_list=[]
         video_link_list=[]
@@ -45,13 +47,16 @@ def home(request):
             match_opponent1_list.append(items.match_opponent1)
             match_opponent2_list.append(items.match_opponent2)
             active_status_list.append(items.active_option)
+        #merging all the lists of the carousel objects
         list_complete=zip(carousel_image_list,video_link_list,match_opponent1_list,match_opponent2_list,active_status_list,carousel_image_mobile_list)
+        
         context={'userInfo':userInfo,
                  'trn':trn,
                 'FACEBOOK_APP_ID': '374722036360552',
                 'csrf': ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(36)),
                 'ACCOUNT_KIT_API_VERSION': 'v1.1',
-                'all_objects':list_complete
+                'all_objects':list_complete,
+                'length':active_status_list
                 }
         myResponse = render(request,'home.html',context=context)
         return myResponse 
@@ -418,6 +423,7 @@ def cancel(request):
     userInfo=UserInfoModel.getObject('app_auth_data_id',appAuthData)
     userInfo.expiry_date=datetime.date.today() + datetime.timedelta(days=30)
     userInfo.save()
+
 #logging the user
     userLog=UserLogModel()
     userLog.user_id = userInfo
